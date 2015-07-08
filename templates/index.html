@@ -35,11 +35,11 @@
             <a href="{% url 'events:detail' event.id %}">{{ event.title }}</a>
             {% endfor %}
           </td>
-        {% if day.sunday %}
+          {% if day.sunday %}
         </tr>
         <tr height="100">
-        {% endif %}
-        {% endfor %}
+          {% endif %}
+          {% endfor %}
         </tr>
       </table>
     </div>

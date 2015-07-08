@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load tz %}
 {% block content %}
 
 <div class="panel panel-default">
@@ -9,7 +10,13 @@
 <div class="panel-body">
 {% if events %}
 {% for event in events %}
-<a class="btn btn-lg btn-default btn-block" href="{% url 'events:detail' event.id %}"><strong>{{ event.title }}</strong> @ {{ event.location }} {% trans 'at' %} {{ event.start_date }}</a>
+<a class="btn btn-lg btn-default btn-block" href="{% url 'events:detail' event.id %}">
+  <strong>{{ event.title }}</strong> @ {{ event.location }}
+  {% trans 'at' %} 
+  {% localtime on %}
+  {{ event.start_date }}
+  {% endlocaltime %}
+</a>
 	 <br>
 {% endfor %}
 {% else %}

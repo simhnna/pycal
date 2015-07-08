@@ -1,8 +1,8 @@
 from django.db import models
-import datetime
 from django.template.loader import render_to_string
 from django.core.mail import send_mass_mail
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
 
 from profiles.models import Profile
 
@@ -27,6 +27,6 @@ class Event(models.Model):
         send_mass_mail(messages)
 
     def get_next_events(number_of_events, skip_events= 0):
-        events = Event.objects.filter(start_date__gte=datetime.date.today())[skip_events:number_of_events]
+        events = Event.objects.filter(start_date__gte=timezone.now())[skip_events:number_of_events]
         return events
 
