@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="row">
+      <div class="col-md-4">
+        <a class="btn btn-primary btn-block" href="{{ prev_link }}">{% trans 'Previous' %}</a>
+      </div>
+      <div class="col-md-4">
+        <a class="btn disabled btn-block" style="opacity:1" href="#"><strong>{{ month }} {{ year }}</strong></a>
+        </span>
+      </div>
+      <div class="col-md-4">
+        <a class="btn btn-primary btn-block" href="{{ next_link }}">{% trans 'Next' %}</a>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body">
+    <div class="table-responsive">
+      <table class="table table-bordered" >
+        <thead>
+          <tr>
+            {% for day in day_names %}
+            <th style="width:10%"> {{ day }} </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tr height="100">
+          {% for day in days %}
+          <td {% if not day.current_month %}class="active"{% elif day.today %}class="info"{% endif %}> 
+            {{ day.day }}
+            {% for event in day.events %}
+            <br>
+            <a href="{% url 'events:detail' event.id %}">{{ event.title }}</a>
+            {% endfor %}
+          </td>
+        {% if day.sunday %}
+        </tr>
+        <tr height="100">
+        {% endif %}
+        {% endfor %}
+        </tr>
+      </table>
+    </div>
+  </div>
+  {% endblock %}

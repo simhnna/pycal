@@ -1,0 +1,13 @@
+Hallo {{ name }},
+
+{{ event.created_by.username }} hat einen Neuen Termin eingetragen.
+Hier sind die Infos:
+
+{{ event.title }}
+
+{{ event.description }}
+
+@ {{ event.location }} von {{ event.start_date }} bis {{ event.end_date }}
+
+---
+Bitte nicht auf die mail antworten :-)

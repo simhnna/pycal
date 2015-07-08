@@ -1,0 +1,12 @@
+Hallo {{ profile.user.first_name }}!
+
+
+Schön dass du dich dafür entschieden hast, dich anzumelden.
+Standardmäßig bekommst du keine Emails. Falls du über neue Termine benachrichtigt werden willst, kannst du dies unter Konto -> Konto bearbeiten tun.
+Bevor du dich anmelden kannst, musst du dein Konto erst aktivieren.
+Um dein Konto zu aktivieren musst du nur den unten stehenden Link öffnen.
+{{ link }}
+
+----
+
+Bitte nicht auf diese Email antworten
