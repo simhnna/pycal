@@ -46,6 +46,7 @@ INSTALLED_APPS = (
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -119,7 +120,7 @@ DEFAULT_EMAIL = 'donotreply@serve-me.info'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 LOCALE_PATHS = (BASE_DIR + '/locale',)
-#DATETIME_FORMAT = 'd. F Y, H:i'
+DATETIME_FORMAT = 'd. F Y, H:i'
 DATETIME_INPUT_FORMATS = ('%d.%m.%Y', '%d.%m.%Y, %H:%M', '%d.%m.%Y %H:%M')
 LOGIN_URL = 'profiles:sign_in'
 LOGOUT_URL = 'profiles:sign_out'

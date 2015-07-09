@@ -22,8 +22,9 @@
 				</div>
 				{% endfor %}
 				{% if 'date' in field.id_for_label %}
-					<div class='input-group date' data-date-format="DD.MM.YYYY, HH:mm" id='datetimepicker{% if field.label == 'Start' %}0{% else %}1{% endif %}'>
-						{{ field }}
+					<div class='input-group date' 
+          id='datetimepicker{% if field.name == 'start_date' %}0{% else %}1{% endif %}'>
+            {{ field }}
 						<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
 					</div>
 				{% else %}
@@ -38,24 +39,18 @@
 {% endblock %}
 
 {% block javascript %}
-<script src="{% static 'events/moment-with-langs.min.js' %}"></script>
-<script src="{% static 'events/datetimepicker.min.js' %}"></script>
+<script src="{% static 'events/moment-with-locales.min.js' %}"></script> <script src="{% static 'events/datetimepicker.min.js' %}"></script>
 <script type="text/javascript">
 $(function () {
+  {% get_current_language as LANGUAGE_CODE %}
 		$('#datetimepicker0').datetimepicker({
-language: 'de',
-minDate: new moment().add(-1, "d"),
+      locale: '{{ LANGUAGE_CODE }}',
+      format: 'YYYY-MM-DD HH:mm',
 });
 		$('#datetimepicker1').datetimepicker({
-language: 'de',
-minDate: new moment().add(-1, "d"),
+      locale: '{{ LANGUAGE_CODE }}',
+      format: 'YYYY-MM-DD HH:mm',
 });
-		$("#datetimepicker0").on("dp.change",function (e) {
-			$('#datetimepicker1').data("DateTimePicker").setMinDate(e.date.add(-1, "d"));
-			});
-		$("#datetimepicker1").on("dp.change",function (e) {
-			$('#datetimepicker0').data("DateTimePicker").setMaxDate(e.date);
-			});
 		});
 </script>
 {% endblock %}
