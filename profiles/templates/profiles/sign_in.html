@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load common_tags %}
 {% block content %} 
 <div class="panel panel-default" style="max-width:500px;float: none;margin-left: auto margin-right: auto;">
 	<div class="panel-heading">
@@ -10,7 +11,7 @@
 			{% csrf_token %}
 			{% for field in form %}
 			<div class="form-group">
-				{{ field }}
+				{{ field | add_placeholder:field.name }}
 			</div>
 			{% endfor %}
 			<input type="hidden" name="next" value="{{ next }}">

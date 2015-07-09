@@ -10,39 +10,30 @@ from django.contrib.auth.decorators import login_required
 from profiles.models import Profile
 
 
-def activate(request, activation_id):
-    if (Profile.activate(activation_id)):
-        messages.success(request, _('You can sign in now'))
-        return HttpResponseRedirect(reverse('index'))
-    else:
-        messages.warning(request, _('The code is not right...'))
-        return HttpResponseRedirect(reverse('index'))
-
 class AccountForm(forms.Form):
-    first_name = forms.CharField(max_length=32, widget=forms.TextInput(attrs={'placeholder':
-        _('first_name'),
-        'class': 'form-control'}))
-    last_name = forms.CharField(max_length=32, widget=forms.TextInput(attrs={'placeholder':
-        _('last_name'),
-        'class': 'form-control'}))
-    username = forms.CharField(max_length=32, widget=forms.TextInput(attrs={'placeholder':
-        _('user_name'),
-        'class': 'form-control'}))
-    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': _('email'),
-        'class': 'form-control'}))
-    password = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': _('password'),
-        'class': 'form-control'}))
-    password2 = forms.CharField(widget=forms.PasswordInput(attrs={'placeholder': _('repeat_password'),
-        'class': 'form-control'}))
+    first_name = forms.CharField(max_length=32, 
+            widget=forms.TextInput(attrs={'placeholder': _('first_name'), 'class': 'form-control'}))
+    last_name = forms.CharField(max_length=32, 
+            widget=forms.TextInput(attrs={'placeholder': _('last_name'), 'class': 'form-control'}))
+    username = forms.CharField(max_length=32, 
+            widget=forms.TextInput(attrs={'placeholder': _('user_name'), 'class': 'form-control'}))
+    email = forms.EmailField(
+            widget=forms.TextInput(attrs={'placeholder': _('email'), 'class': 'form-control'}))
+    password = forms.CharField(
+            widget=forms.PasswordInput(attrs={'placeholder': _('password'), 'class': 'form-control'}))
+    password2 = forms.CharField(
+            widget=forms.PasswordInput(attrs={'placeholder': _('repeat_password'), 'class': 'form-control'}))
 
     def clean_password2(self):
         if self.cleaned_data['password2'] != self.cleaned_data['password']:
             raise forms.ValidationError(_('passwords didn\'t match'), 'ivalid')
         return self.cleaned_data['password2']
+
     def clean_email(self):
         if User.objects.filter(email=self.cleaned_data['email']) or Profile.objects.filter(unverified_email=self.cleaned_data['email']):
             raise forms.ValidationError(_('Email is in use'), 'invalid')
         return self.cleaned_data['email']
+    
     def clean_username(self):
         if User.objects.filter(username=self.cleaned_data['username']):
             raise forms.ValidationError(_('Username is in use'), 'invalid')
@@ -77,11 +68,11 @@ class EmailChangeForm(forms.Form):
 
 
 def activate(request, activation_id):
-    if (Profile.activate_user(activation_id)):
+    if (Profile.activate(activation_id)):
         messages.success(request, _('You can sign in now'))
         return HttpResponseRedirect(reverse('index'))
     else:
-        messages.warning(request, _('The code isn\'t right...'))
+        messages.warning(request, _('The code is not right...'))
         return HttpResponseRedirect(reverse('index'))
 
 def change_password(request):
@@ -89,14 +80,14 @@ def change_password(request):
         form = PasswordChangeForm(request.POST)
         if form.is_valid():
             if form.cleaned_data['new_password1'] != form.cleaned_data['new_password2']:
-                messages.warning(request, _('passwords didn\'t match'))
+                messages.warning(request, _('passwords did not match'))
             else:
-                request.user.password = form.cleaned_data['new_password1']
+                request.user.set_password(form.cleaned_data['new_password1'])
                 request.user.save()
                 messages.success(request, _('Password changed successfully'))
                 return HttpResponseRedirect(reverse('index'))
         else:
-            messages.warning(request, _('Your old password was\'nt correct'))
+            messages.warning(request, _('Your old password was not correct'))
     else:
         form = PasswordChangeForm(request.user)
 
@@ -189,15 +180,11 @@ def sign_in(request):
             auth.login(request, user)
             return HttpResponseRedirect(reverse('index'))
         if form.get_user() is not None:
-            messages.warning(request, _('Your account isn\'t active...'))
+            messages.warning(request, _('Your account is not active...'))
         else:
-            messages.warning(request, _('Sorry, this username/password match isn\'t correct'))
-
-        return render(request, 'profiles/sign_in.html',
-                {'form': form,
-                    })
+            messages.warning(request, _('Sorry, this username/password match is not correct'))
     else:
         form = AuthenticationForm()
-        return render(request, 'profiles/sign_in.html',
-                {'form': form,
-                    })
+    return render(request, 'profiles/sign_in.html',
+            {'form': form,
+                })
