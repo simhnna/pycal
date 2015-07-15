@@ -14,11 +14,12 @@ class EventForm(forms.ModelForm):
         model = Event
         fields = ['title', 'description', 'location', 'start_date', 'end_date']
         widgets={
-                'title':forms.TextInput(attrs={'placeholder':'title','class':'form-control'}),
-                'description':forms.Textarea(attrs={'placeholder':'description','class':'form-control'}),
-                'location':forms.TextInput(attrs={'placeholder':'location','class':'form-control'}),
-                'start_date':forms.TextInput(attrs={'placeholder':'start_date','class':'form-control'}),
-                'end_date':forms.TextInput(attrs={'placeholder':'end_date','class':'form-control'}),
+                'title':forms.TextInput(attrs={'placeholder':'title','class':'form-control',
+                    'required':''}),
+                'description':forms.Textarea(attrs={'placeholder':'description','class':'form-control','required':''}),
+                'location':forms.TextInput(attrs={'placeholder':'location','class':'form-control','required':''}),
+                'start_date':forms.TextInput(attrs={'placeholder':'start_date','class':'form-control','required':'','readonly':''}),
+                'end_date':forms.TextInput(attrs={'placeholder':'end_date','class':'form-control','required':'','readonly':''}),
                 }
 
 

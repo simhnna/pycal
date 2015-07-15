@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load staticfiles %}
 {% block css %}
-<link rel="stylesheet" type="text/css" href="{% static 'events/datetimepicker.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'events/bootstrap-datetimepicker.min.css' %}">
 {% endblock %}
 
 {% block content %}
@@ -39,18 +39,23 @@
 {% endblock %}
 
 {% block javascript %}
-<script src="{% static 'events/moment-with-locales.min.js' %}"></script> 
-<script src="{% static 'events/datetimepicker.min.js' %}"></script>
+<script src="{% static 'events/bootstrap-datetimepicker.min.js' %}"></script>
 <script type="text/javascript">
 $(function () {
   {% get_current_language as LANGUAGE_CODE %}
 		$('#datetimepicker0').datetimepicker({
       locale: '{{ LANGUAGE_CODE }}',
-      format: 'YYYY-MM-DD HH:mm',
+      autoclose: true,
+      format: 'yyyy-mm-dd hh:ii',
+      startDate: '{% now "Y-m-d" %}',
+      pickerPosition: 'top-left',
 });
 		$('#datetimepicker1').datetimepicker({
       locale: '{{ LANGUAGE_CODE }}',
-      format: 'YYYY-MM-DD HH:mm',
+      autoclose: true,
+      startDate: '{% now "Y-m-d" %}',
+      format: 'yyyy-mm-dd hh:ii',
+      pickerPosition: 'top-left',
 });
 		});
 </script>

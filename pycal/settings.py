@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'events',
     'profiles',
     'common',
+    'django_ical',
 )
 
 MIDDLEWARE_CLASSES = (

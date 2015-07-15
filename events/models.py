@@ -4,6 +4,7 @@ from django.core.mail import send_mass_mail
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 from profiles.models import Profile
 
@@ -31,3 +32,6 @@ class Event(models.Model):
         events = Event.objects.filter(start_date__gte=timezone.now())[skip_events:number_of_events]
         return events
 
+
+    def get_absolute_url(self):
+        return reverse('events:detail', args=(self.id,))

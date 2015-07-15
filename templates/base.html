@@ -80,6 +80,8 @@
       &copy; {% now "Y" %} Simon Hanna 
       &bull; 
       <a data-toggle="modal" data-target="#myModal" href="#">{{ request.session.django_timezone | default:"Europe/Berlin" }}</a>
+      &bull;
+      <a href="{% url 'events:feed' %}">iCal feed</a>
       </p>
     </div><!--footer -->
 
