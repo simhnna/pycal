@@ -39,7 +39,8 @@
 {% endblock %}
 
 {% block javascript %}
-<script src="{% static 'events/moment-with-locales.min.js' %}"></script> <script src="{% static 'events/datetimepicker.min.js' %}"></script>
+<script src="{% static 'events/moment-with-locales.min.js' %}"></script> 
+<script src="{% static 'events/datetimepicker.min.js' %}"></script>
 <script type="text/javascript">
 $(function () {
   {% get_current_language as LANGUAGE_CODE %}
