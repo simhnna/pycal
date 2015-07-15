@@ -8,10 +8,14 @@
         <a class="btn btn-primary btn-block" href="{{ prev_link }}">{% trans 'Previous' %}</a>
       </div>
       <div class="col-md-4">
-        <a class="btn disabled btn-block" style="opacity:1" href="#"><strong>{{ month }} {{ year }}</strong></a>
+        <a class="btn disabled btn-block" style="opacity:1" href="#">
+          <strong>{{ month }} {{ year }}</strong>
+        </a>
       </div>
       <div class="col-md-4">
-        <a class="btn btn-primary btn-block" href="{{ next_link }}">{% trans 'Next' %}</a>
+        <a class="btn btn-primary btn-block" href="{{ next_link }}">
+          {% trans 'Next' %}
+        </a>
       </div>
     </div>
   </div>
@@ -43,4 +47,5 @@
       </table>
     </div>
   </div>
-  {% endblock %}
+</div>
+{% endblock %}
