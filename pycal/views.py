@@ -26,6 +26,8 @@ def home(request):
             {'events': events,
                 'home': True,
                 })
+def feed(request):
+    return render(request, 'feed.html')
 def calendar(request, year, month):
     year = int(year)
     month = int(month)

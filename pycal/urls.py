@@ -16,4 +16,5 @@ urlpatterns = [
     url(r'^calendar/(?P<year>\d+)/(?P<month>\d+)/', 'pycal.views.calendar', name='calendar_specific'),
     url(r'^calendar$', 'pycal.views.calendar', {'month': now.month, 'year': now.year}, name='calendar'),
     url(r'^timezone$', 'pycal.views.set_timezone', {}, name='set_timezone'),
+    url(r'^feedinfo$', 'pycal.views.feed', name='feedinfo'),
 ]

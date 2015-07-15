@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load tz %}
+{% block content %}
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<strong>		{% trans 'iCal Feeds' %}</strong>
+</div>
+<div class="panel-body">
+  You can add the events to your calendar software using this link:
+  <br>
+  <br>
+  <blockquote>
+    {{ request.get_host }}{% url 'events:feed' %}
+  </blockquote>
+  You have to enable ssl. No username/password is needed.
+  <br>
+  You can also download the .ics file directly from 
+  <a href="{% url 'events:feed' %}">here</a>
+</div>
+</div>
+{% endblock %}
