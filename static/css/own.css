@@ -7,7 +7,6 @@ html, body {
   min-height: 100%;
 }
 .container {
-  overflow: auto;
   padding-bottom: 60px;
 }
 .footer {
