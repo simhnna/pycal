@@ -178,7 +178,10 @@ def sign_in(request):
             user = auth.authenticate(username = username, password = password)
             messages.success(request, _('Yeah, you are in!'))
             auth.login(request, user)
-            return HttpResponseRedirect(reverse('index'))
+            if 'next' in request.GET and request.GET['next']:
+                return HttpResponseRedirect(request.GET['next'])
+            else:
+                return HttpResponseRedirect(reverse('index'))
         if form.get_user() is not None:
             messages.warning(request, _('Your account is not active...'))
         else:

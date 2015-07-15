@@ -3,6 +3,7 @@ from django.template.loader import render_to_string
 from django.core.mail import send_mass_mail
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 from profiles.models import Profile
 
@@ -12,7 +13,7 @@ class Event(models.Model):
     title = models.CharField(max_length=16, verbose_name=_('Title'))
     description = models.TextField(verbose_name=_('Description'))
     location = models.CharField(max_length=100, verbose_name=_('Location'))
-    created_by = models.ForeignKey(Profile)
+    created_by = models.ForeignKey(User)
 
     def __str__(self):
         return self.title

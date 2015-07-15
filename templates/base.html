@@ -41,7 +41,7 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
               {% if user.is_authenticated %}
-              {% if user.is_superuser %}
+              {% if user.is_staff %}
               <li><a href="{% url 'admin:index' %}">Admin interface</a></li>
               {% endif %}
               <li class="dropdown">
@@ -65,7 +65,7 @@
       <div class="container">
         {% if messages %}
         {% for message in messages %}
-        <div style="position:absolute;z-index:10;top:10px;left:20%;width:60%"class="fade alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissable">
+        <div class="fade alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           {{ message }}
         </div> <!-- alert -->
@@ -99,7 +99,8 @@
                   <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected="selected"{% endif %}>{{ tz }}</option>
                   {% endfor %}
                 </select>
-                <input type="submit" type="button" class="btn btn-primary" value="Set" />
+                <input type="hidden" name="next" value="{{ request.path }}"/>
+                <input type="submit" class="btn btn-primary" value="Set" />
               </div>
             </form>
           </div><!-- modal-body -->
@@ -111,6 +112,9 @@
   <script src="{% static "js/jquery.min.js" %}"></script>
   <!-- Latest compiled and minified JavaScript -->
   <script src="{% static "js/bootstrap.min.js" %}"></script>
-  <script>setTimeout(function(){$('.alert').addClass("in")}, 500);</script>
+  <script>
+    setTimeout(function(){$('.alert').addClass("in")}, 500);
+    setTimeout(function(){$(".alert").alert('close')}, 3000);
+  </script>
   {% block javascript %} {% endblock %}
 </html>

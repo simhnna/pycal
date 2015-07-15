@@ -7,6 +7,7 @@ from events.models import Event
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.contrib.auth.decorators import permission_required
 
 class EventForm(forms.ModelForm):
     class Meta:
@@ -43,7 +44,7 @@ class DeleteForm(forms.ModelForm):
 @login_required
 def create_event(request):
     if request.method == 'POST':
-        form = EventForm(request.POST, instance=Event(created_by=request.user.profile))
+        form = EventForm(request.POST, instance=Event(created_by=request.user))
         if form.is_valid():
             e = form.save()
             messages.success(request, _('Event created'))
@@ -59,6 +60,7 @@ def create_event(request):
 
 
 @login_required
+@permission_required('events.delete_Event', raise_exception=True)
 def delete_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.user.id == event.created_by_id or request.user.is_superuser:
@@ -78,7 +80,6 @@ def delete_event(request, event_id):
     messages.warning(request, _('You are not allowed to do this!'))
     return HttpResponseRedirect(reverse('events:detail', args=(event.id,)))
         
-
 @login_required
 def edit_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)

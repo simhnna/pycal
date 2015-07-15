@@ -14,14 +14,16 @@
 		<li class="list-group-item">Start: {{ event.start_date }} </li>
 		<li class="list-group-item">End: {{ event.end_date }}</li>
     {% endlocaltime %}
-		<li class="list-group-item">Author: {{ event.created_by.user.username }}</li>
+		<li class="list-group-item">Author: {{ event.created_by.username }}</li>
 	</ul>
 	</div>
 	<div class="panel-footer">
-		{% if event.created_by_id == user.id or user.is_superuser %}
+		{% if event.created_by_id == user.id or perms.events.change_Event %}
 		<a href="{% url 'events:edit_event' event.id %}">{% trans 'Edit Event' %}</a>
-		&bull;	
-		<a href="{% url 'events:delete_event' event.id %}">{% trans 'Delete Event' %}</a>
+      {% if perms.events.delete_Event %}
+        &bull;	
+        <a href="{% url 'events:delete_event' event.id %}">{% trans 'Delete Event' %}</a>
+      {% endif %}
 		{% endif %}
 	</div>
 </div>
