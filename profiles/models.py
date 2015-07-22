@@ -18,19 +18,11 @@ class Profile(models.Model):
     def __str__(self):
         return "{}'s profile".format(self.user)
 
-    def populate(self, username, email, password, first_name, last_name):
-        self.unverified_email = email
-        self.generate_activation_id()
-        user = User.objects.create_user(username, '', password)
-        user.first_name = first_name
-        user.last_name = last_name
-        self.user = user
-        user.save()
-
 
     def generate_activation_id(self):
         self.activation_id = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase +
             string.digits) for x in range(64))
+        self.save()
 
     def change_email(self, new_email):
         if self.unverified_email == new_email or self.user.email == new_email:
@@ -41,6 +33,7 @@ class Profile(models.Model):
         return True
 
     def send_verification_email(self, request):
+        self.generate_activation_id()
         c = Context({'profile': self,
             'link': request.build_absolute_uri(reverse('profiles:activate',
             args=(self.activation_id,)))})
@@ -58,6 +51,18 @@ def activate(activation_id):
         p.user.save()
         p.save()
         return True
+    return False
+
+def create_profile(username, email, password, first_name, last_name):
+    user = User.objects.create_user(username, '', password)
+    user.first_name = first_name
+    user.last_name = last_name
+    user.is_active = False
+    user.save()
+    user.profile.unverified_email = email
+    user.profile.save()
+    return user
+
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
