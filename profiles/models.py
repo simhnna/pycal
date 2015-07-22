@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.template import Context
 from django.core.urlresolvers import reverse
+from django.template.loader import render_to_string
 
 import string
 import random
