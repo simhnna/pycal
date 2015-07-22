@@ -7,7 +7,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
-from profiles.models import Profile
+from profiles.models import Profile, activate
 
 
 class AccountForm(forms.Form):
@@ -64,7 +64,7 @@ class EmailChangeForm(forms.Form):
 
 
 def activate(request, activation_id):
-    if (Profile.activate(activation_id)):
+    if (activate(activation_id)):
         messages.success(request, _('You can sign in now'))
         return HttpResponseRedirect(reverse('index'))
     else:
