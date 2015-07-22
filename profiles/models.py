@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-import django.template.Context
+from django.template import Context
 
 import string
 import random
