@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-21 19:51+0200\n"
+"POT-Creation-Date: 2015-07-22 12:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -113,9 +113,8 @@ msgstr "Speichern"
 
 #: profiles/templates/profiles/edit_account.html:28
 #: profiles/templates/profiles/register.html:29
-msgid ""
-"Accounts with false information, escpecially false names will be deactivated!"
-msgstr "Konten mit falschen Informationen werden geloescht!"
+msgid "Please use your real name, so that you can be put in the correct groups"
+msgstr "Bitte keinen Pseudonym benutzen, damit Rechte zugeordnet werden können"
 
 #: profiles/templates/profiles/password_reset_confirm.html:6
 #: profiles/templates/profiles/sign_in.html:25
@@ -157,101 +156,93 @@ msgid "Usernames and passwords are case-sensitive!"
 msgstr ""
 "Achte beim Benutzername und beim Passwort auf Groß- und Kleinschreibung!"
 
-#: profiles/views.py:15 profiles/views.py:45
+#: profiles/views.py:17 profiles/views.py:47
 msgid "first_name"
 msgstr "Vorname"
 
-#: profiles/views.py:17 profiles/views.py:48
+#: profiles/views.py:19 profiles/views.py:50
 msgid "last_name"
 msgstr "Nachname"
 
-#: profiles/views.py:19
+#: profiles/views.py:21
 msgid "user_name"
 msgstr "Benutzername"
 
-#: profiles/views.py:21 profiles/views.py:61
+#: profiles/views.py:23 profiles/views.py:59
 msgid "email"
 msgstr "Email"
 
-#: profiles/views.py:23
+#: profiles/views.py:25
 msgid "password"
 msgstr "Passwort"
 
-#: profiles/views.py:25
+#: profiles/views.py:27
 msgid "repeat_password"
 msgstr "Passwort"
 
-#: profiles/views.py:29
+#: profiles/views.py:31
 msgid "passwords didn't match"
 msgstr "Die Passwörter stimmen nicht überein"
 
-#: profiles/views.py:34 profiles/views.py:66
+#: profiles/views.py:36 profiles/views.py:64
 msgid "Email is in use"
 msgstr "Email wird schon benutzt"
 
-#: profiles/views.py:39
+#: profiles/views.py:41
 msgid "Username is in use"
 msgstr "Benutzername wird schon benutzt"
 
-#: profiles/views.py:72
+#: profiles/views.py:70
 msgid "You can sign in now"
 msgstr "Du kannst dich jetzt anmelden"
 
-#: profiles/views.py:75
+#: profiles/views.py:73
 msgid "The code is not right..."
 msgstr "Der Code war leider nicht richtig"
 
-#: profiles/views.py:83
-msgid "passwords did not match"
-msgstr "Die Passwörter stimmen nicht überein"
-
-#: profiles/views.py:87
+#: profiles/views.py:82
 msgid "Password changed successfully"
 msgstr "Passwort erfolgreich geändert"
 
-#: profiles/views.py:90
-msgid "Your old password was not correct"
-msgstr "Das alte Passwort hat nicht gestimmt"
+#: profiles/views.py:85 profiles/views.py:156
+msgid "Oops, something went wrong"
+msgstr "Upps, da ist was schief gelaufen"
 
-#: profiles/views.py:111
+#: profiles/views.py:106
 msgid "Yeah, you just signed up"
 msgstr "Super, du hast dich registriert!"
 
-#: profiles/views.py:114
+#: profiles/views.py:109
 msgid "Check the errors..."
 msgstr "Schau dir die Fehler man an..."
 
-#: profiles/views.py:127
+#: profiles/views.py:122
 msgid "You have been signed out"
 msgstr "Du bist abgemeldet"
 
-#: profiles/views.py:137
+#: profiles/views.py:132
 msgid "Email added. Please verify it, so it is used."
 msgstr ""
 "Email hinzugefügt. Bitte bestätige die Email, bis dahin wird deine alte "
 "verwendet"
 
-#: profiles/views.py:139
+#: profiles/views.py:134
 msgid "Email in use"
 msgstr "Email wird schon benutzt"
 
-#: profiles/views.py:158
+#: profiles/views.py:153
 msgid "Successfully edited account"
 msgstr "Konto erfolgreich bearbeitet"
 
-#: profiles/views.py:161
-msgid "Oops, something went wrong"
-msgstr "Upps, da ist was schief gelaufen"
-
-#: profiles/views.py:179
+#: profiles/views.py:174
 msgid "Yeah, you are in!"
 msgstr "Du bist drin!"
 
-#: profiles/views.py:186
+#: profiles/views.py:181
 msgid "Your account is not active..."
 msgstr "Dein Konto ist deaktiviert"
 
-#: profiles/views.py:188
+#: profiles/views.py:183
 msgid "Sorry, this username/password match is not correct"
 msgstr "Die Kombination aus Benutzername und passwort ist nicht korrekt"
 
