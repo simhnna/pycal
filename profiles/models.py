@@ -44,7 +44,7 @@ class Profile(models.Model):
         c = Context({'profile': self,
             'link': request.build_absolute_uri(reverse('profiles:activate',
             args=(self.activation_id,)))})
-        message = render_to_string('profiles/activatation_email.txt', c)
+        message = render_to_string('profiles/activation_email.txt', c)
         send_mail('Verification Mail', message, 'donotreply@serve-me.info',
                 [self.unverified_email])
         return True
