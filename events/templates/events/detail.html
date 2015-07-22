@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% load tz %}
+{% load common_tags %}
 {% block content %}
 <div class="panel panel-default">
 	<div class="panel-heading">
@@ -9,6 +10,9 @@
 	<div class="panel-body">
 		<ul class="list-group">
 		<li class="list-group-item">{{ event.description }}</li>
+    {% if user.is_authenticated and user|has_group:event.detail_group %}
+		<li class="list-group-item">{{ event.description }}</li>
+    {% endif %}
 		<li class="list-group-item">Location: {{ event.location }}</li>
     {% localtime on %}
 		<li class="list-group-item">Start: {{ event.start_date }} </li>

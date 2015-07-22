@@ -12,7 +12,8 @@ from django.contrib.auth.decorators import permission_required
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['title', 'description', 'location', 'start_date', 'end_date']
+        fields = ['title', 'description', 'location', 'start_date', 'end_date', 'details',
+        'detail_group']
         widgets={
                 'title':forms.TextInput(attrs={'placeholder':'title','class':'form-control',
                     'required':''}),
@@ -20,6 +21,8 @@ class EventForm(forms.ModelForm):
                 'location':forms.TextInput(attrs={'placeholder':'location','class':'form-control','required':''}),
                 'start_date':forms.TextInput(attrs={'placeholder':'start_date','class':'form-control','required':'','readonly':''}),
                 'end_date':forms.TextInput(attrs={'placeholder':'end_date','class':'form-control','required':'','readonly':''}),
+                'details':forms.Textarea(attrs={'placeholder':'details', 'class':'form-control'}),
+                'detail_group':forms.Select(attrs={'class':'form-control'}),
                 }
 
 

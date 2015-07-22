@@ -21,7 +21,8 @@
 					{{ error }}
 				</div>
 				{% endfor %}
-				{% if 'date' in field.id_for_label %}
+          {{ field.label_tag }}
+				{% if 'date' in field.name %}
 					<div class='input-group date' 
           id='datetimepicker{% if field.name == 'start_date' %}0{% else %}1{% endif %}'>
             {{ field }}
@@ -35,6 +36,12 @@
 			<input type='submit' class="btn btn-default btn-block" value="{% if edit %}{% trans 'Edit Event' %}{% else %}{% trans 'Create Event' %}{% endif %}">
 		</form>
 	</div>
+  <div class="panel-footer">
+    <p>
+    Details are only visible to users that logged in. You can further limit visibility to a specific
+    group.
+    </p>
+  </div>
 </div>
 {% endblock %}
 

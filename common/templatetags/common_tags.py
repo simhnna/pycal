@@ -23,3 +23,7 @@ def add_placeholder_unrequired(field, placeholder):
     attrs['class'] = 'form-control'
 
     return field.as_widget(attrs=attrs)
+
+@register.filter(name='has_group')
+def has_group(user, group):
+    return user.groups.filter(name=group).exists()

@@ -51,10 +51,6 @@ class UserAccountForm(forms.ModelForm):
         model = Profile
         fields = ['email_notifications',]
 
-    def __init__(self, *args, **kwargs):
-        super(UserAccountForm, self).__init__(*args, **kwargs)
-        self.fields.keyOrder = ['first_name', 'last_name', 'email_notifications']
-
 
 class EmailChangeForm(forms.Form):
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder':
@@ -79,15 +75,12 @@ def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.POST)
         if form.is_valid():
-            if form.cleaned_data['new_password1'] != form.cleaned_data['new_password2']:
-                messages.warning(request, _('passwords did not match'))
-            else:
-                request.user.set_password(form.cleaned_data['new_password1'])
-                request.user.save()
-                messages.success(request, _('Password changed successfully'))
-                return HttpResponseRedirect(reverse('index'))
+            request.user.set_password(form.cleaned_data['new_password1'])
+            request.user.save()
+            messages.success(request, _('Password changed successfully'))
+            return HttpResponseRedirect(reverse('index'))
         else:
-            messages.warning(request, _('Your old password was not correct'))
+            messages.warning(request, _('Oops, something went wrong'))
     else:
         form = PasswordChangeForm(request.user)
 

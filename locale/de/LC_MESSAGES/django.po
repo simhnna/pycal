@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-08 23:23+0200\n"
+"POT-Creation-Date: 2015-07-21 19:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,72 +18,76 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: events/models.py:10
+#: events/models.py:12
 msgid "Start"
 msgstr "Beginn"
 
-#: events/models.py:11
+#: events/models.py:13
 msgid "End"
 msgstr "Ende"
 
-#: events/models.py:12
+#: events/models.py:14
 msgid "Title"
 msgstr "Titel"
 
-#: events/models.py:13
+#: events/models.py:15
 msgid "Description"
 msgstr "Beschreibung"
 
-#: events/models.py:14
+#: events/models.py:16
+msgid "Details"
+msgstr "Details"
+
+#: events/models.py:18
 msgid "Location"
 msgstr "Ort"
 
-#: events/templates/events/delete_event.html:7
-#: events/templates/events/delete_event.html:21
-#: events/templates/events/detail.html:24
+#: events/templates/events/delete_event.html:8
+#: events/templates/events/delete_event.html:24
+#: events/templates/events/detail.html:29
 msgid "Delete Event"
 msgstr "Termin löschen"
 
-#: events/templates/events/detail.html:22
+#: events/templates/events/detail.html:26
 #: events/templates/events/edit_event.html:11
-#: events/templates/events/edit_event.html:34
+#: events/templates/events/edit_event.html:36
 msgid "Edit Event"
 msgstr "Termin bearbeiten"
 
 #: events/templates/events/edit_event.html:11
-#: events/templates/events/edit_event.html:34
+#: events/templates/events/edit_event.html:36
 msgid "Create Event"
 msgstr "Termin erstellen"
 
-#: events/views.py:26
+#: events/views.py:31
 msgid "Start date has to be in the future"
 msgstr "Begin muss in der Zukunft liegen"
 
-#: events/views.py:32
+#: events/views.py:37
 msgid "End date has to be in the future"
 msgstr "Ende muss in der Zukunft liegen"
 
-#: events/views.py:34
+#: events/views.py:39
 msgid "End date has to be after the start Date"
 msgstr "Ende muss nach dem Beginn sein"
 
-#: events/views.py:49
+#: events/views.py:54
 msgid "Event created"
 msgstr "Termin erstellt"
 
-#: events/views.py:69
+#: events/views.py:75
 msgid "Event deleted"
 msgstr "Termin gelöscht"
 
-#: events/views.py:78 events/views.py:97
+#: events/views.py:84 events/views.py:102
 msgid "You are not allowed to do this!"
 msgstr "Du darfst das nicht machen..."
 
-#: events/views.py:86
+#: events/views.py:91
 msgid "You are not allowed to do this"
 msgstr "Du darfst das nicht machen..."
 
-#: events/views.py:92
+#: events/views.py:97
 msgid "Event edited"
 msgstr "Termin bearbeitet"
 
@@ -92,8 +96,8 @@ msgstr "Termin bearbeitet"
 msgid "Change Email"
 msgstr "Email ändern"
 
-#: profiles/templates/profiles/change_password.html:6
-#: profiles/templates/profiles/change_password.html:17
+#: profiles/templates/profiles/change_password.html:7
+#: profiles/templates/profiles/change_password.html:23
 #: profiles/templates/profiles/password_reset_confirm.html:17
 #: templates/base.html:50
 msgid "Change Password"
@@ -114,7 +118,7 @@ msgid ""
 msgstr "Konten mit falschen Informationen werden geloescht!"
 
 #: profiles/templates/profiles/password_reset_confirm.html:6
-#: profiles/templates/profiles/sign_in.html:24
+#: profiles/templates/profiles/sign_in.html:25
 msgid "Reset Password"
 msgstr "Password zurücksetzen"
 
@@ -143,140 +147,139 @@ msgstr ""
 "Dein Name und deine Email sind nur für Adminisitratoren sichtbar. Dein "
 "Benutzername ist öffentlich (Wenn du einen Termin einträgst)"
 
-#: profiles/templates/profiles/sign_in.html:6
-#: profiles/templates/profiles/sign_in.html:17 templates/base.html:59
+#: profiles/templates/profiles/sign_in.html:7
+#: profiles/templates/profiles/sign_in.html:18 templates/base.html:59
 msgid "Sign in"
 msgstr "Anmelden"
 
-#: profiles/templates/profiles/sign_in.html:22
+#: profiles/templates/profiles/sign_in.html:23
 msgid "Usernames and passwords are case-sensitive!"
 msgstr ""
 "Achte beim Benutzername und beim Passwort auf Groß- und Kleinschreibung!"
 
-#: profiles/views.py:15 profiles/views.py:25
-msgid "user_name"
-msgstr "Benutzername"
-
-#: profiles/views.py:17 profiles/views.py:29
-#, fuzzy
-msgid "password"
-msgstr "Password zurücksetzen"
-
-#: profiles/views.py:21 profiles/views.py:51
+#: profiles/views.py:15 profiles/views.py:45
 msgid "first_name"
 msgstr "Vorname"
 
-#: profiles/views.py:23 profiles/views.py:54
+#: profiles/views.py:17 profiles/views.py:48
 msgid "last_name"
 msgstr "Nachname"
 
-#: profiles/views.py:27 profiles/views.py:67
+#: profiles/views.py:19
+msgid "user_name"
+msgstr "Benutzername"
+
+#: profiles/views.py:21 profiles/views.py:61
 msgid "email"
 msgstr "Email"
 
-#: profiles/views.py:31
-msgid "repeat_password"
-msgstr "Password zurücksetzen"
+#: profiles/views.py:23
+msgid "password"
+msgstr "Passwort"
 
-#: profiles/views.py:35
+#: profiles/views.py:25
+msgid "repeat_password"
+msgstr "Passwort"
+
+#: profiles/views.py:29
 msgid "passwords didn't match"
 msgstr "Die Passwörter stimmen nicht überein"
 
-#: profiles/views.py:40 profiles/views.py:72
+#: profiles/views.py:34 profiles/views.py:66
 msgid "Email is in use"
 msgstr "Email wird schon benutzt"
 
-#: profiles/views.py:45
+#: profiles/views.py:39
 msgid "Username is in use"
 msgstr "Benutzername wird schon benutzt"
 
-#: profiles/views.py:78
+#: profiles/views.py:72
 msgid "You can sign in now"
 msgstr "Du kannst dich jetzt anmelden"
 
-#: profiles/views.py:81
+#: profiles/views.py:75
 msgid "The code is not right..."
 msgstr "Der Code war leider nicht richtig"
 
-#: profiles/views.py:89
+#: profiles/views.py:83
 msgid "passwords did not match"
 msgstr "Die Passwörter stimmen nicht überein"
 
-#: profiles/views.py:93
+#: profiles/views.py:87
 msgid "Password changed successfully"
 msgstr "Passwort erfolgreich geändert"
 
-#: profiles/views.py:96
+#: profiles/views.py:90
 msgid "Your old password was not correct"
 msgstr "Das alte Passwort hat nicht gestimmt"
 
-#: profiles/views.py:117
+#: profiles/views.py:111
 msgid "Yeah, you just signed up"
 msgstr "Super, du hast dich registriert!"
 
-#: profiles/views.py:120
+#: profiles/views.py:114
 msgid "Check the errors..."
 msgstr "Schau dir die Fehler man an..."
 
-#: profiles/views.py:133
+#: profiles/views.py:127
 msgid "You have been signed out"
 msgstr "Du bist abgemeldet"
 
-#: profiles/views.py:143
+#: profiles/views.py:137
 msgid "Email added. Please verify it, so it is used."
 msgstr ""
 "Email hinzugefügt. Bitte bestätige die Email, bis dahin wird deine alte "
 "verwendet"
 
-#: profiles/views.py:145
+#: profiles/views.py:139
 msgid "Email in use"
 msgstr "Email wird schon benutzt"
 
-#: profiles/views.py:164
+#: profiles/views.py:158
 msgid "Successfully edited account"
 msgstr "Konto erfolgreich bearbeitet"
 
-#: profiles/views.py:167
+#: profiles/views.py:161
 msgid "Oops, something went wrong"
 msgstr "Upps, da ist was schief gelaufen"
 
-#: profiles/views.py:187
+#: profiles/views.py:179
 msgid "Yeah, you are in!"
 msgstr "Du bist drin!"
 
-#: profiles/views.py:190
-msgid "Your account is not active!"
+#: profiles/views.py:186
+msgid "Your account is not active..."
 msgstr "Dein Konto ist deaktiviert"
 
-#: profiles/views.py:193
+#: profiles/views.py:188
 msgid "Sorry, this username/password match is not correct"
 msgstr "Die Kombination aus Benutzername und passwort ist nicht korrekt"
 
-#: pycal/views.py:38
+#: pycal/views.py:40
 msgid "Monday"
 msgstr "Montag"
 
-#: pycal/views.py:38
+#: pycal/views.py:40
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: pycal/views.py:38
+#: pycal/views.py:40
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: pycal/views.py:38
+#: pycal/views.py:40
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: pycal/views.py:38
+#: pycal/views.py:40
 msgid "Friday"
 msgstr "Freitag"
 
-#: pycal/views.py:38
+#: pycal/views.py:40
 msgid "Saturday"
 msgstr "Samstag"
 
-#: pycal/views.py:38
+#: pycal/views.py:40
 msgid "Sunday"
 msgstr "Sonntag"
 
@@ -296,6 +299,10 @@ msgstr "Konto"
 msgid "Sign out"
 msgstr "Abmelden"
 
+#: templates/feed.html:8
+msgid "iCal Feeds"
+msgstr ""
+
 #: templates/home.html:8
 msgid "Upcoming Events"
 msgstr "Bevorstehende Termine"
@@ -308,6 +315,6 @@ msgstr "am"
 msgid "Previous"
 msgstr "Zurück"
 
-#: templates/index.html:14
+#: templates/index.html:17
 msgid "Next"
 msgstr "Vor"
