@@ -14,6 +14,16 @@ class Profile(models.Model):
     def __str__(self):
         return "{}'s profile".format(self.user)
 
+    def populate(self, username, email, password, first_name, last_name):
+        self.unverified_email = email
+        self.generate_activation_id()
+        user = User.objects.create_user(username, '', password)
+        user.first_name = first_name
+        user.last_name = last_name
+        self.user = user
+        user.save()
+
+
     def generate_activation_id(self):
         self.activation_id = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase +
             string.digits) for x in range(64))
