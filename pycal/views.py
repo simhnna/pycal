@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import ModelForm
 from django import forms
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.utils import timezone
 from calendar import monthrange
 from events.models import Event
@@ -28,9 +28,13 @@ def home(request):
                 })
 def feed(request):
     return render(request, 'feed.html')
+
 def calendar(request, year, month):
     year = int(year)
     month = int(month)
+
+    if year > 2020 or year < 2000 or month < 1 or month > 12:
+        raise Http404(_("Invalid Date"))
 
     all_events = Event.objects.filter(start_date__year=year,
             start_date__month=month)
