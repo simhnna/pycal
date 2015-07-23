@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-22 12:59+0200\n"
+"POT-Creation-Date: 2015-07-23 10:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -59,6 +59,38 @@ msgstr "Termin bearbeiten"
 msgid "Create Event"
 msgstr "Termin erstellen"
 
+#: events/templates/events/edit_event.html:41
+msgid ""
+"Details are only visible to users that logged in. You can further limit "
+"visibility to a specific group."
+msgstr ""
+"Details sind nur für angemeldete Benutzer sichtbar. Die sichtbarkeit kann "
+"zusätzlich durch die Angabe einer Gruppe eingeschränkt werden"
+
+#: events/views.py:18
+msgid "title"
+msgstr "Titel"
+
+#: events/views.py:20
+msgid "description"
+msgstr "Beschreibung"
+
+#: events/views.py:21
+msgid "location"
+msgstr "Ort"
+
+#: events/views.py:22
+msgid "start_date"
+msgstr "Beginn"
+
+#: events/views.py:23
+msgid "end_date"
+msgstr "Ende"
+
+#: events/views.py:24
+msgid "details"
+msgstr "Details"
+
 #: events/views.py:31
 msgid "Start date has to be in the future"
 msgstr "Begin muss in der Zukunft liegen"
@@ -99,7 +131,7 @@ msgstr "Email ändern"
 #: profiles/templates/profiles/change_password.html:7
 #: profiles/templates/profiles/change_password.html:23
 #: profiles/templates/profiles/password_reset_confirm.html:17
-#: templates/base.html:50
+#: profiles/templates/profiles/reset_password.html:18 templates/base.html:50
 msgid "Change Password"
 msgstr "Passwort ändern"
 
@@ -117,6 +149,7 @@ msgid "Please use your real name, so that you can be put in the correct groups"
 msgstr "Bitte keinen Pseudonym benutzen, damit Rechte zugeordnet werden können"
 
 #: profiles/templates/profiles/password_reset_confirm.html:6
+#: profiles/templates/profiles/reset_password.html:7
 #: profiles/templates/profiles/sign_in.html:25
 msgid "Reset Password"
 msgstr "Password zurücksetzen"
@@ -145,6 +178,11 @@ msgid ""
 msgstr ""
 "Dein Name und deine Email sind nur für Adminisitratoren sichtbar. Dein "
 "Benutzername ist öffentlich (Wenn du einen Termin einträgst)"
+
+#: profiles/templates/profiles/reset_password.html:23
+msgid "If the email is registered, a reset link will be sent to it."
+msgstr ""
+"Falls die email registriert ist, wird ein Wiederherstellungslink versendet"
 
 #: profiles/templates/profiles/sign_in.html:7
 #: profiles/templates/profiles/sign_in.html:18 templates/base.html:59
@@ -246,31 +284,35 @@ msgstr "Dein Konto ist deaktiviert"
 msgid "Sorry, this username/password match is not correct"
 msgstr "Die Kombination aus Benutzername und passwort ist nicht korrekt"
 
-#: pycal/views.py:40
+#: pycal/views.py:37
+msgid "Invalid Date"
+msgstr "Ungültiges Datum"
+
+#: pycal/views.py:44
 msgid "Monday"
 msgstr "Montag"
 
-#: pycal/views.py:40
+#: pycal/views.py:44
 msgid "Tuesday"
 msgstr "Dienstag"
 
-#: pycal/views.py:40
+#: pycal/views.py:44
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: pycal/views.py:40
+#: pycal/views.py:44
 msgid "Thursday"
 msgstr "Donnerstag"
 
-#: pycal/views.py:40
+#: pycal/views.py:44
 msgid "Friday"
 msgstr "Freitag"
 
-#: pycal/views.py:40
+#: pycal/views.py:44
 msgid "Saturday"
 msgstr "Samstag"
 
-#: pycal/views.py:40
+#: pycal/views.py:44
 msgid "Sunday"
 msgstr "Sonntag"
 
