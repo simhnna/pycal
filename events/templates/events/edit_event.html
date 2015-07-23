@@ -21,7 +21,6 @@
 					{{ error }}
 				</div>
 				{% endfor %}
-          {{ field.label_tag }}
 				{% if 'date' in field.name %}
 					<div class='input-group date' 
           id='datetimepicker{% if field.name == 'start_date' %}0{% else %}1{% endif %}'>

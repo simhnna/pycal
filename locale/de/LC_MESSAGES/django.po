@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-23 10:48+0200\n"
+"POT-Creation-Date: 2015-07-23 10:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,6 +37,10 @@ msgstr "Beschreibung"
 #: events/models.py:16
 msgid "Details"
 msgstr "Details"
+
+#: events/models.py:17
+msgid "Group"
+msgstr "Gruppe"
 
 #: events/models.py:18
 msgid "Location"

@@ -14,7 +14,7 @@ class Event(models.Model):
     title = models.CharField(max_length=16, verbose_name=_('Title'))
     description = models.TextField(verbose_name=_('Description'))
     details = models.TextField(verbose_name=_('Details'), null=True, blank=True)
-    detail_group = models.ForeignKey(Group, null=True, blank=True)
+    detail_group = models.ForeignKey(Group, null=True, blank=True, verbose_name=_('Group'))
     location = models.CharField(max_length=100, verbose_name=_('Location'))
     created_by = models.ForeignKey(User)
 
