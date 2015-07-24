@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 17:18+0200\n"
+"POT-Creation-Date: 2015-07-24 17:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -152,7 +152,7 @@ msgstr "Bitte keinen Pseudonym benutzen, damit Rechte zugeordnet werden können"
 #: profiles/templates/profiles/reset_password.html:7
 #: profiles/templates/profiles/sign_in.html:25
 msgid "Reset Password"
-msgstr "Password zurücksetzen"
+msgstr "Passwort zurücksetzen"
 
 #: profiles/templates/profiles/password_reset_confirm.html:21
 msgid "Sorry, the link is not valid"
@@ -193,6 +193,22 @@ msgstr "Anmelden"
 msgid "Usernames and passwords are case-sensitive!"
 msgstr ""
 "Achte beim Benutzername und beim Passwort auf Groß- und Kleinschreibung!"
+
+#: profiles/views.py:14
+msgid "First Name"
+msgstr "Vorname"
+
+#: profiles/views.py:15
+msgid "Last Name"
+msgstr "Nachname"
+
+#: profiles/views.py:16
+msgid "Username"
+msgstr "Benutzername"
+
+#: profiles/views.py:19
+msgid "Repeat Password"
+msgstr "Passwort wiederholen"
 
 #: profiles/views.py:23 profiles/views.py:45
 msgid "Email is in use"

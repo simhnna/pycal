@@ -11,12 +11,12 @@ from profiles.models import Profile, create_profile, email_is_used
 from profiles.models import activate as activate_profile
 
 class AccountForm(forms.Form):
-    first_name = forms.CharField(max_length=32) 
-    last_name = forms.CharField(max_length=32) 
-    username = forms.CharField(max_length=32)
+    first_name = forms.CharField(label=_('First Name'), max_length=32) 
+    last_name = forms.CharField(label=_('Last Name'), max_length=32) 
+    username = forms.CharField(label=_('Username'), max_length=32)
     email = forms.EmailField()
-    password = forms.CharField(min_length=8, widget=forms.PasswordInput())
-    repeat_password = forms.CharField(min_length=8, widget=forms.PasswordInput())
+    password = forms.CharField(label=_('Password'), min_length=8, widget=forms.PasswordInput())
+    repeat_password = forms.CharField(label=_('Repeat Password'), min_length=8, widget=forms.PasswordInput())
 
     def clean_email(self):
         if email_is_used(self.cleaned_data['email']):

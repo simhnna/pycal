@@ -21,7 +21,7 @@
           {{ error }}
         </div>
         {% endfor %}
-        {{ form.title|add_placeholder:"Title" }}
+        {{ form.title|add_placeholder:form.title.label }}
       </div>
       <div class="form-group{% if form.location.errors %} has-error{% endif %}">
         {% for error in form.location.errors %}
@@ -29,7 +29,7 @@
           {{ error }}
         </div>
         {% endfor %}
-        {{ form.location|add_placeholder:"Location" }}
+        {{ form.location|add_placeholder:form.location.label }}
       </div>
       <div class="form-group{% if form.description.errors %} has-error{% endif %}">
         {% for error in form.description.errors %}
@@ -37,7 +37,7 @@
           {{ error }}
         </div>
         {% endfor %}
-        {{ form.description|add_placeholder:"Description" }}
+        {{ form.description|add_placeholder:form.description.label }}
       </div>
       <div class="form-group{% if form.start_date.errors %} has-error{% endif %}">
         {% for error in form.start_date.errors %}
@@ -47,7 +47,7 @@
         {% endfor %}
         <div class='input-group date' 
              id='datetimepicker0'>
-          {{ form.start_date|add_placeholder:"Start" }}
+          {{ form.start_date|add_placeholder:form.start_date.label }}
           <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
         </div>
       </div>
@@ -59,7 +59,7 @@
         {% endfor %}
         <div class='input-group date' 
              id='datetimepicker1'>
-          {{ form.end_date|add_placeholder:"End" }}
+          {{ form.end_date|add_placeholder:form.end_date.label }}
           <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
         </div>
       </div>
@@ -74,7 +74,7 @@
           {{ error }}
         </div>
         {% endfor %}
-        {{ form.details|add_placeholder_unrequired:"Details" }}
+        {{ form.details|add_placeholder_unrequired:form.details.label }}
       </div>
       <div class="form-group">
         <label id="id_label_group" for="{{ form.group.id_for_label }}">{% trans 'Limit access to' %}:</label>

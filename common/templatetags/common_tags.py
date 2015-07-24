@@ -1,6 +1,5 @@
 import pytz
 from django import template
-from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
 
@@ -11,7 +10,7 @@ def get_timezone():
 @register.filter(name='add_placeholder')
 def add_placeholder(field, placeholder):
     attrs = {}
-    attrs['placeholder'] = _(placeholder)
+    attrs['placeholder'] = placeholder
     attrs['required'] =''
     attrs['class'] = 'form-control'
 
