@@ -15,8 +15,8 @@ class AccountForm(forms.Form):
     last_name = forms.CharField(max_length=32) 
     username = forms.CharField(max_length=32)
     email = forms.EmailField()
-    password = forms.CharField(widget=forms.PasswordInput())
-    repeat_password = forms.CharField(widget=forms.PasswordInput())
+    password = forms.CharField(min_length=8, widget=forms.PasswordInput())
+    repeat_password = forms.CharField(min_length=8, widget=forms.PasswordInput())
 
     def clean_email(self):
         if email_is_used(self.cleaned_data['email']):
