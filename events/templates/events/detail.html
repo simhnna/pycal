@@ -19,6 +19,9 @@
     <li class="list-group-item">{% trans 'End' %}: {{ event.end_date }}</li>
     {% endlocaltime %}
     <li class="list-group-item">{% trans 'Author' %}: {{ event.created_by.username }}</li>
+    {% if event.group %}
+    <li class="list-group-item">{% trans 'Group' %}: {{ event.group }}</li>
+    {% endif %}
 	</ul>
 	</div>
 	<div class="panel-footer">

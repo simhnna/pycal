@@ -10,7 +10,7 @@ class EventFeed(ICalFeed):
     file_name = "events.ics"
 
     def items(self):
-        return Event.objects.all().order_by('-start_date')
+        return Event.objects.filter(group__isnull=True).order_by('-start_date')
 
     def item_title(self, item):
         return item.title

@@ -66,7 +66,7 @@
       <div class="form-group">
         {{ form.private.label_tag }}
         <input data-toggle="toggle" type="checkbox" name="{{ form.private.name }}"
-          id="{{ form.private.id_for_label }}" />
+                                                    id="{{ form.private.id_for_label }}" />
       </div>
       <div class="form-group{% if form.details.errors %} has-error{% endif %}">
         {% for error in form.details.errors %}
@@ -100,19 +100,31 @@ $("#id_group").addClass("hidden");
 $("#id_label_group").addClass("hidden");
 $(function() {
   $('#id_private').change(function() {
-    if ($(this).prop('checked')) {
-      $("#id_details").addClass("hidden");
-      $("#id_group").removeClass("hidden");
-      $("#id_group").prop('required', true);
-      $("#id_label_group").removeClass("hidden");
-    } else {
-      $("#id_details").removeClass("hidden");
-      $("#id_group").addClass("hidden");
-      $("#id_group").prop('required', false);
-      $("#id_label_group").addClass("hidden");
-    }
+    change_view()
   })
 })
+{% if form.private %}
+$('#id_private').bootstrapToggle('on');
+change_view();
+{% else %}
+$('#id_private').bootstrapToggle('off');
+change_view();
+{% endif %}
+
+function change_view() {
+  if ($('#id_private').prop('checked')) {
+    $("#id_details").addClass("hidden");
+    $("#id_group").removeClass("hidden");
+    $("#id_group").prop('required', true);
+    $("#id_label_group").removeClass("hidden");
+  } else {
+    $("#id_details").removeClass("hidden");
+    $("#id_group").addClass("hidden");
+    $("#id_group").prop('required', false);
+    $("#id_label_group").addClass("hidden");
+  }
+
+}
 $(function () {
   {% get_current_language as LANGUAGE_CODE %}
   $('#datetimepicker0').datetimepicker({
