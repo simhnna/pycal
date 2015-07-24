@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-24 16:11+0200\n"
+"POT-Creation-Date: 2015-07-24 17:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -78,6 +78,10 @@ msgid ""
 msgstr ""
 "Details sind nur für angemeldete Benutzer sichtbar. Die sichtbarkeit kann "
 "zusätzlich durch die Angabe einer Gruppe eingeschränkt werden"
+
+#: events/views.py:13
+msgid "Private"
+msgstr "Privat"
 
 #: events/views.py:21
 msgid "Start date has to be in the future"
@@ -319,4 +323,3 @@ msgstr "Zurück"
 #: templates/index.html:17
 msgid "Next"
 msgstr "Vor"
-

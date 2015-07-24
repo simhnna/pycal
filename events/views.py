@@ -10,7 +10,7 @@ from django.utils import timezone
 from django.contrib.auth.decorators import permission_required
 
 class EventForm(forms.ModelForm):
-    private = forms.BooleanField(required=False)
+    private = forms.BooleanField(label=_('Private'), required=False)
     class Meta:
         model = Event
         fields = ['title', 'description', 'location', 'start_date', 'end_date', 'details',
