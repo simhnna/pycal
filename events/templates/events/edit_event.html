@@ -103,7 +103,7 @@ $(function() {
     change_view()
   })
 })
-{% if form.private %}
+{% if form.private.value %}
 $('#id_private').bootstrapToggle('on');
 change_view();
 {% else %}
