@@ -1,40 +1,88 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% load staticfiles %}
+{% load common_tags %}
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'events/bootstrap-datetimepicker.min.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'events/bootstrap-toggle.min.css' %}">
 {% endblock %}
 
 {% block content %}
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">{% if edit %}{% trans 'Edit Event' %}{% else %}{% trans 'Create Event' %}{% endif %}</h3>
-	</div>
-	<div class="panel-body">
-		<form action="" method='post'>
-			{% csrf_token %}
-
-			{% for field in form %}
-			<div class="form-group{% if field.errors %} has-error{% endif %}">
-				{% for error in field.errors %}
-				<div class="alert alert-danger">
-					{{ error }}
-				</div>
-				{% endfor %}
-				{% if 'date' in field.name %}
-					<div class='input-group date' 
-          id='datetimepicker{% if field.name == 'start_date' %}0{% else %}1{% endif %}'>
-            {{ field }}
-						<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
-					</div>
-				{% else %}
-					{{ field }}
-				{% endif %}
-			</div>
-			{% endfor %}
-			<input type='submit' class="btn btn-default btn-block" value="{% if edit %}{% trans 'Edit Event' %}{% else %}{% trans 'Create Event' %}{% endif %}">
-		</form>
-	</div>
+  <div class="panel-heading">
+    <h3 class="panel-title">{% if edit %}{% trans 'Edit Event' %}{% else %}{% trans 'Create Event' %}{% endif %}</h3>
+  </div>
+  <div class="panel-body">
+    <form action="" method='post'>
+      {% csrf_token %}
+      <div class="form-group{% if form.title.errors %} has-error{% endif %}">
+        {% for error in form.title.errors %}
+        <div class="alert alert-danger">
+          {{ error }}
+        </div>
+        {% endfor %}
+        {{ form.title|add_placeholder:"Title" }}
+      </div>
+      <div class="form-group{% if form.location.errors %} has-error{% endif %}">
+        {% for error in form.location.errors %}
+        <div class="alert alert-danger">
+          {{ error }}
+        </div>
+        {% endfor %}
+        {{ form.location|add_placeholder:"Location" }}
+      </div>
+      <div class="form-group{% if form.description.errors %} has-error{% endif %}">
+        {% for error in form.description.errors %}
+        <div class="alert alert-danger">
+          {{ error }}
+        </div>
+        {% endfor %}
+        {{ form.description|add_placeholder:"Description" }}
+      </div>
+      <div class="form-group{% if form.start_date.errors %} has-error{% endif %}">
+        {% for error in form.start_date.errors %}
+        <div class="alert alert-danger">
+          {{ error }}
+        </div>
+        {% endfor %}
+        <div class='input-group date' 
+             id='datetimepicker0'>
+          {{ form.start_date|add_placeholder:"Start" }}
+          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        </div>
+      </div>
+      <div class="form-group{% if form.end_date.errors %} has-error{% endif %}">
+        {% for error in form.end_date.errors %}
+        <div class="alert alert-danger">
+          {{ error }}
+        </div>
+        {% endfor %}
+        <div class='input-group date' 
+             id='datetimepicker1'>
+          {{ form.end_date|add_placeholder:"End" }}
+          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+        </div>
+      </div>
+      <div class="form-group">
+        {{ form.private.label_tag }}
+        <input data-toggle="toggle" type="checkbox" name="{{ form.private.name }}"
+          id="{{ form.private.id_for_label }}" />
+      </div>
+      <div class="form-group{% if form.details.errors %} has-error{% endif %}">
+        {% for error in form.details.errors %}
+        <div class="alert alert-danger">
+          {{ error }}
+        </div>
+        {% endfor %}
+        {{ form.details|add_placeholder_unrequired:"Details" }}
+      </div>
+      <div class="form-group">
+        <label id="id_label_group" for="{{ form.group.id_for_label }}">{% trans 'Limit access to:' %}</label>
+        {{ form.group|add_css }}
+      </div>
+      <input type='submit' class="btn btn-default btn-block" value="{% if edit %}{% trans 'Edit Event' %}{% else %}{% trans 'Create Event' %}{% endif %}">
+    </form>
+  </div>
   <div class="panel-footer">
     <p>
     {% trans 'Details are only visible to users that logged in. You can further limit visibility to a specific group.' %}
@@ -45,23 +93,40 @@
 
 {% block javascript %}
 <script src="{% static 'events/bootstrap-datetimepicker.min.js' %}"></script>
+<script src="{% static 'events/bootstrap-toggle.min.js' %}"></script>
 <script type="text/javascript">
+$("#id_details").removeClass("hidden");
+$("#id_group").addClass("hidden");
+$("#id_label_group").addClass("hidden");
+$(function() {
+  $('#id_private').change(function() {
+    if ($(this).prop('checked')) {
+      $("#id_details").addClass("hidden");
+      $("#id_group").removeClass("hidden");
+      $("#id_group").prop('required', true);
+      $("#id_label_group").removeClass("hidden");
+    } else {
+      $("#id_details").removeClass("hidden");
+      $("#id_group").addClass("hidden");
+      $("#id_group").prop('required', false);
+      $("#id_label_group").addClass("hidden");
+    }
+  })
+})
 $(function () {
   {% get_current_language as LANGUAGE_CODE %}
-		$('#datetimepicker0').datetimepicker({
-      locale: '{{ LANGUAGE_CODE }}',
-      autoclose: true,
-      format: 'yyyy-mm-dd hh:ii',
-      startDate: '{% now "Y-m-d" %}',
-      pickerPosition: 'top-left',
+  $('#datetimepicker0').datetimepicker({
+    locale: '{{ LANGUAGE_CODE }}',
+    autoclose: true,
+    format: 'yyyy-mm-dd hh:ii',
+    startDate: '{% now "Y-m-d" %}',
+  });
+  $('#datetimepicker1').datetimepicker({
+    locale: '{{ LANGUAGE_CODE }}',
+    autoclose: true,
+    startDate: '{% now "Y-m-d" %}',
+    format: 'yyyy-mm-dd hh:ii',
+  });
 });
-		$('#datetimepicker1').datetimepicker({
-      locale: '{{ LANGUAGE_CODE }}',
-      autoclose: true,
-      startDate: '{% now "Y-m-d" %}',
-      format: 'yyyy-mm-dd hh:ii',
-      pickerPosition: 'top-left',
-});
-		});
 </script>
 {% endblock %}

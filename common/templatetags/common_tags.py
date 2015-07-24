@@ -1,5 +1,6 @@
 import pytz
 from django import template
+from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
 
@@ -10,7 +11,7 @@ def get_timezone():
 @register.filter(name='add_placeholder')
 def add_placeholder(field, placeholder):
     attrs = {}
-    attrs['placeholder'] = placeholder
+    attrs['placeholder'] = _(placeholder)
     attrs['required'] =''
     attrs['class'] = 'form-control'
 
@@ -23,6 +24,12 @@ def add_placeholder_unrequired(field, placeholder):
     attrs['class'] = 'form-control'
 
     return field.as_widget(attrs=attrs)
+
+@register.filter(name='add_css')
+def add_css(field):
+    attrs = {'class': 'form-control'}
+    return field.as_widget(attrs=attrs)
+
 
 @register.filter(name='has_group')
 def has_group(user, group):

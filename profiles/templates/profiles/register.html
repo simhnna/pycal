@@ -1,5 +1,6 @@
 {% extends 'base.html' %} 
 {% load i18n %}
+{% load common_tags %}
 {% block content %}
 <div class="panel panel-default">
 	<div class="panel-heading">
@@ -17,7 +18,7 @@
 					{{ error }}
 				</div>
 				{% endfor %}
-				{{ field }}
+				{{ field|add_placeholder:field.name }}
 			</div>
 			{% endfor %}
 			<input type='submit' class="btn btn-default btn-block" value="{% trans 'Register' %}">

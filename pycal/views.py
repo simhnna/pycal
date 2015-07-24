@@ -20,7 +20,7 @@ def set_timezone(request):
         return render(request, 'set_timezone.html', {'timezones': pytz.common_timezones}) 
 
 def home(request):
-    events = Event.get_next_events(10)
+    events = Event.get_next_events(request, 10)
 
     return render(request, 'home.html',
             {'events': events,

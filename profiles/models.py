@@ -63,6 +63,10 @@ def create_profile(username, email, password, first_name, last_name):
     user.profile.save()
     return user
 
+def email_is_used(email):
+    return (User.objects.filter(email=email).exists() or 
+Profile.objects.filter(unverified_email=email).exists())
+
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:

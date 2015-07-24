@@ -10,15 +10,15 @@
 	<div class="panel-body">
 		<ul class="list-group">
 		<li class="list-group-item">{{ event.description }}</li>
-    {% if user.is_authenticated and user|has_group:event.detail_group %}
-		<li class="list-group-item">{{ event.description }}</li>
+    {% if user.is_authenticated and event.details %}
+		<li class="list-group-item">{{ event.details}}</li>
     {% endif %}
-		<li class="list-group-item">Location: {{ event.location }}</li>
+    <li class="list-group-item">{% trans 'Location' %}: {{ event.location }}</li>
     {% localtime on %}
-		<li class="list-group-item">Start: {{ event.start_date }} </li>
-		<li class="list-group-item">End: {{ event.end_date }}</li>
+    <li class="list-group-item">{% trans 'Start' %}: {{ event.start_date }} </li>
+    <li class="list-group-item">{% trans 'End' %}: {{ event.end_date }}</li>
     {% endlocaltime %}
-		<li class="list-group-item">Author: {{ event.created_by.username }}</li>
+    <li class="list-group-item">{% trans 'Author' %}: {{ event.created_by.username }}</li>
 	</ul>
 	</div>
 	<div class="panel-footer">

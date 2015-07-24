@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django import forms
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from events.models import Event
 from django.core.urlresolvers import reverse
@@ -10,21 +10,11 @@ from django.utils import timezone
 from django.contrib.auth.decorators import permission_required
 
 class EventForm(forms.ModelForm):
+    private = forms.BooleanField(required=False)
     class Meta:
         model = Event
         fields = ['title', 'description', 'location', 'start_date', 'end_date', 'details',
-        'detail_group']
-        widgets={
-                'title':forms.TextInput(attrs={'placeholder':_('title'),'class':'form-control',
-                    'required':''}),
-                'description':forms.Textarea(attrs={'placeholder':_('description'),'class':'form-control','required':''}),
-                'location':forms.TextInput(attrs={'placeholder':_('location'),'class':'form-control','required':''}),
-                'start_date':forms.TextInput(attrs={'placeholder':_('start_date'),'class':'form-control','required':'','readonly':''}),
-                'end_date':forms.TextInput(attrs={'placeholder':_('end_date'),'class':'form-control','required':'','readonly':''}),
-                'details':forms.Textarea(attrs={'placeholder':_('details'), 'class':'form-control'}),
-                'detail_group':forms.Select(attrs={'class':'form-control'}),
-                }
-
+        'group']
 
     def clean_start_date(self):
         if self.cleaned_data['start_date'] < timezone.now():
@@ -38,6 +28,17 @@ class EventForm(forms.ModelForm):
         elif start_date and self.cleaned_data.get('end_date') <= start_date:
             raise forms.ValidationError(_('End date has to be after the start Date'), 'invalid')
         return self.cleaned_data['end_date']
+
+    def clean(self):
+        cleaned_data = super(EventForm, self).clean()
+        if cleaned_data['private']:
+            cleaned_data['details'] = None
+            if not cleaned_data['group']:
+                self.add_error('group', forms.ValidationError(_('You have to specify a group'),
+                    'invalid'))
+        else:
+            cleaned_data['group'] = None
+        return cleaned_data
 
 
 class DeleteForm(forms.ModelForm):
@@ -108,9 +109,12 @@ def edit_event(request, event_id):
                 'edit': True,
                 })
 
-
 def detail(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
+    if event.group and not request.user.groups.filter(name=event.group).exists():
+        messages.warning(request, _('You are not allowed to do this!'))
+        return HttpResponseRedirect(reverse('index'))
     return render(request, 'events/detail.html',
             {'event': event,
                 })
+

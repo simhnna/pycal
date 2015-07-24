@@ -7,32 +7,19 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
-from profiles.models import Profile, create_profile
+from profiles.models import Profile, create_profile, email_is_used
 from profiles.models import activate as activate_profile
 
-
-
 class AccountForm(forms.Form):
-    first_name = forms.CharField(max_length=32, 
-            widget=forms.TextInput(attrs={'placeholder': _('first_name'), 'class': 'form-control'}))
-    last_name = forms.CharField(max_length=32, 
-            widget=forms.TextInput(attrs={'placeholder': _('last_name'), 'class': 'form-control'}))
-    username = forms.CharField(max_length=32, 
-            widget=forms.TextInput(attrs={'placeholder': _('user_name'), 'class': 'form-control'}))
-    email = forms.EmailField(
-            widget=forms.TextInput(attrs={'placeholder': _('email'), 'class': 'form-control'}))
-    password = forms.CharField(
-            widget=forms.PasswordInput(attrs={'placeholder': _('password'), 'class': 'form-control'}))
-    password2 = forms.CharField(
-            widget=forms.PasswordInput(attrs={'placeholder': _('repeat_password'), 'class': 'form-control'}))
-
-    def clean_password2(self):
-        if self.cleaned_data['password2'] != self.cleaned_data['password']:
-            raise forms.ValidationError(_('passwords didn\'t match'), 'ivalid')
-        return self.cleaned_data['password2']
+    first_name = forms.CharField(max_length=32) 
+    last_name = forms.CharField(max_length=32) 
+    username = forms.CharField(max_length=32)
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput())
+    repeat_password = forms.CharField(widget=forms.PasswordInput())
 
     def clean_email(self):
-        if User.objects.filter(email=self.cleaned_data['email']) or Profile.objects.filter(unverified_email=self.cleaned_data['email']):
+        if email_is_used(self.cleaned_data['email']):
             raise forms.ValidationError(_('Email is in use'), 'invalid')
         return self.cleaned_data['email']
     
@@ -43,12 +30,6 @@ class AccountForm(forms.Form):
 
 
 class UserAccountForm(forms.ModelForm):
-    first_name = forms.CharField(max_length=32, widget=forms.TextInput(attrs={'placeholder':
-        _('first_name'),
-        'class': 'form-control'}))
-    last_name = forms.CharField(max_length=32, widget=forms.TextInput(attrs={'placeholder':
-        _('last_name'),
-        'class': 'form-control'}))
     class Meta:
         model = Profile
         fields = ['email_notifications',]
@@ -60,7 +41,7 @@ class EmailChangeForm(forms.Form):
         'class': 'form-control'}))
 
     def clean_email(self):
-        if User.objects.filter(email=self.cleaned_data['email']) or Profile.objects.filter(unverified_email=self.cleaned_data['email']):
+        if email_is_used(self.cleaned_data['email']):
             raise forms.ValidationError(_('Email is in use'), 'invalid')
         return self.cleaned_data['email']
 
@@ -96,7 +77,6 @@ def register(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            password2 = form.cleaned_data['password2']
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
@@ -106,7 +86,6 @@ def register(request):
             messages.success(request, _('Yeah, you just signed up'))
             return HttpResponseRedirect(reverse('index'))
         else:
-            messages.warning(request, _('Check the errors...'))
             return render(request, 'profiles/register.html',
             {'form': form,
                 })
@@ -146,9 +125,6 @@ def edit_account(request):
         if form.is_valid():
             a = request.user.profile
             a.email_notifications = form.cleaned_data['email_notifications']
-            a.user.first_name = form.cleaned_data['first_name']
-            a.user.last_name = form.cleaned_data['last_name']
-            a.user.save()
             a.save()
             messages.success(request, _('Successfully edited account'))
             return HttpResponseRedirect(reverse('profiles:edit_account'))

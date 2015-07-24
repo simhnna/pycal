@@ -9,12 +9,12 @@ from django.core.urlresolvers import reverse
 from profiles.models import Profile
 
 class Event(models.Model):
+    title = models.CharField(max_length=50, verbose_name=_('Title'))
     start_date = models.DateTimeField(verbose_name=_('Start'))
     end_date = models.DateTimeField(verbose_name=_('End'), null=True, blank=True)
-    title = models.CharField(max_length=16, verbose_name=_('Title'))
     description = models.TextField(verbose_name=_('Description'))
     details = models.TextField(verbose_name=_('Details'), null=True, blank=True)
-    detail_group = models.ForeignKey(Group, null=True, blank=True, verbose_name=_('Group'))
+    group = models.ForeignKey(Group, null=True, blank=True, verbose_name=_('Group'))
     location = models.CharField(max_length=100, verbose_name=_('Location'))
     created_by = models.ForeignKey(User)
 
@@ -30,8 +30,11 @@ class Event(models.Model):
 
         send_mass_mail(messages)
 
-    def get_next_events(number_of_events, skip_events= 0):
-        events = Event.objects.filter(start_date__gte=timezone.now())[skip_events:number_of_events]
+    def get_next_events(request, number_of_events, skip_events= 0):
+        if request.user.is_authenticated():
+            events = Event.objects.filter(start_date__gte=timezone.now())[skip_events:number_of_events]
+        else:
+            events = Event.objects.filter(start_date__gte=timezone.now()).exclude(group__isnull=False)[skip_events:number_of_events]
         return events
 
 
