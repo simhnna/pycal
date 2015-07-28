@@ -1,16 +1,27 @@
 from django_ical.views import ICalFeed
 from events.models import Event
+from profiles.models import Profile
+from django.db.models import Q
 
 class EventFeed(ICalFeed):
     """
     A simple event calender
     """
-    product_id = '-//example.com//Example//EN'
+    product_id = '-//pycal.serve-me.info//Events//DE'
     timezone = 'UTC'
     file_name = "events.ics"
+    private = False
 
-    def items(self):
-        return Event.objects.filter(group__isnull=True).order_by('-start_date')
+    def get_object(self, request, feed_id=None):
+        if feed_id:
+            user = Profile.objects.get(feed_id=feed_id).user
+            return Event.objects.filter(Q(group__isnull=True)|Q(group__id__in=user.groups.values_list('id',
+                flat=True))).order_by('-start_date')
+        else:
+            return Event.objects.filter(group__isnull=True).order_by('-start_date')
+
+    def items(self, obj):
+        return obj
 
     def item_title(self, item):
         return item.title

@@ -120,22 +120,24 @@ def change_email(request):
 
 @login_required
 def edit_account(request):
+    profile = request.user.profile
     if request.method == 'POST':
         form = UserAccountForm(request.POST)
         if form.is_valid():
-            a = request.user.profile
-            a.email_notifications = form.cleaned_data['email_notifications']
-            a.save()
+            profile.email_notifications = form.cleaned_data['email_notifications']
+            profile.save()
             messages.success(request, _('Successfully edited account'))
             return HttpResponseRedirect(reverse('profiles:edit_account'))
         else:
             messages.warning(request, _('Oops, something went wrong'))
     else:
-        u = request.user
-        form = UserAccountForm(instance=u.profile, initial={'first_name':u.first_name,'last_name':u.last_name})
+        user = request.user
+        form = UserAccountForm(instance=profile,
+                initial={'first_name':user.first_name,'last_name':user.last_name})
         
     return render(request, 'profiles/edit_account.html',
             {'form':form,
+                'feed':profile.feed_id,
                 })
 
 

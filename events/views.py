@@ -8,6 +8,8 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.contrib.auth.decorators import permission_required
+from profiles.models import Profile
+from events.feeds import EventFeed
 
 class EventForm(forms.ModelForm):
     private = forms.BooleanField(label=_('Private'), required=False)

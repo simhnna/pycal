@@ -16,6 +16,11 @@
         </label>
 				{{ form.email_notifications }}
 			</div>
+      <div class="form-group">
+        <label for="id_feed">
+          {% trans 'Private ical feed' %}:
+        </label>
+        <input readonly class="form-control" id="id_feed" value="{{ request.get_host }}{% url 'events:private_feed' feed %}" />
 			<input type='submit' class="btn btn-default btn-block" value='{% trans 'Save' %}'>
 		</form>
 	</div>

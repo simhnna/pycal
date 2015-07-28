@@ -8,12 +8,17 @@
 		<strong>		{% trans 'iCal Feeds' %}</strong>
 </div>
 <div class="panel-body">
-  You can add the events to your calendar software using this link:
+  You can add public events to your calendar software using this link:
   <br>
   <br>
   <blockquote>
     {{ request.get_host }}{% url 'events:public_feed' %}
   </blockquote>
+  {% if request.user.is_authenticated %}
+  <p>
+  A private link can be found in your <a href="{% url 'profiles:edit_account' %}">account</a>
+  </p>
+  {% endif %}
   You have to enable ssl. No username/password is needed.
   <br>
   You can also download the .ics file directly from 
