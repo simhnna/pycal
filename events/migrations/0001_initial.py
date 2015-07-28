@@ -7,10 +7,8 @@ from django.conf import settings
 
 class Migration(migrations.Migration):
 
-    replaces = [('events', '0001_initial'), ('events', '0002_auto_20150714_2240'), ('events', '0003_auto_20150715_1835'), ('events', '0004_auto_20150723_1649'), ('events', '0005_auto_20150723_1658')]
-
     dependencies = [
-        ('profiles', '0002_auto_20150707_1608'),
+        ('profiles', '0001_initial'),
         ('auth', '0006_require_contenttypes_0002'),
     ]
 
