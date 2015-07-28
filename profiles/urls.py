@@ -5,7 +5,6 @@ from profiles import views
 
 urlpatterns = patterns('',
         url(r'^activate/(?P<activation_id>[a-zA-Z0-9]+)/$', views.activate, name = 'activate'),
-
         url(r'^sign_in/$', views.sign_in, name = 'sign_in'),
         url(r'^register/$', views.register, name = 'register'),
         #url(r'^sign_out/$', views.sign_out, name = 'sign_out'),

@@ -8,5 +8,6 @@ urlpatterns = patterns('',
         url(r'^(?P<event_id>\d+)/edit$', views.edit_event, name='edit_event'),
         url(r'^(?P<event_id>\d+)/delete$', views.delete_event, name='delete_event'),
         url(r'^(?P<event_id>\d+)$', views.detail, name='detail'),
-        url(r'^public_feed.ics$', EventFeed(), name='feed'),
+        url(r'^public_feed.ics$', EventFeed(), name='public_feed'),
+        url(r'^private_feed/(?P<feed_id>[a-zA-Z0-9]+)/$', views.private_feed , name = 'private_feed'),
         )
