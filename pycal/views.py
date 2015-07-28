@@ -7,6 +7,7 @@ from calendar import monthrange
 from events.models import Event
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.db.models import Q
 
 import datetime
 import pytz
@@ -21,11 +22,11 @@ def set_timezone(request):
 
 def home(request):
     events = Event.get_next_events(request, 10)
-
     return render(request, 'home.html',
             {'events': events,
                 'home': True,
                 })
+
 def feed(request):
     return render(request, 'feed.html')
 
@@ -35,9 +36,13 @@ def calendar(request, year, month):
 
     if year > 2020 or year < 2000 or month < 1 or month > 12:
         raise Http404(_("Invalid Date"))
+    if request.user.is_authenticated():
+        all_events = Event.objects.filter(Q(start_date__year=year), Q(start_date__month=month),
+                Q(group__id__in=request.user.groups.values_list('id',flat=True))
+                | Q(group__isnull=True))
+    else:
+        all_events = Event.objects.filter(start_date__year=year,start_date__month=month).exclude(group__isnull=False)
 
-    all_events = Event.objects.filter(start_date__year=year,
-            start_date__month=month)
     last_day = monthrange(year, month)[-1]
     first_week_day = datetime.date(year, month, 1).weekday()
     last_week_day = datetime.date(year, month, last_day).weekday()
@@ -63,7 +68,6 @@ def calendar(request, year, month):
     next_link = reverse('calendar_specific', args=(next_year, next_month))
     prev_link = reverse('calendar_specific', args=(prev_year, prev_month))
 
-
     # add empty days
     for i in range(0, first_week_day):
         events.append(CalendarDay(monthrange(prev_year, prev_month)[-1] + 1 - first_week_day + i,
@@ -87,8 +91,6 @@ def calendar(request, year, month):
     for i in range(last_week_day, 6):
         events.append(CalendarDay(counter, current_month=False))
         counter += 1
-
-    
     return render(request, 'index.html',
             {'days': events,
                 'day_names': day_names,
@@ -98,7 +100,6 @@ def calendar(request, year, month):
                 'prev_link': prev_link,
                 'calendar': True,
                 })
-
 
 
 class CalendarDay():
