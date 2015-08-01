@@ -3,7 +3,6 @@ from django.forms import ModelForm
 from django import forms
 from django.http import HttpResponse, Http404
 from django.utils import timezone
-from calendar import monthrange
 from events.models import Event
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -11,6 +10,8 @@ from django.db.models import Q
 
 import datetime
 import pytz
+import calendar 
+from calendar import monthrange
 
 
 def set_timezone(request):
@@ -30,7 +31,7 @@ def home(request):
 def feed(request):
     return render(request, 'feed.html')
 
-def calendar(request, year, month):
+def calendar_view(request, year, month):
     year = int(year)
     month = int(month)
 
@@ -47,6 +48,14 @@ def calendar(request, year, month):
         next_month = 1
         next_year += 1
 
+    last_day = calendar.monthrange(year, month)[-1]
+    first_week_day = datetime.date(year, month, 1).weekday()
+    last_week_day = datetime.date(year, month, last_day).weekday()
+    
+    current_month = timezone.now().month
+
+    events = []
+
     next_link = reverse('calendar_specific', args=(next_year, next_month))
     prev_link = reverse('calendar_specific', args=(prev_year, prev_month))
 
@@ -58,22 +67,14 @@ def calendar(request, year, month):
     date_start = pytz.timezone('utc').localize(
             datetime.datetime(year, month, 1, 0, 0, 0))
     if request.user.is_authenticated():
-        all_events = Event.objects.filter(Q(start_date__gte=date_start), Q(start_date__lte=date_end), Q(group__id__in=request.user.groups.values_list('id',flat=True))| Q(group__isnull=True))
+        all_events = Event.objects.filter(Q(start_date__gte=date_start), Q(start_date__lt=date_end), Q(group__id__in=request.user.groups.values_list('id',flat=True))| Q(group__isnull=True))
     else:
-        all_events = Event.objects.filter(Q(start_date__gte=date_start), Q(start_date__lte=date_end)).exclude(group__isnull=False)
+        all_events = Event.objects.filter(Q(start_date__gte=date_start), Q(start_date__lt=date_end), Q(group__isnull=True))
 
-    last_day = monthrange(year, month)[-1]
-    first_week_day = datetime.date(year, month, 1).weekday()
-    last_week_day = datetime.date(year, month, last_day).weekday()
-    day_names = [_('Monday'), _('Tuesday'), _('Wednesday'), _('Thursday'), _('Friday'), _('Saturday'), _('Sunday')]
     
-    current_month = timezone.now().month
-
-    events = []
-
     # add empty days
     for i in range(0, first_week_day):
-        events.append(CalendarDay(monthrange(prev_year, prev_month)[-1] + 1 - first_week_day + i,
+        events.append(CalendarDay(calendar.monthrange(prev_year, prev_month)[-1] + 1 - first_week_day + i,
             current_month=False))
 
     counter = first_week_day
@@ -94,9 +95,10 @@ def calendar(request, year, month):
     for i in range(last_week_day, 6):
         events.append(CalendarDay(counter, current_month=False))
         counter += 1
+
     return render(request, 'index.html',
             {'days': events,
-                'day_names': day_names,
+                'day_names': [_(day) for day in calendar.day_name],
                 'year': year,
                 'month': _(datetime.date(year, month, 1).strftime('%B')),
                 'next_link': next_link,

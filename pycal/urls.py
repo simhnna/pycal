@@ -13,8 +13,8 @@ urlpatterns = [
     url(r'^profiles/', include('profiles.urls', namespace='profiles')),
     url(r'^events/', include('events.urls', namespace='events')),
     url(r'^$', 'pycal.views.home', name='index'),
-    url(r'^calendar/(?P<year>\d+)/(?P<month>\d+)/', 'pycal.views.calendar', name='calendar_specific'),
-    url(r'^calendar$', 'pycal.views.calendar', {'month': now.month, 'year': now.year}, name='calendar'),
+    url(r'^calendar/(?P<year>\d+)/(?P<month>\d+)/', 'pycal.views.calendar_view', name='calendar_specific'),
+    url(r'^calendar$', 'pycal.views.calendar_view', {'month': now.month, 'year': now.year}, name='calendar'),
     url(r'^timezone$', 'pycal.views.set_timezone', {}, name='set_timezone'),
     url(r'^feedinfo$', 'pycal.views.feed', name='feedinfo'),
 ]
