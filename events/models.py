@@ -35,9 +35,9 @@ class Event(models.Model):
         if request.user.is_authenticated():
             events = Event.objects.filter(Q(start_date__gte=timezone.now()),
                     Q(group__id__in=request.user.groups.values_list('id',flat=True))
-                    | Q(group__isnull=True))[skip_events:number_of_events]
+                    | Q(group__isnull=True)).order_by('start_date')[skip_events:number_of_events]
         else:
-            events = Event.objects.filter(start_date__gte=timezone.now()).exclude(group__isnull=False)[skip_events:number_of_events]
+            events = Event.objects.filter(start_date__gte=timezone.now()).exclude(group__isnull=False).order_by('start_date')[skip_events:number_of_events]
         return events
 
 

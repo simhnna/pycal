@@ -9,7 +9,7 @@
 	</div>
 	<div class="panel-body">
 		<ul class="list-group">
-		<li class="list-group-item">{{ event.description }}</li>
+		<li class="list-group-item">{{ event.description|linebreaks }}</li>
     {% if user.is_authenticated and event.details %}
 		<li class="list-group-item">{{ event.details}}</li>
     {% endif %}
