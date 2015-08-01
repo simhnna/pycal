@@ -100,7 +100,7 @@ $(function() {
   $('#id_private').change(function() {
     change_view()
   })
-})
+});
 {% if form.private.value %}
 $('#id_private').bootstrapToggle('on');
 change_view();
@@ -128,13 +128,13 @@ $(function () {
     locale: '{{ LANGUAGE_CODE }}',
     autoclose: true,
     format: 'yyyy-mm-dd hh:ii',
-    startDate: '{% now "Y-m-d" %}',
+    startDate: '{% now "Y-m-d" %}'
   });
   $('#datetimepicker1').datetimepicker({
     locale: '{{ LANGUAGE_CODE }}',
     autoclose: true,
     startDate: '{% now "Y-m-d" %}',
-    format: 'yyyy-mm-dd hh:ii',
+    format: 'yyyy-mm-dd hh:ii'
   });
 });
 </script>

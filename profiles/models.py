@@ -6,9 +6,9 @@ from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 
-
 import string
 import random
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User)
@@ -20,13 +20,12 @@ class Profile(models.Model):
     def __str__(self):
         return "{}'s profile".format(self.user)
 
-
     def generate_activation_id(self):
         while True:
             self.activation_id = generate_random_id()
             try:
                 self.save()
-                break 
+                break
             except IntegrityError:
                 pass
 
@@ -41,19 +40,21 @@ class Profile(models.Model):
     def send_verification_email(self, request):
         self.generate_activation_id()
         c = Context({'profile': self,
-            'link': request.build_absolute_uri(reverse('profiles:activate',
-            args=(self.activation_id,)))})
+                     'link': request.build_absolute_uri(reverse('profiles:activate',
+                                                                args=(self.activation_id,)))})
         message = render_to_string('profiles/activation_email.txt', c)
         send_mail('Verification Mail', message, 'donotreply@serve-me.info',
-                [self.unverified_email])
+                  [self.unverified_email])
         return True
 
+
 def generate_random_id():
-    return ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) 
-            for x in range(64))
+    return ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits)
+                   for x in range(64))
+
 
 def activate(activation_id):
-    for p in Profile.objects.filter(activation_id = activation_id):
+    for p in Profile.objects.filter(activation_id=activation_id):
         p.user.email = p.unverified_email
         p.unverified_email = ''
         p.activation_id = ''
@@ -62,6 +63,7 @@ def activate(activation_id):
         p.save()
         return True
     return False
+
 
 def create_profile(username, email, password, first_name, last_name):
     user = User.objects.create_user(username, '', password)
@@ -80,14 +82,15 @@ def create_profile(username, email, password, first_name, last_name):
 
     return user
 
+
 def email_is_used(email):
-    return (User.objects.filter(email=email).exists() or 
-Profile.objects.filter(unverified_email=email).exists())
+    return (User.objects.filter(email=email).exists() or
+            Profile.objects.filter(unverified_email=email).exists())
 
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        profile, created = Profile.objects.get_or_create(user=instance)
+        Profile.objects.get_or_create(user=instance)
+
 
 post_save.connect(create_user_profile, sender=User)
-

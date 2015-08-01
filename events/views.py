@@ -1,22 +1,23 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404
 from django import forms
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect
 from django.contrib import messages
-from events.models import Event
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.contrib.auth.decorators import permission_required
-from profiles.models import Profile
-from events.feeds import EventFeed
+
+from events.models import Event
+
 
 class EventForm(forms.ModelForm):
     private = forms.BooleanField(label=_('Private'), required=False)
+
     class Meta:
         model = Event
         fields = ['title', 'description', 'location', 'start_date', 'end_date', 'details',
-        'group']
+                  'group']
 
     def clean_start_date(self):
         if self.cleaned_data['start_date'] < timezone.now():
@@ -37,7 +38,7 @@ class EventForm(forms.ModelForm):
             cleaned_data['details'] = None
             if not cleaned_data['group']:
                 self.add_error('group', forms.ValidationError(_('You have to specify a group'),
-                    'invalid'))
+                                                              'invalid'))
         else:
             cleaned_data['group'] = None
         return cleaned_data
@@ -47,6 +48,7 @@ class DeleteForm(forms.ModelForm):
     class Meta:
         model = Event
         fields = []
+
 
 @login_required
 def create_event(request):
@@ -61,9 +63,9 @@ def create_event(request):
         form = EventForm()
 
     return render(request, 'events/edit_event.html',
-            {'form': form,
-                'create_event': True,
-               })
+                  {'form': form,
+                   'create_event': True,
+                   })
 
 
 @login_required
@@ -81,12 +83,13 @@ def delete_event(request, event_id):
             form = DeleteForm()
 
         return render(request, 'events/delete_event.html',
-                {'form': form,
-                    'event': event,
-                    })
+                      {'form': form,
+                       'event': event,
+                       })
     messages.warning(request, _('You are not allowed to do this!'))
     return HttpResponseRedirect(reverse('events:detail', args=(event.id,)))
-        
+
+
 @login_required
 def edit_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
@@ -102,14 +105,15 @@ def edit_event(request, event_id):
 
     else:
         if event.created_by.id != request.user.id:
-             messages.warning(request, _('You are not allowed to do this!'))
-             return HttpResponseRedirect(reverse('events:detail', args=(event.id,)))
+            messages.warning(request, _('You are not allowed to do this!'))
+            return HttpResponseRedirect(reverse('events:detail', args=(event.id,)))
         form = EventForm(instance=event)
     return render(request, 'events/edit_event.html',
-            {'form': form,
-                'event_id': event.id,
-                'edit': True,
-                })
+                  {'form': form,
+                   'event_id': event.id,
+                   'edit': True,
+                   })
+
 
 def detail(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
@@ -117,6 +121,5 @@ def detail(request, event_id):
         messages.warning(request, _('You are not allowed to do this!'))
         return HttpResponseRedirect(reverse('index'))
     return render(request, 'events/detail.html',
-            {'event': event,
-                })
-
+                  {'event': event,
+                   })

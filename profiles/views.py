@@ -10,9 +10,10 @@ from django.contrib.auth.decorators import login_required
 from profiles.models import Profile, create_profile, email_is_used
 from profiles.models import activate as activate_profile
 
+
 class AccountForm(forms.Form):
-    first_name = forms.CharField(label=_('First Name'), max_length=32) 
-    last_name = forms.CharField(label=_('Last Name'), max_length=32) 
+    first_name = forms.CharField(label=_('First Name'), max_length=32)
+    last_name = forms.CharField(label=_('Last Name'), max_length=32)
     username = forms.CharField(label=_('Username'), max_length=32)
     email = forms.EmailField()
     password = forms.CharField(label=_('Password'), min_length=8, widget=forms.PasswordInput())
@@ -22,7 +23,7 @@ class AccountForm(forms.Form):
         if email_is_used(self.cleaned_data['email']):
             raise forms.ValidationError(_('Email is in use'), 'invalid')
         return self.cleaned_data['email']
-    
+
     def clean_username(self):
         if User.objects.filter(username=self.cleaned_data['username']):
             raise forms.ValidationError(_('Username is in use'), 'invalid')
@@ -32,13 +33,13 @@ class AccountForm(forms.Form):
 class UserAccountForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['email_notifications',]
+        fields = ['email_notifications', ]
 
 
 class EmailChangeForm(forms.Form):
-    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder':
-        _('email'),
-        'class': 'form-control'}))
+    email = forms.EmailField(
+        widget=forms.TextInput(attrs={'placeholder': _('email'), 'class': 'form-control'})
+    )
 
     def clean_email(self):
         if email_is_used(self.cleaned_data['email']):
@@ -47,12 +48,13 @@ class EmailChangeForm(forms.Form):
 
 
 def activate(request, activation_id):
-    if (activate_profile(activation_id)):
+    if activate_profile(activation_id):
         messages.success(request, _('You can sign in now'))
         return HttpResponseRedirect(reverse('index'))
     else:
         messages.warning(request, _('The code is not right...'))
         return HttpResponseRedirect(reverse('index'))
+
 
 def change_password(request):
     if request.method == 'POST':
@@ -68,8 +70,9 @@ def change_password(request):
         form = PasswordChangeForm(request.user)
 
     return render(request, 'profiles/change_password.html',
-            {'form': form,
-                })
+                  {'form': form,
+                   })
+
 
 def register(request):
     if request.method == 'POST':
@@ -80,26 +83,28 @@ def register(request):
             first_name = form.cleaned_data['first_name']
             last_name = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
-             
+
             new_user = create_profile(username, email, password, first_name, last_name)
             new_user.profile.send_verification_email(request)
             messages.success(request, _('Yeah, you just signed up'))
             return HttpResponseRedirect(reverse('index'))
         else:
             return render(request, 'profiles/register.html',
-            {'form': form,
-                })
+                          {'form': form,
+                           })
     else:
         form = AccountForm()
         return render(request, 'profiles/register.html',
-            {'form': form,
-                })
+                      {'form': form,
+                       })
+
 
 @login_required
 def sign_out(request):
     auth.logout(request)
     messages.success(request, _('You have been signed out'))
     return HttpResponseRedirect(reverse('index'))
+
 
 @login_required
 def change_email(request):
@@ -115,8 +120,9 @@ def change_email(request):
         form = EmailChangeForm()
 
     return render(request, 'profiles/change_email.html',
-            {'form':form,
-                })
+                  {'form': form,
+                   })
+
 
 @login_required
 def edit_account(request):
@@ -133,13 +139,12 @@ def edit_account(request):
     else:
         user = request.user
         form = UserAccountForm(instance=profile,
-                initial={'first_name':user.first_name,'last_name':user.last_name})
-        
-    return render(request, 'profiles/edit_account.html',
-            {'form':form,
-                'feed':profile.feed_id,
-                })
+                               initial={'first_name': user.first_name, 'last_name': user.last_name})
 
+    return render(request, 'profiles/edit_account.html',
+                  {'form': form,
+                   'feed': profile.feed_id,
+                   })
 
 
 def sign_in(request):
@@ -148,7 +153,7 @@ def sign_in(request):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            user = auth.authenticate(username = username, password = password)
+            user = auth.authenticate(username=username, password=password)
             messages.success(request, _('Yeah, you are in!'))
             auth.login(request, user)
             if 'next' in request.GET and request.GET['next']:
@@ -162,5 +167,5 @@ def sign_in(request):
     else:
         form = AuthenticationForm()
     return render(request, 'profiles/sign_in.html',
-            {'form': form,
-                })
+                  {'form': form,
+                   })

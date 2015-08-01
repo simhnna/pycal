@@ -94,7 +94,7 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 
-#LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'de-de'
 
 TIME_ZONE = 'Europe/Berlin'
@@ -115,7 +115,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 # only needed for production
-#STATIC_ROOT = BASE_DIR + '/static'
+# STATIC_ROOT = BASE_DIR + '/static'
 LOGIN_REDIRECT_URL = 'index'
 DEFAULT_EMAIL = 'donotreply@serve-me.info'
 EMAIL_HOST = 'localhost'

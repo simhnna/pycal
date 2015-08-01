@@ -1,32 +1,30 @@
-from django.shortcuts import render, get_object_or_404, redirect
-from django.forms import ModelForm
-from django import forms
-from django.http import HttpResponse, Http404
+import datetime
+import calendar
+
+from django.shortcuts import render, redirect
+from django.http import Http404
 from django.utils import timezone
-from events.models import Event
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import Q
-
-import datetime
 import pytz
-import calendar 
-from calendar import monthrange
+
+from events.models import Event, get_next_events
 
 
 def set_timezone(request):
     if request.method == 'POST':
         request.session['django_timezone'] = request.POST['timezone']
         return redirect(request.POST['next'])
-    else:
-        return render(request, 'set_timezone.html', {'timezones': pytz.common_timezones}) 
+
 
 def home(request):
-    events = Event.get_next_events(request, 10)
+    events = get_next_events(request, 10)
     return render(request, 'home.html',
-            {'events': events,
-                'home': True,
-                })
+                  {'events': events,
+                   'home': True,
+                   })
+
 
 def feed(request):
     return render(request, 'feed.html')
@@ -51,7 +49,7 @@ def calendar_view(request, year, month):
     last_day = calendar.monthrange(year, month)[-1]
     first_week_day = datetime.date(year, month, 1).weekday()
     last_week_day = datetime.date(year, month, last_day).weekday()
-    
+
     current_month = timezone.now().month
 
     events = []
@@ -59,23 +57,24 @@ def calendar_view(request, year, month):
     next_link = reverse('calendar_specific', args=(next_year, next_month))
     prev_link = reverse('calendar_specific', args=(prev_year, prev_month))
 
-
     if year > 2050 or year < 2000 or month < 1 or month > 12:
         raise Http404(_("Invalid Date"))
     date_end = pytz.timezone('utc').localize(
-            datetime.datetime(next_year, next_month, 1, 0, 0, 0))
+        datetime.datetime(next_year, next_month, 1, 0, 0, 0))
     date_start = pytz.timezone('utc').localize(
-            datetime.datetime(year, month, 1, 0, 0, 0))
+        datetime.datetime(year, month, 1, 0, 0, 0))
     if request.user.is_authenticated():
-        all_events = Event.objects.filter(Q(start_date__gte=date_start), Q(start_date__lt=date_end), Q(group__id__in=request.user.groups.values_list('id',flat=True))| Q(group__isnull=True))
+        all_events = Event.objects.filter(Q(start_date__gte=date_start), Q(start_date__lt=date_end),
+                                          Q(group__id__in=request.user.groups.values_list('id', flat=True)) | Q(
+                                              group__isnull=True))
     else:
-        all_events = Event.objects.filter(Q(start_date__gte=date_start), Q(start_date__lt=date_end), Q(group__isnull=True))
+        all_events = Event.objects.filter(Q(start_date__gte=date_start), Q(start_date__lt=date_end),
+                                          Q(group__isnull=True))
 
-    
     # add empty days
     for i in range(0, first_week_day):
         events.append(CalendarDay(calendar.monthrange(prev_year, prev_month)[-1] + 1 - first_week_day + i,
-            current_month=False))
+                                  current_month=False))
 
     counter = first_week_day
     for i in range(1, last_day + 1):
@@ -97,17 +96,17 @@ def calendar_view(request, year, month):
         counter += 1
 
     return render(request, 'index.html',
-            {'days': events,
-                'day_names': [_(day) for day in calendar.day_name],
-                'year': year,
-                'month': _(datetime.date(year, month, 1).strftime('%B')),
-                'next_link': next_link,
-                'prev_link': prev_link,
-                'calendar': True,
-                })
+                  {'days': events,
+                   'day_names': [_(day) for day in calendar.day_name],
+                   'year': year,
+                   'month': _(datetime.date(year, month, 1).strftime('%B')),
+                   'next_link': next_link,
+                   'prev_link': prev_link,
+                   'calendar': True,
+                   })
 
 
-class CalendarDay():
+class CalendarDay:
     events = []
     sunday = False
     today = False
