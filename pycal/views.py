@@ -34,24 +34,6 @@ def calendar(request, year, month):
     year = int(year)
     month = int(month)
 
-    if year > 2020 or year < 2000 or month < 1 or month > 12:
-        raise Http404(_("Invalid Date"))
-    if request.user.is_authenticated():
-        all_events = Event.objects.filter(Q(start_date__year=year), Q(start_date__month=month),
-                Q(group__id__in=request.user.groups.values_list('id',flat=True))
-                | Q(group__isnull=True))
-    else:
-        all_events = Event.objects.filter(start_date__year=year,start_date__month=month).exclude(group__isnull=False)
-
-    last_day = monthrange(year, month)[-1]
-    first_week_day = datetime.date(year, month, 1).weekday()
-    last_week_day = datetime.date(year, month, last_day).weekday()
-    day_names = [_('Monday'), _('Tuesday'), _('Wednesday'), _('Thursday'), _('Friday'), _('Saturday'), _('Sunday')]
-    
-    current_month = timezone.now().month
-
-    events = []
-
     prev_month = month - 1
     next_month = month + 1
     prev_year = year
@@ -67,6 +49,27 @@ def calendar(request, year, month):
 
     next_link = reverse('calendar_specific', args=(next_year, next_month))
     prev_link = reverse('calendar_specific', args=(prev_year, prev_month))
+
+
+    if year > 2050 or year < 2000 or month < 1 or month > 12:
+        raise Http404(_("Invalid Date"))
+    date_end = pytz.timezone('utc').localize(
+            datetime.datetime(next_year, next_month, 1, 0, 0, 0))
+    date_start = pytz.timezone('utc').localize(
+            datetime.datetime(year, month, 1, 0, 0, 0))
+    if request.user.is_authenticated():
+        all_events = Event.objects.filter(Q(start_date__gte=date_start), Q(start_date__lte=date_end), Q(group__id__in=request.user.groups.values_list('id',flat=True))| Q(group__isnull=True))
+    else:
+        all_events = Event.objects.filter(Q(start_date__gte=date_start), Q(start_date__lte=date_end)).exclude(group__isnull=False)
+
+    last_day = monthrange(year, month)[-1]
+    first_week_day = datetime.date(year, month, 1).weekday()
+    last_week_day = datetime.date(year, month, last_day).weekday()
+    day_names = [_('Monday'), _('Tuesday'), _('Wednesday'), _('Thursday'), _('Friday'), _('Saturday'), _('Sunday')]
+    
+    current_month = timezone.now().month
+
+    events = []
 
     # add empty days
     for i in range(0, first_week_day):
