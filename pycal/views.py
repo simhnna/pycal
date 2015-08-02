@@ -63,18 +63,21 @@ def calendar_view(request, year, month):
         datetime.datetime(next_year, next_month, 1, 0, 0, 0))
     date_start = pytz.timezone('utc').localize(
         datetime.datetime(year, month, 1, 0, 0, 0))
+
+    all_events = Event.objects.filter(Q(start_date__gte=date_start), Q(start_date__lt=date_end))
     if request.user.is_authenticated():
-        all_events = Event.objects.filter(Q(start_date__gte=date_start), Q(start_date__lt=date_end),
-                                          Q(group__id__in=request.user.groups.values_list('id', flat=True)) | Q(
-                                              group__isnull=True))
+        all_events = all_events.filter(
+                Q(group__id__in=request.user.groups.values_list('id', flat=True))
+                | Q(group__isnull=True))
     else:
-        all_events = Event.objects.filter(Q(start_date__gte=date_start), Q(start_date__lt=date_end),
-                                          Q(group__isnull=True))
+        all_events = all_events.filter(Q(group__isnull=True))
 
     # add empty days
     for i in range(0, first_week_day):
-        events.append(CalendarDay(calendar.monthrange(prev_year, prev_month)[-1] + 1 - first_week_day + i,
-                                  current_month=False))
+        events.append(CalendarDay(
+            calendar.monthrange(prev_year, prev_month)[-1] + 1 - first_week_day + i,
+            current_month=False)
+            )
 
     counter = first_week_day
     for i in range(1, last_day + 1):
@@ -103,7 +106,8 @@ def calendar_view(request, year, month):
                    'next_link': next_link,
                    'prev_link': prev_link,
                    'calendar': True,
-                   })
+                   }
+                  )
 
 
 class CalendarDay:
