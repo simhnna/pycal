@@ -25,6 +25,8 @@ class Event(models.Model):
 
     def send_email_notifications(self):
         users = Profile.objects.filter(email_notifications=True)
+        if self.group:
+            users = users.filter(user__groups=self.group)
         messages = []
         for u in users:
             if u.user.email != '':
