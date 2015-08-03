@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-03 16:24+0200\n"
+"POT-Creation-Date: 2015-08-03 17:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -119,15 +119,21 @@ msgstr "Du darfst das nicht machen..."
 msgid "Event edited"
 msgstr "Termin bearbeitet"
 
-#: profiles/templates/profiles/change_email.html:6
-#: profiles/templates/profiles/change_email.html:17 templates/base.html:51
+#: profiles/templates/profiles/change_email.html:7
+#: profiles/templates/profiles/change_email.html:19 templates/base.html:51
 msgid "Change Email"
 msgstr "Email ändern"
 
+#: profiles/templates/profiles/change_email.html:23
+msgid ""
+"You will have to confirm the new email. Until then the old one will be used."
+msgstr ""
+"Du musst die neue Adresse bestätigen. Bis dahin wird die alte weiterverwendet."
+
 #: profiles/templates/profiles/change_password.html:7
-#: profiles/templates/profiles/change_password.html:23
+#: profiles/templates/profiles/change_password.html:29
 #: profiles/templates/profiles/password_reset_confirm.html:17
-#: profiles/templates/profiles/reset_password.html:18 templates/base.html:50
+#: templates/base.html:50
 msgid "Change Password"
 msgstr "Passwort ändern"
 
@@ -149,7 +155,8 @@ msgstr "Speichern"
 
 #: profiles/templates/profiles/password_reset_confirm.html:6
 #: profiles/templates/profiles/reset_password.html:7
-#: profiles/templates/profiles/sign_in.html:25
+#: profiles/templates/profiles/reset_password.html:23
+#: profiles/templates/profiles/sign_in.html:29
 msgid "Reset Password"
 msgstr "Passwort zurücksetzen"
 
@@ -158,11 +165,11 @@ msgid "Sorry, the link is not valid"
 msgstr "Der Link ist nicht gültig"
 
 #: profiles/templates/profiles/register.html:7
-#: profiles/templates/profiles/register.html:24 templates/base.html:58
+#: profiles/templates/profiles/register.html:30 templates/base.html:58
 msgid "Register"
 msgstr "Registrieren"
 
-#: profiles/templates/profiles/register.html:28
+#: profiles/templates/profiles/register.html:35
 msgid ""
 "Password and Usernames are case-sensitive. The use of lowercase usernames is "
 "advised."
@@ -170,11 +177,11 @@ msgstr ""
 "Achte auf Groß- und Kleinschreibung. Es empfiehlt sich einen klein "
 "geschriebenen Benutzername zu verwenden."
 
-#: profiles/templates/profiles/register.html:30
+#: profiles/templates/profiles/register.html:37
 msgid "Please use your real name, so that you can be put in the correct groups"
 msgstr "Bitte keinen Pseudonym benutzen, damit Rechte zugeordnet werden können"
 
-#: profiles/templates/profiles/register.html:32
+#: profiles/templates/profiles/register.html:39
 msgid ""
 "Your Name and Email will only be visible to Admisitrators. Your Username "
 "will be public (if you post an Event)!"
@@ -182,17 +189,17 @@ msgstr ""
 "Dein Name und deine Email sind nur für Adminisitratoren sichtbar. Dein "
 "Benutzername ist öffentlich (Wenn du einen Termin einträgst)"
 
-#: profiles/templates/profiles/reset_password.html:23
+#: profiles/templates/profiles/reset_password.html:28
 msgid "If the email is registered, a reset link will be sent to it."
 msgstr ""
 "Falls die email registriert ist, wird ein Wiederherstellungslink versendet"
 
 #: profiles/templates/profiles/sign_in.html:7
-#: profiles/templates/profiles/sign_in.html:18 templates/base.html:59
+#: profiles/templates/profiles/sign_in.html:22 templates/base.html:59
 msgid "Sign in"
 msgstr "Anmelden"
 
-#: profiles/templates/profiles/sign_in.html:23
+#: profiles/templates/profiles/sign_in.html:27
 msgid "Usernames and passwords are case-sensitive!"
 msgstr ""
 "Achte beim Benutzername und beim Passwort auf Groß- und Kleinschreibung!"
@@ -217,7 +224,7 @@ msgstr "Passwort"
 msgid "Repeat Password"
 msgstr "Passwort wiederholen"
 
-#: profiles/views.py:24 profiles/views.py:46
+#: profiles/views.py:24 profiles/views.py:44
 msgid "Email is in use"
 msgstr "Email wird schon benutzt"
 
@@ -225,57 +232,53 @@ msgstr "Email wird schon benutzt"
 msgid "Username is in use"
 msgstr "Benutzername wird schon benutzt"
 
-#: profiles/views.py:41
-msgid "email"
-msgstr "Email"
-
-#: profiles/views.py:52
+#: profiles/views.py:50
 msgid "You can sign in now"
 msgstr "Du kannst dich jetzt anmelden"
 
-#: profiles/views.py:55
+#: profiles/views.py:53
 msgid "The code is not right..."
 msgstr "Der Code war leider nicht richtig"
 
-#: profiles/views.py:65
+#: profiles/views.py:63
 msgid "Password changed successfully"
 msgstr "Passwort erfolgreich geändert"
 
-#: profiles/views.py:68 profiles/views.py:138
+#: profiles/views.py:66 profiles/views.py:136
 msgid "Oops, something went wrong"
 msgstr "Upps, da ist was schief gelaufen"
 
-#: profiles/views.py:89
+#: profiles/views.py:87
 msgid "Yeah, you just signed up"
 msgstr "Super, du hast dich registriert!"
 
-#: profiles/views.py:105
+#: profiles/views.py:103
 msgid "You have been signed out"
 msgstr "Du bist abgemeldet"
 
-#: profiles/views.py:116
+#: profiles/views.py:114
 msgid "Email added. Please verify it, so it is used."
 msgstr ""
 "Email hinzugefügt. Bitte bestätige die Email, bis dahin wird deine alte "
 "verwendet"
 
-#: profiles/views.py:118
+#: profiles/views.py:116
 msgid "Email in use"
 msgstr "Email wird schon benutzt"
 
-#: profiles/views.py:135
+#: profiles/views.py:133
 msgid "Successfully edited account"
 msgstr "Konto erfolgreich bearbeitet"
 
-#: profiles/views.py:157
+#: profiles/views.py:155
 msgid "Yeah, you are in!"
 msgstr "Du bist drin!"
 
-#: profiles/views.py:164
+#: profiles/views.py:162
 msgid "Your account is not active..."
 msgstr "Dein Konto ist deaktiviert"
 
-#: profiles/views.py:166
+#: profiles/views.py:164
 msgid "Sorry, this username/password match is not correct"
 msgstr "Die Kombination aus Benutzername und passwort ist nicht korrekt"
 
@@ -307,7 +310,7 @@ msgstr ""
 msgid "Upcoming Events"
 msgstr "Bevorstehende Termine"
 
-#: templates/home.html:15
+#: templates/home.html:19
 msgid "at"
 msgstr "am"
 
