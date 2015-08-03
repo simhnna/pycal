@@ -125,4 +125,4 @@ DATETIME_FORMAT = 'd. F Y, H:i'
 DATETIME_INPUT_FORMATS = ('%d.%m.%Y', '%d.%m.%Y, %H:%M', '%d.%m.%Y %H:%M')
 LOGIN_URL = 'profiles:sign_in'
 LOGOUT_URL = 'profiles:sign_out'
-ADMINS = (('Simon', 'simon.h4nn4@gmail.com'))
+ADMINS = (('Simon', 'simon.h4nn4@gmail.com'),)
