@@ -80,7 +80,7 @@ def create_profile(username, email, password, first_name, last_name):
         except IntegrityError:
             pass
 
-		mail_admins('pycal new user signup', '{} {} ({}) signed up'.format(first_name, last_name, username))
+    mail_admins('pycal new user signup', '{} {} ({}) signed up'.format(first_name, last_name, username))
     return user
 
 
