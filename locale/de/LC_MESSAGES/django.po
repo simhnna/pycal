@@ -211,7 +211,7 @@ msgstr "Benutzername"
 
 #: profiles/views.py:19
 msgid "Password"
-msgstr "Passwort zurücksetzen"
+msgstr "Passwort"
 
 #: profiles/views.py:20
 msgid "Repeat Password"
