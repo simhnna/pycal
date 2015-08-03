@@ -4,7 +4,7 @@ from django.db.models.signals import post_save
 from django.template import Context
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
-from django.core.mail import send_mail
+from django.core.mail import send_mail, mail_admins
 
 import string
 import random
@@ -80,6 +80,7 @@ def create_profile(username, email, password, first_name, last_name):
         except IntegrityError:
             pass
 
+		mail_admins('pycal new user signup', '{} {} ({}) signed up'.format(first_name, last_name, username))
     return user
 
 
