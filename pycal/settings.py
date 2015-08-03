@@ -117,7 +117,8 @@ STATICFILES_DIRS = (
 # only needed for production
 # STATIC_ROOT = BASE_DIR + '/static'
 LOGIN_REDIRECT_URL = 'index'
-DEFAULT_EMAIL = 'donotreply@serve-me.info'
+DEFAULT_FROM_EMAIL = 'pycal@serve-me.info'
+SERVER_EMAIL = 'pycal@serve-me.info'
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
 LOCALE_PATHS = (BASE_DIR + '/locale',)
