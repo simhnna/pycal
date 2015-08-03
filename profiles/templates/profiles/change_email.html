@@ -1,24 +1,26 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load common_tags %}
 {% block content %} 
-<div class="panel panel-default" style="max-width:500px;float: none;margin-left: auto margin-right: auto;">
+<div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title">{% trans 'Change Email' %}</h3>
 	</div>
 	<div class="panel-body">
 
-		<form action="" method='post' role="form">
+		<form class="form-inline" action="" method='post' role="form">
 			{% csrf_token %}
 			{% for field in form %}
 			<div class="form-group">
-			{{ field }}
+        {{ field.label_tag }}
+        {{ field|add_css }}
 			</div>
 			{% endfor %}
-			<input type='submit' class="btn btn-default btn-block" value="{% trans 'Change Email' %}">
+			<input type='submit' class="btn btn-default" value="{% trans 'Change Email' %}">
 		</form>
 	</div>
 	<div class="panel-footer">
-		You will have to confirm the new email. Until then the old one will be used.
+    {% trans 'You will have to confirm the new email. Until then the old one will be used.' %}
 	</div>
 </div>
 {% endblock %}

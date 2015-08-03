@@ -37,9 +37,7 @@ class UserAccountForm(forms.ModelForm):
 
 
 class EmailChangeForm(forms.Form):
-    email = forms.EmailField(
-        widget=forms.TextInput(attrs={'placeholder': _('email'), 'class': 'form-control'})
-    )
+    email = forms.EmailField()
 
     def clean_email(self):
         if email_is_used(self.cleaned_data['email']):
