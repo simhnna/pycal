@@ -10,10 +10,10 @@
 		<form class="form-horizontal" action="" method='post' role="form">
 			{% csrf_token %}
       <div class="form-group">
-        <label class="col-sm-2 control-label" for="id_feed">
+        <label class="col-md-2 control-label" for="id_feed">
           {% trans 'Private ical feed' %}:
         </label>
-        <div class="col-sm-8">
+        <div class="col-md-10">
           <input readonly class="form-control" id="id_feed" value="{{ request.get_host }}{% url 'events:private_feed' feed %}" />
         </div>
       </div>
