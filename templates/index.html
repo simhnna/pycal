@@ -35,7 +35,7 @@
             {{ day.day }}
             {% for event in day.events %}
             <br>
-            <a href="{% url 'events:detail' event.id %}">{{ event.title }}</a>
+            <a href="{% url 'events:detail' event.id %}">{{ event.title|truncatechars:20 }}</a>
             {% endfor %}
           </td>
           {% if day.sunday %}
