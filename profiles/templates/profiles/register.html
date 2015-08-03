@@ -8,7 +8,7 @@
 	</div>
 	<div class="panel-body">
 
-		<form action="" method='post' role="form">
+		<form class="form-horizontal" action="" method='post' role="form">
 			{% csrf_token %}
 
 			{% for field in form %}
@@ -18,10 +18,17 @@
 					{{ error }}
 				</div>
 				{% endfor %}
-				{{ field|add_placeholder:field.label }}
+        <label for="{{ field.id_for_label }}" class="col-md-2 control-label">
+          {{ field.label }}:
+        </label>
+        <div class="col-md-8">
+				{{ field|add_css }}
+        </div>
 			</div>
 			{% endfor %}
+      <div class="col-md-offset-5 col-md-2">
 			<input type='submit' class="btn btn-default btn-block" value="{% trans 'Register' %}">
+      </div>
 		</form>
 	</div>
 	<div class="panel-footer">
