@@ -13,77 +13,126 @@
     <h3 class="panel-title">{% if edit %}{% trans 'Edit Event' %}{% else %}{% trans 'Create Event' %}{% endif %}</h3>
   </div>
   <div class="panel-body">
-    <form action="" method='post'>
+    <form class="form-horizontal" action="" method='post'>
       {% csrf_token %}
       <div class="form-group{% if form.title.errors %} has-error{% endif %}">
+
         {% for error in form.title.errors %}
         <div class="alert alert-danger">
           {{ error }}
         </div>
         {% endfor %}
-        {{ form.title|add_placeholder:form.title.label }}
+        <label for="{{ form.title.id_for_label }}" class="control-label col-md-2">
+          {{ form.title.label }}:
+        </label>
+        <div class="col-md-8">
+        {{ form.title|add_css }}
+        </div>
       </div>
+
       <div class="form-group{% if form.location.errors %} has-error{% endif %}">
         {% for error in form.location.errors %}
         <div class="alert alert-danger">
           {{ error }}
         </div>
         {% endfor %}
-        {{ form.location|add_placeholder:form.location.label }}
+        <label for="{{ form.location.id_for_label }}" class="control-label col-md-2">
+          {{ form.location.label }}:
+        </label>
+        <div class="col-md-8">
+        {{ form.location|add_css }}
+        </div>
       </div>
+
       <div class="form-group{% if form.description.errors %} has-error{% endif %}">
         {% for error in form.description.errors %}
         <div class="alert alert-danger">
           {{ error }}
         </div>
         {% endfor %}
-        {{ form.description|add_placeholder:form.description.label }}
+        <label for="{{ form.description.id_for_label }}" class="control-label col-md-2">
+          {{ form.description.label }}:
+        </label>
+        <div class="col-md-8">
+        {{ form.description|add_css }}
+        </div>
       </div>
+
       <div class="form-group{% if form.start_date.errors %} has-error{% endif %}">
         {% for error in form.start_date.errors %}
         <div class="alert alert-danger">
           {{ error }}
         </div>
         {% endfor %}
+        <label for="{{ form.start_date.id_for_label }}" class="control-label col-md-2">
+          {{ form.start_date.label }}:
+        </label>
+        <div class="col-md-8">
         <div class='input-group date' id='datetimepicker0'>
-          {{ form.start_date|add_placeholder:form.start_date.label }}
+          {{ form.start_date|add_css }}
           <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
         </div>
+        </div>
       </div>
+
       <div class="form-group{% if form.end_date.errors %} has-error{% endif %}">
         {% for error in form.end_date.errors %}
         <div class="alert alert-danger">
           {{ error }}
         </div>
         {% endfor %}
+        <label for="{{ form.end_date.id_for_label }}" class="control-label col-md-2">
+          {{ form.end_date.label }}:
+        </label>
+        <div class="col-md-8">
         <div class='input-group input-append date' id='datetimepicker1'>
-          {{ form.end_date|add_placeholder:form.end_date.label }}
+          {{ form.end_date|add_css }}
           <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
         </div>
+        </div>
       </div>
+
       <div class="form-group">
-        {{ form.private.label_tag }}
-        <input data-toggle="toggle" type="checkbox" name="{{ form.private.name }}"
-                                                    id="{{ form.private.id_for_label }}" />
+        <div class="col-md-offset-2 col-md-10">
+        <div class="checkbox">
+        <label>
+        <input type="checkbox" name="{{ form.private.name }}" id="{{ form.private.id_for_label }}" />
+        {{ form.private.label }}
+        </label>
+        </div>
+        </div>
       </div>
-      <div class="form-group{% if form.details.errors %} has-error{% endif %}">
+
+      <div id="details-div" class="form-group{% if form.details.errors %} has-error{% endif %}">
         {% for error in form.details.errors %}
         <div class="alert alert-danger">
           {{ error }}
         </div>
         {% endfor %}
-        {{ form.details|add_placeholder_unrequired:form.details.label }}
+        <label for="{{ form.details.id_for_label }}" class="control-label col-md-2">
+          {{ form.details.label }}:
+        </label>
+        <div class="col-md-8">
+        {{ form.details|add_css }}
+        </div>
       </div>
-      <div class="form-group">
-        <label id="id_label_group" for="{{ form.group.id_for_label }}">{% trans 'Limit access to' %}:</label>
+
+      <div id="group-div" class="form-group">
+        <label class="control-label col-md-2" id="id_label_group" for="{{ form.group.id_for_label }}">
+          {% trans 'Limit access to' %}:
+        </label>
+        <div class="col-md-8">
         {{ form.group|add_css }}
+        </div>
       </div>
+      <div class="col-md-offset-5 col-md-2">
       <input type='submit' class="btn btn-default btn-block" value="{% if edit %}{% trans 'Edit Event' %}{% else %}{% trans 'Create Event' %}{% endif %}">
+      </div>
     </form>
   </div>
   <div class="panel-footer">
     <p>
-    {% trans 'Details are only visible to users that logged in. You can further limit visibility to a specific group.' %}
+    {% trans 'Details are only visible to users that are logged in. You can further limit visibility to a specific group.' %}
     </p>
   </div>
 </div>
@@ -91,35 +140,27 @@
 
 {% block javascript %}
 <script src="{% static 'events/bootstrap-datetimepicker.min.js' %}"></script>
-<script src="{% static 'events/bootstrap-toggle.min.js' %}"></script>
 <script type="text/javascript">
-$("#id_details").removeClass("hidden");
-$("#id_group").addClass("hidden");
-$("#id_label_group").addClass("hidden");
 $(function() {
   $('#id_private').change(function() {
     change_view()
   })
 });
 {% if form.private.value %}
-$('#id_private').bootstrapToggle('on');
-change_view();
+$('#id_private').prop('checked', true);
 {% else %}
-$('#id_private').bootstrapToggle('off');
-change_view();
+$('#id_private').prop('checked', false);
 {% endif %}
-
+change_view();
 function change_view() {
   if ($('#id_private').prop('checked')) {
-    $("#id_details").addClass("hidden");
-    $("#id_group").removeClass("hidden");
+    $("#details-div").addClass("hidden");
+    $("#group-div").removeClass("hidden");
     $("#id_group").prop('required', true);
-    $("#id_label_group").removeClass("hidden");
   } else {
-    $("#id_details").removeClass("hidden");
-    $("#id_group").addClass("hidden");
+    $("#details-div").removeClass("hidden");
+    $("#group-div").addClass("hidden");
     $("#id_group").prop('required', false);
-    $("#id_label_group").addClass("hidden");
   }
 }
 $(function () {

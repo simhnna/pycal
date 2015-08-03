@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-01 20:50+0200\n"
+"POT-Creation-Date: 2015-08-03 16:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: events/models.py:13
+#: events/models.py:14
 msgid "Title"
 msgstr "Titel"
 
-#: events/models.py:14 events/templates/events/detail.html:18
+#: events/models.py:15 events/templates/events/detail.html:18
 msgid "Start"
 msgstr "Beginn"
 
-#: events/models.py:15 events/templates/events/detail.html:19
+#: events/models.py:16 events/templates/events/detail.html:19
 msgid "End"
 msgstr "Ende"
 
-#: events/models.py:16
+#: events/models.py:17
 msgid "Description"
 msgstr "Beschreibung"
 
-#: events/models.py:17
+#: events/models.py:18
 msgid "Details"
 msgstr "Details"
 
-#: events/models.py:18 events/templates/events/detail.html:23
+#: events/models.py:19 events/templates/events/detail.html:23
 msgid "Group"
 msgstr "Gruppe"
 
-#: events/models.py:19 events/templates/events/detail.html:16
+#: events/models.py:20 events/templates/events/detail.html:16
 msgid "Location"
 msgstr "Ort"
 
@@ -58,22 +58,22 @@ msgstr ""
 
 #: events/templates/events/detail.html:29
 #: events/templates/events/edit_event.html:13
-#: events/templates/events/edit_event.html:81
+#: events/templates/events/edit_event.html:129
 msgid "Edit Event"
 msgstr "Termin bearbeiten"
 
 #: events/templates/events/edit_event.html:13
-#: events/templates/events/edit_event.html:81
+#: events/templates/events/edit_event.html:129
 msgid "Create Event"
 msgstr "Termin erstellen"
 
-#: events/templates/events/edit_event.html:78
+#: events/templates/events/edit_event.html:122
 msgid "Limit access to"
 msgstr "Beschränke Zugang auf"
 
-#: events/templates/events/edit_event.html:86
+#: events/templates/events/edit_event.html:135
 msgid ""
-"Details are only visible to users that logged in. You can further limit "
+"Details are only visible to users that are logged in. You can further limit "
 "visibility to a specific group."
 msgstr ""
 "Details sind nur für angemeldete Benutzer sichtbar. Die sichtbarkeit kann "
@@ -83,39 +83,39 @@ msgstr ""
 msgid "Private"
 msgstr "Privat"
 
-#: events/views.py:23
+#: events/views.py:24
 msgid "Start date has to be in the future"
 msgstr "Begin muss in der Zukunft liegen"
 
-#: events/views.py:29
+#: events/views.py:30
 msgid "End date has to be in the future"
 msgstr "Ende muss in der Zukunft liegen"
 
-#: events/views.py:31
+#: events/views.py:32
 msgid "End date has to be after the start Date"
 msgstr "Ende muss nach dem Beginn sein"
 
-#: events/views.py:39
+#: events/views.py:40
 msgid "You have to specify a group"
 msgstr "Du musst eine Gruppe angeben"
 
-#: events/views.py:57
+#: events/views.py:59
 msgid "Event created"
 msgstr "Termin erstellt"
 
-#: events/views.py:78
+#: events/views.py:80
 msgid "Event deleted"
 msgstr "Termin gelöscht"
 
-#: events/views.py:87 events/views.py:105 events/views.py:117
+#: events/views.py:89 events/views.py:108 events/views.py:121
 msgid "You are not allowed to do this!"
 msgstr "Du darfst das nicht machen..."
 
-#: events/views.py:94
+#: events/views.py:97
 msgid "You are not allowed to do this"
 msgstr "Du darfst das nicht machen..."
 
-#: events/views.py:100
+#: events/views.py:103
 msgid "Event edited"
 msgstr "Termin bearbeitet"
 
@@ -135,15 +135,15 @@ msgstr "Passwort ändern"
 msgid "Edit Account"
 msgstr "Konto bearbeiten"
 
-#: profiles/templates/profiles/edit_account.html:15
-msgid "Subscribe to Email notifications"
-msgstr "Emailbenachrichtigungen abonieren"
-
-#: profiles/templates/profiles/edit_account.html:21
+#: profiles/templates/profiles/edit_account.html:14
 msgid "Private ical feed"
 msgstr ""
 
 #: profiles/templates/profiles/edit_account.html:25
+msgid "Subscribe to Email notifications"
+msgstr "Emailbenachrichtigungen abonieren"
+
+#: profiles/templates/profiles/edit_account.html:31
 msgid "Save"
 msgstr "Speichern"
 
@@ -197,89 +197,89 @@ msgid "Usernames and passwords are case-sensitive!"
 msgstr ""
 "Achte beim Benutzername und beim Passwort auf Groß- und Kleinschreibung!"
 
-#: profiles/views.py:14
+#: profiles/views.py:15
 msgid "First Name"
 msgstr "Vorname"
 
-#: profiles/views.py:15
+#: profiles/views.py:16
 msgid "Last Name"
 msgstr "Nachname"
 
-#: profiles/views.py:16
+#: profiles/views.py:17
 msgid "Username"
 msgstr "Benutzername"
 
-#: profiles/views.py:18
+#: profiles/views.py:19
 msgid "Password"
 msgstr "Passwort zurücksetzen"
 
-#: profiles/views.py:19
+#: profiles/views.py:20
 msgid "Repeat Password"
 msgstr "Passwort wiederholen"
 
-#: profiles/views.py:23 profiles/views.py:45
+#: profiles/views.py:24 profiles/views.py:46
 msgid "Email is in use"
 msgstr "Email wird schon benutzt"
 
-#: profiles/views.py:28
+#: profiles/views.py:29
 msgid "Username is in use"
 msgstr "Benutzername wird schon benutzt"
 
-#: profiles/views.py:40
+#: profiles/views.py:41
 msgid "email"
 msgstr "Email"
 
-#: profiles/views.py:51
+#: profiles/views.py:52
 msgid "You can sign in now"
 msgstr "Du kannst dich jetzt anmelden"
 
-#: profiles/views.py:54
+#: profiles/views.py:55
 msgid "The code is not right..."
 msgstr "Der Code war leider nicht richtig"
 
-#: profiles/views.py:63
+#: profiles/views.py:65
 msgid "Password changed successfully"
 msgstr "Passwort erfolgreich geändert"
 
-#: profiles/views.py:66 profiles/views.py:132
+#: profiles/views.py:68 profiles/views.py:138
 msgid "Oops, something went wrong"
 msgstr "Upps, da ist was schief gelaufen"
 
-#: profiles/views.py:86
+#: profiles/views.py:89
 msgid "Yeah, you just signed up"
 msgstr "Super, du hast dich registriert!"
 
-#: profiles/views.py:101
+#: profiles/views.py:105
 msgid "You have been signed out"
 msgstr "Du bist abgemeldet"
 
-#: profiles/views.py:111
+#: profiles/views.py:116
 msgid "Email added. Please verify it, so it is used."
 msgstr ""
 "Email hinzugefügt. Bitte bestätige die Email, bis dahin wird deine alte "
 "verwendet"
 
-#: profiles/views.py:113
+#: profiles/views.py:118
 msgid "Email in use"
 msgstr "Email wird schon benutzt"
 
-#: profiles/views.py:129
+#: profiles/views.py:135
 msgid "Successfully edited account"
 msgstr "Konto erfolgreich bearbeitet"
 
-#: profiles/views.py:152
+#: profiles/views.py:157
 msgid "Yeah, you are in!"
 msgstr "Du bist drin!"
 
-#: profiles/views.py:159
+#: profiles/views.py:164
 msgid "Your account is not active..."
 msgstr "Dein Konto ist deaktiviert"
 
-#: profiles/views.py:161
+#: profiles/views.py:166
 msgid "Sorry, this username/password match is not correct"
 msgstr "Die Kombination aus Benutzername und passwort ist nicht korrekt"
 
-#: pycal/views.py:64
+#: pycal/views.py:61
 msgid "Invalid Date"
 msgstr "Ungültiges Datum"
 
@@ -318,5 +318,3 @@ msgstr "Zurück"
 #: templates/index.html:17
 msgid "Next"
 msgstr "Vor"
-
-
