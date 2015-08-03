@@ -9,16 +9,20 @@
 </div>
 <div class="panel-body">
 {% if events %}
+<div class="list-group">
 {% for event in events %}
-<a class="btn btn-lg btn-default btn-block" href="{% url 'events:detail' event.id %}">
-  <strong>{{ event.title }}</strong> @ {{ event.location }}
+<a class="list-group-item" href="{% url 'events:detail' event.id %}">
+  <p>
+  <strong>{{ event.title }}</strong>
+  </p>
+  {{ event.location }}
   {% trans 'at' %} 
   {% localtime on %}
   {{ event.start_date }}
   {% endlocaltime %}
 </a>
-	 <br>
 {% endfor %}
+</div>
 {% else %}
 <p><strong>Momentan steht noch nichts an, trag doch was ein :-)</strong></p>
 {% endif %}
