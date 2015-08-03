@@ -9,16 +9,19 @@
 	<div class="panel-body">
 		<form class="form-inline" action="" method='post' role="form">
 			{% csrf_token %}
+      <p>
 			{% for field in form %}
 			<div class="form-group">
         {{ field.label_tag }}
 				{{ field|add_css }}
 			</div>
 			{% endfor %}
+      </p>
 			<input type="hidden" name="next" value="{{ next }}">
-			<input type='submit' class="btn btn-default" value='{% trans 'Sign in' %}'>
+      <div class="col-md-offset-5 col-md-2">
+			<input type='submit' class="btn btn-default btn-block" value='{% trans 'Sign in' %}'>
+      </div>
 		</form>
-
 	</div>
 	<div class="panel-footer">
 		{% trans 'Usernames and passwords are case-sensitive!' %}
