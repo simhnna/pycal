@@ -40,12 +40,13 @@ class Event(models.Model):
         return reverse('events:detail', args=(self.id,))
 
 
-def get_next_events(request, number_of_events, skip_events=0):
+def get_next_events(request, number_of_events):
+    events = Event.objects.filter(Q(start_date__gte=timezone.now())
+                                 | Q(start_date__lte=timezone.now()),
+                                 Q(end_date__gte=timezone.now())).order_by('start_date')
     if request.user.is_authenticated():
-        events = Event.objects.filter(Q(start_date__gte=timezone.now()),
-                                      Q(group__id__in=request.user.groups.values_list('id', flat=True))
-                                      | Q(group__isnull=True)).order_by('start_date')[skip_events:number_of_events]
+        events = events.filter(Q(group__id__in=request.user.groups.values_list('id', flat=True))
+                              | Q(group__isnull=True))
     else:
-        events = Event.objects.filter(start_date__gte=timezone.now()).exclude(group__isnull=False).order_by(
-            'start_date')[skip_events:number_of_events]
+        events = events.exclude(group__isnull=False)
     return events
