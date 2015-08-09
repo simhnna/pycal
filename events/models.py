@@ -32,7 +32,7 @@ class Event(models.Model):
             if u.user.email != '':
                 messages.append((self.title, render_to_string('events/event_notification.txt',
                                                               {'event': self, 'name': u.user.first_name}),
-                                 'cal@serve-me.info', [u.user.email]))
+                                 'pycal@serve-me.info', [u.user.email]))
 
         send_mass_mail(messages)
 
