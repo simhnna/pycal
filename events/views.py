@@ -104,9 +104,6 @@ def edit_event(request, event_id):
             return HttpResponseRedirect(reverse('events:detail', args=(event.id,)))
 
     else:
-        if event.created_by.id != request.user.id:
-            messages.warning(request, _('You are not allowed to do this!'))
-            return HttpResponseRedirect(reverse('events:detail', args=(event.id,)))
         form = EventForm(instance=event)
     return render(request, 'events/edit_event.html',
                   {'form': form,
