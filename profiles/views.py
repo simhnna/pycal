@@ -4,7 +4,6 @@ from django.http import HttpResponseRedirect
 from django.contrib import auth, messages
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from profiles.models import Profile, create_profile, email_is_used
@@ -53,25 +52,6 @@ def activate(request, activation_id):
         messages.warning(request, _('The code is not right...'))
         return HttpResponseRedirect(reverse('index'))
 
-
-def change_password(request):
-    if request.method == 'POST':
-        form = PasswordChangeForm(request.POST)
-        if form.is_valid():
-            request.user.set_password(form.cleaned_data['new_password1'])
-            request.user.save()
-            messages.success(request, _('Password changed successfully'))
-            return HttpResponseRedirect(reverse('index'))
-        else:
-            messages.warning(request, _('Oops, something went wrong'))
-    else:
-        form = PasswordChangeForm(request.user)
-
-    return render(request, 'profiles/change_password.html',
-                  {'form': form,
-                   })
-
-
 def register(request):
     if request.method == 'POST':
         form = AccountForm(request.POST)
@@ -95,14 +75,6 @@ def register(request):
         return render(request, 'profiles/register.html',
                       {'form': form,
                        })
-
-
-@login_required
-def sign_out(request):
-    auth.logout(request)
-    messages.success(request, _('You have been signed out'))
-    return HttpResponseRedirect(reverse('index'))
-
 
 @login_required
 def change_email(request):
@@ -142,28 +114,4 @@ def edit_account(request):
     return render(request, 'profiles/edit_account.html',
                   {'form': form,
                    'feed': profile.feed_id,
-                   })
-
-
-def sign_in(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password']
-            user = auth.authenticate(username=username, password=password)
-            messages.success(request, _('Yeah, you are in!'))
-            auth.login(request, user)
-            if 'next' in request.GET and request.GET['next']:
-                return HttpResponseRedirect(request.GET['next'])
-            else:
-                return HttpResponseRedirect(reverse('index'))
-        if form.get_user() is not None:
-            messages.warning(request, _('Your account is not active...'))
-        else:
-            messages.warning(request, _('Sorry, this username/password match is not correct'))
-    else:
-        form = AuthenticationForm()
-    return render(request, 'profiles/sign_in.html',
-                  {'form': form,
                    })

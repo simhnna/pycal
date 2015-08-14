@@ -51,12 +51,12 @@
                   <li><a href="{% url 'profiles:change_email' %}">{% trans 'Change Email' %}</a></li>
                   <li><a href="{% url 'profiles:edit_account' %}">{% trans 'Edit Account' %}</a></li>
                   <li class="divider"></li>
-                  <li><a href="{% url 'profiles:sign_out' %}">{% trans 'Sign out' %}</a></li>
+                  <li><a href="{% url 'profiles:logout' %}">{% trans 'Log out' %}</a></li>
                 </ul>
               </li>
               {% else %}
               <li><a href="{% url 'profiles:register' %}">{% trans 'Register' %}</a></li>
-              <li><a href="{% url 'profiles:sign_in' %}">{% trans 'Sign in' %}</a></li>
+              <li><a href="{% url 'profiles:login' %}">{% trans 'Login' %}</a></li>
               {% endif %}
             </ul>
           </div><!-- /.navbar-collapse -->
