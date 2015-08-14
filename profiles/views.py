@@ -63,13 +63,13 @@ def register(request):
             email = form.cleaned_data['email']
 
             new_user = create_profile(username, email, password, first_name, last_name)
-            new_user.profile.send_verification_email(request)
-            messages.success(request, _('Yeah, you just signed up'))
-            return HttpResponseRedirect(reverse('index'))
-        else:
-            return render(request, 'profiles/register.html',
-                          {'form': form,
-                           })
+            if new_user:
+                new_user.profile.send_verification_email(request)
+                messages.success(request, _('Yeah, you just signed up'))
+                return HttpResponseRedirect(reverse('index'))
+        return render(request, 'profiles/register.html',
+                      {'form': form,
+                       })
     else:
         form = AccountForm()
         return render(request, 'profiles/register.html',
