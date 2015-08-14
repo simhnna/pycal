@@ -1,17 +1,22 @@
 from django.test import TestCase
 import profiles.models as profiles
 from django.db.utils import IntegrityError
+from django.core import mail
 
 class ProfileTest(TestCase):
     def setUp(self):
         profiles.create_profile('user1', 'email1@email.email', 'password', 'first', 'last') 
 
     def test_duplicate_email(self):
-       pass
+        self.assertFalse(profiles.create_profile('user2', 'email1@email.email', 'password', 'first', 'last'))
+        profile = profiles.Profile.objects.get(user__username='user1')
+        self.assertTrue(profiles.activate(profile.activation_id))
+        self.assertFalse(profiles.create_profile('user2', 'email1@email.email', 'password', 'first', 'last'))
+        self.assertTrue(profiles.create_profile('user2', 'email2@email.email', 'password', 'first', 'last'))
 
     def test_duplicate_username(self):
-        with self.assertRaisesMessage(IntegrityError, 'UNIQUE constraint failed: auth_user.username'):
-            profiles.create_profile('user1', 'email3@email.email', 'password', 'first', 'last')
+        self.assertFalse(profiles.create_profile('user1', 'email3@email.email', 'password', 'first', 'last'))
+        self.assertTrue(profiles.create_profile('user2', 'email3@email.email', 'password', 'first', 'last'))
 
     def test_profile_not_active(self):
         self.assertFalse(profiles.Profile.objects.get(user__username='user1').user.is_active)
@@ -47,4 +52,7 @@ class ProfileTest(TestCase):
 
     def test_email_notifications_true(self):
         self.assertTrue(profiles.Profile.objects.all().first().email_notifications)
- 
+    def test_admin_email(self):
+        self.assertEquals(len(mail.outbox), 1)
+        self.assertIn('user1', mail.outbox[0].body) 
+        self.assertIn('Pycal new user signup', mail.outbox[0].subject) 
