@@ -20,7 +20,7 @@ html, body {
 .muted {
   color: #999999;
 }
-.alert {
+.message {
   position:absolute;
   z-index:10;
   top:10px;

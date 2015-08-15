@@ -9,7 +9,6 @@
   <head>
     <title>Calendar</title>
     <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
-    <link rel="stylesheet" href="{% static "css/bootstrap-theme.min.css" %}">
     <link rel="stylesheet" href="{% static "css/own.css" %}">
     {% block css %}{% endblock %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -65,7 +64,7 @@
       <div class="container">
         {% if messages %}
         {% for message in messages %}
-        <div class="fade alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissable">
+        <div class="fade message alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissable">
           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
           {{ message }}
         </div> <!-- alert -->
@@ -115,8 +114,8 @@
   <!-- Latest compiled and minified JavaScript -->
   <script src="{% static "js/bootstrap.min.js" %}"></script>
   <script>
-    setTimeout(function(){$('.alert').addClass("in")}, 500);
-    setTimeout(function(){$(".alert").alert('close')}, 3000);
+    setTimeout(function(){$('.message').addClass("in")}, 500);
+    setTimeout(function(){$(".message").alert('close')}, 3000);
   </script>
   {% block javascript %} {% endblock %}
 </html>

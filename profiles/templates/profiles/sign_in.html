@@ -7,20 +7,34 @@
 		<h3 class="panel-title">{% trans 'Sign in' %}</h3>
 	</div>
 	<div class="panel-body">
-		<form class="form-inline" action="" method='post' role="form">
+		<form class="form-horizontal" action="" method='post' role="form">
 			{% csrf_token %}
+      {% if form.non_field_errors %}
+        <div class="row">
+          <div class="col-md-offset-2 col-md-5 alert alert-danger">
+            {{ form.non_field_errors }}
+          </div>
+        </div>
+      {% endif %}
       <p>
 			{% for field in form %}
+        {% if field.errors %}
+        <div class="row">
+          <div class="col-md-offset-2 col-md-5 alert alert-danger">
+            {{ field.errors }}
+          </div>
+        </div>
+        {% endif %}
 			<div class="form-group">
-        {{ field.label_tag }}
-				{{ field|add_css }}
+        <label class="col-md-2 control-label" for="{{ field.id_for_label }}">{{ field.label }}:</label>
+        <div class="col-md-5">
+          {{ field|add_css }}
+        </div>
 			</div>
 			{% endfor %}
       </p>
 			<input type="hidden" name="next" value="{{ next }}">
-      <div class="col-md-offset-5 col-md-2">
-			<input type='submit' class="btn btn-default btn-block" value='{% trans 'Sign in' %}'>
-      </div>
+      <input type='submit' class="col-md-offset-2 btn btn-success" value='{% trans 'Sign in' %}'/>
 		</form>
 	</div>
 	<div class="panel-footer">
