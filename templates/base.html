@@ -78,36 +78,9 @@
       <p class="muted">
       &copy; {% now "Y" %} Simon Hanna 
       &bull; 
-      <a data-toggle="modal" data-target="#myModal" href="#">{{ request.session.django_timezone | default:"Europe/Berlin" }}</a>
-      &bull;
       <a href="{% url 'feedinfo' %}">ical</a>
       </p>
     </div><!--footer -->
-
-    <div class="modal fade" id="myModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Choose a timezone</h4>
-          </div>
-          <div class="modal-body">
-            <form class="form-inline" action="{% url 'set_timezone' %}" method="POST">
-              {% csrf_token %}
-              <div class="form-group">
-                <label for="timezone">Time zone:</label>
-                <select class="form-control" name="timezone">
-                  {% for tz in timezones %}
-                  <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected="selected"{% endif %}>{{ tz }}</option>
-                  {% endfor %}
-                </select>
-                <input type="hidden" name="next" value="{{ request.path }}"/>
-                <input type="submit" class="btn btn-primary" value="Set" />
-              </div>
-            </form>
-          </div><!-- modal-body -->
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
   </body>
 
   <script src="{% static "js/jquery.min.js" %}"></script>

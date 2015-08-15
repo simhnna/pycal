@@ -11,13 +11,6 @@ import pytz
 
 from events.models import Event, get_next_events
 
-
-def set_timezone(request):
-    if request.method == 'POST':
-        request.session['django_timezone'] = request.POST['timezone']
-        return redirect(request.POST['next'])
-
-
 def home(request):
     events = get_next_events(request, 10)
     return render(request, 'home.html',
