@@ -12,12 +12,12 @@ from profiles.models import Profile
 
 class Event(models.Model):
     title = models.CharField(max_length=50, verbose_name=_('Title'))
-    start_date = models.DateTimeField(verbose_name=_('Start'))
-    end_date = models.DateTimeField(verbose_name=_('End'), null=True, blank=True)
+    location = models.CharField(max_length=100, verbose_name=_('Location'))
     description = models.TextField(verbose_name=_('Description'))
+    start_date = models.DateTimeField(verbose_name=_('Start'))
+    end_date = models.DateTimeField(verbose_name=_('End'))
     details = models.TextField(verbose_name=_('Details'), null=True, blank=True)
     group = models.ForeignKey(Group, null=True, blank=True, verbose_name=_('Group'))
-    location = models.CharField(max_length=100, verbose_name=_('Location'))
     created_by = models.ForeignKey(User)
 
     def __str__(self):
