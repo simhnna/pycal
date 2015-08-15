@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-03 17:17+0200\n"
+"POT-Creation-Date: 2015-08-15 02:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -107,7 +107,7 @@ msgstr "Termin erstellt"
 msgid "Event deleted"
 msgstr "Termin gelöscht"
 
-#: events/views.py:89 events/views.py:108 events/views.py:121
+#: events/views.py:89 events/views.py:118
 msgid "You are not allowed to do this!"
 msgstr "Du darfst das nicht machen..."
 
@@ -128,7 +128,8 @@ msgstr "Email ändern"
 msgid ""
 "You will have to confirm the new email. Until then the old one will be used."
 msgstr ""
-"Du musst die neue Adresse bestätigen. Bis dahin wird die alte weiterverwendet."
+"Du musst die neue Adresse bestätigen. Bis dahin wird die alte "
+"weiterverwendet."
 
 #: profiles/templates/profiles/change_password.html:7
 #: profiles/templates/profiles/change_password.html:29
@@ -145,11 +146,11 @@ msgstr "Konto bearbeiten"
 msgid "Private ical feed"
 msgstr ""
 
-#: profiles/templates/profiles/edit_account.html:25
+#: profiles/templates/profiles/edit_account.html:27
 msgid "Subscribe to Email notifications"
 msgstr "Emailbenachrichtigungen abonieren"
 
-#: profiles/templates/profiles/edit_account.html:31
+#: profiles/templates/profiles/edit_account.html:33
 msgid "Save"
 msgstr "Speichern"
 
@@ -195,7 +196,7 @@ msgstr ""
 "Falls die email registriert ist, wird ein Wiederherstellungslink versendet"
 
 #: profiles/templates/profiles/sign_in.html:7
-#: profiles/templates/profiles/sign_in.html:22 templates/base.html:59
+#: profiles/templates/profiles/sign_in.html:22
 msgid "Sign in"
 msgstr "Anmelden"
 
@@ -204,83 +205,67 @@ msgid "Usernames and passwords are case-sensitive!"
 msgstr ""
 "Achte beim Benutzername und beim Passwort auf Groß- und Kleinschreibung!"
 
-#: profiles/views.py:15
+#: profiles/views.py:14
 msgid "First Name"
 msgstr "Vorname"
 
-#: profiles/views.py:16
+#: profiles/views.py:15
 msgid "Last Name"
 msgstr "Nachname"
 
-#: profiles/views.py:17
+#: profiles/views.py:16
 msgid "Username"
 msgstr "Benutzername"
 
-#: profiles/views.py:19
+#: profiles/views.py:18
 msgid "Password"
 msgstr "Passwort"
 
-#: profiles/views.py:20
+#: profiles/views.py:19
 msgid "Repeat Password"
 msgstr "Passwort wiederholen"
 
-#: profiles/views.py:24 profiles/views.py:44
+#: profiles/views.py:26
+msgid "Passwords did not match"
+msgstr "Passwörter stimmen nicht überein"
+
+#: profiles/views.py:30 profiles/views.py:49
 msgid "Email is in use"
 msgstr "Email wird schon benutzt"
 
-#: profiles/views.py:29
+#: profiles/views.py:35
 msgid "Username is in use"
 msgstr "Benutzername wird schon benutzt"
 
-#: profiles/views.py:50
+#: profiles/views.py:55
 msgid "You can sign in now"
 msgstr "Du kannst dich jetzt anmelden"
 
-#: profiles/views.py:53
+#: profiles/views.py:58
 msgid "The code is not right..."
 msgstr "Der Code war leider nicht richtig"
 
-#: profiles/views.py:63
-msgid "Password changed successfully"
-msgstr "Passwort erfolgreich geändert"
-
-#: profiles/views.py:66 profiles/views.py:136
-msgid "Oops, something went wrong"
-msgstr "Upps, da ist was schief gelaufen"
-
-#: profiles/views.py:87
+#: profiles/views.py:74
 msgid "Yeah, you just signed up"
 msgstr "Super, du hast dich registriert!"
 
-#: profiles/views.py:103
-msgid "You have been signed out"
-msgstr "Du bist abgemeldet"
-
-#: profiles/views.py:114
+#: profiles/views.py:92
 msgid "Email added. Please verify it, so it is used."
 msgstr ""
 "Email hinzugefügt. Bitte bestätige die Email, bis dahin wird deine alte "
 "verwendet"
 
-#: profiles/views.py:116
+#: profiles/views.py:94
 msgid "Email in use"
 msgstr "Email wird schon benutzt"
 
-#: profiles/views.py:133
+#: profiles/views.py:111
 msgid "Successfully edited account"
 msgstr "Konto erfolgreich bearbeitet"
 
-#: profiles/views.py:155
-msgid "Yeah, you are in!"
-msgstr "Du bist drin!"
-
-#: profiles/views.py:162
-msgid "Your account is not active..."
-msgstr "Dein Konto ist deaktiviert"
-
-#: profiles/views.py:164
-msgid "Sorry, this username/password match is not correct"
-msgstr "Die Kombination aus Benutzername und passwort ist nicht korrekt"
+#: profiles/views.py:114
+msgid "Oops, something went wrong"
+msgstr "Upps, da ist was schief gelaufen"
 
 #: pycal/views.py:61
 msgid "Invalid Date"
@@ -299,8 +284,12 @@ msgid "Account"
 msgstr "Konto"
 
 #: templates/base.html:54
-msgid "Sign out"
+msgid "Log out"
 msgstr "Abmelden"
+
+#: templates/base.html:59
+msgid "Login"
+msgstr "Anmelden"
 
 #: templates/feed.html:8
 msgid "iCal Feeds"
