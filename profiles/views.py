@@ -91,7 +91,6 @@ def change_email(request):
             account.change_email(form.cleaned_data['email'])
             messages.info(request, _('Email added. Please verify it, so it is used.'))
             return HttpResponseRedirect(reverse('index'))
-        messages.warning(request, _('Email in use'))
     else:
         form = EmailChangeForm()
 

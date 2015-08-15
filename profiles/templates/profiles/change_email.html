@@ -8,15 +8,24 @@
 	</div>
 	<div class="panel-body">
 
-		<form class="form-inline" action="" method='post' role="form">
+		<form class="form-horizontal" action="" method='post' role="form">
 			{% csrf_token %}
-			{% for field in form %}
+      {% if form.email.errors %}
+        <div class="row">
+          <div class="col-md-offset-2 col-md-5 alert alert-danger">
+            {{ form.email.errors }}
+          </div>
+        </div>
+      {% endif %}
 			<div class="form-group">
-        {{ field.label_tag }}
-        {{ field|add_css }}
+        <label class="col-md-2 control-label" for="{{ form.email.id_for_label }}">{{ form.email.label }}:</label>
+        <div class="col-md-5">
+        {{ form.email|add_css }}
+        </div>
 			</div>
-			{% endfor %}
-			<input type='submit' class="btn btn-default" value="{% trans 'Change Email' %}">
+      <div class="col-md-offset-2">
+        <input type='submit' class="btn btn-primary" value="{% trans 'Change Email' %}">
+      </div>
 		</form>
 	</div>
 	<div class="panel-footer">
