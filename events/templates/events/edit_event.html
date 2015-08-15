@@ -152,6 +152,7 @@
 
 {% block javascript %}
 <script src="{% static 'events/bootstrap-datetimepicker.min.js' %}"></script>
+<script src="{% static 'events/bootstrap-datetimepicker-de.min.js' %}"></script>
 <script type="text/javascript">
 $(function() {
   $('#id_private').change(function() {
@@ -178,13 +179,13 @@ function change_view() {
 $(function () {
   {% get_current_language as LANGUAGE_CODE %}
   $('#datetimepicker0').datetimepicker({
-    locale: '{{ LANGUAGE_CODE }}',
+    language: '{{ LANGUAGE_CODE }}',
     autoclose: true,
     format: 'yyyy-mm-dd hh:ii',
     startDate: '{% now "Y-m-d" %}'
   });
   $('#datetimepicker1').datetimepicker({
-    locale: '{{ LANGUAGE_CODE }}',
+    language: '{{ LANGUAGE_CODE }}',
     autoclose: true,
     startDate: '{% now "Y-m-d" %}',
     format: 'yyyy-mm-dd hh:ii'
