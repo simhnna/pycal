@@ -18,6 +18,13 @@ class AccountForm(forms.Form):
     password = forms.CharField(label=_('Password'), min_length=8, widget=forms.PasswordInput())
     repeat_password = forms.CharField(label=_('Repeat Password'), min_length=8, widget=forms.PasswordInput())
 
+    def clean(self):
+        cleaned_data = super(AccountForm, self).clean()
+        password = cleaned_data.get('password')
+        repeated_password = cleaned_data.get('repeat_password')
+        if password and repeated_password and password != repeated_password:
+            raise forms.ValidationError(_('Passwords did not match'), 'invalid')
+
     def clean_email(self):
         if email_is_used(self.cleaned_data['email']):
             raise forms.ValidationError(_('Email is in use'), 'invalid')
@@ -27,7 +34,6 @@ class AccountForm(forms.Form):
         if User.objects.filter(username=self.cleaned_data['username']):
             raise forms.ValidationError(_('Username is in use'), 'invalid')
         return self.cleaned_data['username']
-
 
 class UserAccountForm(forms.ModelForm):
     class Meta:
