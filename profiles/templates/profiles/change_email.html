@@ -17,7 +17,7 @@
           </div>
         </div>
       {% endif %}
-			<div class="form-group">
+      <div class="form-group{% if form.email.errors %} has-error{% endif %}">
         <label class="col-md-2 control-label" for="{{ form.email.id_for_label }}">{{ form.email.label }}:</label>
         <div class="col-md-5">
         {{ form.email|add_css }}
