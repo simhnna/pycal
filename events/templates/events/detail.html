@@ -22,16 +22,25 @@
     {% if event.group %}
     <li class="list-group-item">{% trans 'Group' %}: {{ event.group }}</li>
     {% endif %}
+    <li class="list-group-item">{% trans 'Attendants' %}: {{ attendants }}</li>
 	</ul>
 	</div>
 	<div class="panel-footer">
+    {% if user.is_authenticated %}
+    {% if is_attending %}
+       <a href="{% url 'events:unattend' event.id %}">{% trans 'Unattend' %}</a>
+    {% else %}
+       <a href="{% url 'events:attend' event.id %}">{% trans 'Attend' %}</a>
+    {% endif %}
 		{% if event.created_by_id == user.id or perms.events.change_Event %}
+      &bull;
 		<a href="{% url 'events:edit_event' event.id %}">{% trans 'Edit Event' %}</a>
       {% if perms.events.delete_Event %}
         &bull;	
         <a href="{% url 'events:delete_event' event.id %}">{% trans 'Delete Event' %}</a>
       {% endif %}
 		{% endif %}
+    {% endif %}
 	</div>
 </div>
 {% endblock %}

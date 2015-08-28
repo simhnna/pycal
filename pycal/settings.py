@@ -25,7 +25,7 @@ SECRET_KEY = 'h@j=6afz=k)1nu*=j^huk_ytj#&(@qq@l%1ku3_sqg!+dzmx8o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+#TEMPLATE_DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -66,6 +66,7 @@ TEMPLATES = [
         'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
+            'debug': True,
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.tz',

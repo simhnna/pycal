@@ -10,4 +10,6 @@ urlpatterns = patterns('',
                        url(r'^(?P<event_id>\d+)$', views.detail, name='detail'),
                        url(r'^public_feed/feed.ics$', EventFeed(), name='public_feed'),
                        url(r'^private_feed/(?P<feed_id>[a-zA-Z0-9]+)/feed.ics$', EventFeed(), name='private_feed'),
+                       url(r'^(?P<event_id>\d+)/attend$', views.attend, name='attend'),
+                       url(r'^(?P<event_id>\d+)/unattend$', views.unattend, name='unattend'),
                        )

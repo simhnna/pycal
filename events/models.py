@@ -39,6 +39,19 @@ class Event(models.Model):
     def get_absolute_url(self):
         return reverse('events:detail', args=(self.id,))
 
+    def attendants(self):
+        return Attendant.objects.filter(event=self).count()
+
+    def is_attending(self, user):
+        if not user.is_anonymous():
+            return Attendant.objects.filter(event=self, user=user).exists()
+
+class Attendant(models.Model):
+    def __str__(self):
+        return '{} is attending {}'.format(user, event)
+
+    user = models.ForeignKey(User)
+    event = models.ForeignKey(Event)
 
 def get_next_events(request, number_of_events):
     events = Event.objects.filter(Q(start_date__gte=timezone.now())

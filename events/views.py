@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 from django.contrib.auth.decorators import permission_required
 
-from events.models import Event
+from events.models import Event, Attendant
 
 
 class EventForm(forms.ModelForm):
@@ -92,6 +92,25 @@ def delete_event(request, event_id):
     messages.warning(request, _('You are not allowed to do this!'))
     return HttpResponseRedirect(reverse('events:detail', args=(event.id,)))
 
+@login_required
+def attend(request, event_id):
+    event = get_object_or_404(Event, pk=event_id)
+    if request.user in event.attendant_set.all():
+        messages.error(request, _('You are allready attending'))
+    else:
+        a = Attendant()
+        a.user = request.user
+        a.event = event
+        a.save()
+        messages.success(request, _('You have been marked as attending'))
+    return HttpResponseRedirect(reverse('events:detail', args=(event_id,)))
+
+@login_required
+def unattend(request, event_id):
+    attendant = get_object_or_404(Attendant, user=request.user, event__id=event_id)
+    attendant.delete()
+    messages.success(request, _('You have been marked as not attending'))
+    return HttpResponseRedirect(reverse('events:detail', args=(event_id,)))
 
 @login_required
 def edit_event(request, event_id):
@@ -122,4 +141,6 @@ def detail(request, event_id):
         return HttpResponseRedirect(reverse('index'))
     return render(request, 'events/detail.html',
                   {'event': event,
+                   'is_attending': event.is_attending(request.user),
+                   'attendants': event.attendants()
                    })
