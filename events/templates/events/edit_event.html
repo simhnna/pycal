@@ -44,7 +44,10 @@
           {{ form.location.label }}:
         </label>
         <div class="col-md-8">
-        {{ form.location|add_css }}
+          <div class="input-group">
+          {{ form.location|add_css }}
+          <span class="input-group-addon"><span class="fa fa-location-arrow"></span></span>
+          </div>
         </div>
       </div>
 
@@ -78,7 +81,7 @@
         <div class="col-md-8">
         <div class='input-group date' id='datetimepicker0'>
           {{ form.start_date|add_css }}
-          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+          <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
         </div>
         </div>
       </div>
@@ -95,9 +98,9 @@
           {{ form.end_date.label }}:
         </label>
         <div class="col-md-8">
-        <div class='input-group input-append date' id='datetimepicker1'>
+        <div class='input-group date' id='datetimepicker1'>
           {{ form.end_date|add_css }}
-          <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+          <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
         </div>
         </div>
       </div>
