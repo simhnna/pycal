@@ -23,7 +23,7 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
-    def send_email_notifications(self):
+    def send_email_notifications(self, link):
         users = Profile.objects.filter(email_notifications=True)
         if self.group:
             users = users.filter(user__groups=self.group)
@@ -31,7 +31,8 @@ class Event(models.Model):
         for u in users:
             if u.user.email != '':
                 messages.append((self.title, render_to_string('events/event_notification.txt',
-                                                              {'event': self, 'name': u.user.first_name}),
+                                                              {'event': self, 'user': u.user,
+                                                                  'link': link}),
                                  'pycal@serve-me.info', [u.user.email]))
 
         send_mass_mail(messages)

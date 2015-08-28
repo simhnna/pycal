@@ -1,5 +1,5 @@
 {% load l10n %}
-Hallo {{ name }},
+Hallo {{ user.first_name }},
 
 {{ event.created_by.username }} hat einen Neuen Termin eingetragen.
 Hier sind die Infos:
@@ -8,3 +8,6 @@ Hier sind die Infos:
 
 {{ event.description }}
 @ {{ event.location }} von {{ event.start_date|localize }} bis {{ event.end_date|localize }}
+
+Wenn du weißt, dass du kommen kannst, kannst du dich über diesen Link anmelden:
+{{ link }}

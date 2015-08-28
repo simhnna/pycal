@@ -60,7 +60,7 @@ def create_event(request):
         if form.is_valid():
             e = form.save()
             messages.success(request, _('Event created'))
-            e.send_email_notifications()
+            e.send_email_notifications(request.build_absolute_uri(reverse('events:attend',args=(e.id,))))
             return HttpResponseRedirect(reverse('events:detail', args=(e.id,)))
     else:
         form = EventForm()
