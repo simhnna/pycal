@@ -13,8 +13,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User)
     email_notifications = models.BooleanField(default=True)
     unverified_email = models.EmailField(blank=True, null=True)
-    activation_id = models.CharField(max_length=64, blank=True, null=True)
-    feed_id = models.CharField(max_length=64)
+    activation_id = models.CharField(max_length=64, blank=True)
+    feed_id = models.CharField(max_length=64, unique=True)
 
     def __str__(self):
         return "{}'s profile".format(self.user)
@@ -30,7 +30,6 @@ class Profile(models.Model):
         if self.unverified_email == new_email or self.user.email == new_email:
             return False
         self.unverified_email = new_email
-        self.generate_activation_id()
         self.save()
         return True
 

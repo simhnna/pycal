@@ -89,6 +89,7 @@ def change_email(request):
         if form.is_valid():
             account = request.user.profile
             account.change_email(form.cleaned_data['email'])
+            account.send_verification_email(request)
             messages.info(request, _('Email added. Please verify it, so it is used.'))
             return HttpResponseRedirect(reverse('index'))
     else:
