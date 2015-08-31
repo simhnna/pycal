@@ -27,3 +27,15 @@ html, body {
   left:20%;
   width:60%
 }
+#eventCalendarTable {
+  table-layout: fixed;
+}
+#eventCalendarTable th, td {
+  overflow: hidden;
+}
+#eventCalendarTable th {
+  width: 10%;
+}
+#eventCalendarDayCell {
+  height: 100px;
+}

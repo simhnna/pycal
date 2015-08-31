@@ -7,8 +7,8 @@
       <div class="col-md-4">
         <a class="btn btn-primary btn-block" href="{{ prev_link }}">{% trans 'Previous' %}</a>
       </div>
-      <div class="col-md-4">
-        <a class="btn disabled btn-block" style="opacity:1" href="#">
+      <div class="col-md-4 text-center">
+        <a class="btn btn-link disabled">
           <strong>{{ month }} {{ year }}</strong>
         </a>
       </div>
@@ -21,15 +21,15 @@
   </div>
   <div class="panel-body">
     <div class="table-responsive">
-      <table class="table table-bordered" >
+      <table id="eventCalendarTable" class="table table-bordered" >
         <thead>
           <tr>
             {% for day in day_names %}
-            <th style="width:10%"> {{ day }} </th>
+            <th > {{ day }} </th>
             {% endfor %}
           </tr>
         </thead>
-        <tr height="100">
+        <tr id="eventCalendarDayCell">
           {% for day in days %}
           <td {% if not day.current_month %}class="active"{% elif day.today %}class="info"{% endif %}> 
             {{ day.day }}
@@ -40,7 +40,7 @@
           </td>
           {% if day.sunday %}
         </tr>
-        <tr height="100">
+        <tr id="eventCalendarDayCell">
           {% endif %}
           {% endfor %}
         </tr>
