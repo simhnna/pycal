@@ -50,7 +50,7 @@ msgstr "Gruppe"
 #: events/templates/events/delete_event.html:24
 #: events/templates/events/detail.html:40
 msgid "Delete Event"
-msgstr "Termin löschen"
+msgstr "Veranstaltung löschen"
 
 #: events/templates/events/detail.html:21
 msgid "Author"
@@ -62,22 +62,22 @@ msgstr "Angemeldete"
 
 #: events/templates/events/detail.html:31
 msgid "Unattend"
-msgstr "Vom Termin Abmelden"
+msgstr "Von der Veranstaltung Abmelden"
 
 #: events/templates/events/detail.html:33
 msgid "Attend"
-msgstr "Zum Termin Anmelden"
+msgstr "Zur Veranstaltung Anmelden"
 
 #: events/templates/events/detail.html:37
 #: events/templates/events/edit_event.html:13
 #: events/templates/events/edit_event.html:141
 msgid "Edit Event"
-msgstr "Termin bearbeiten"
+msgstr "Veranstaltung bearbeiten"
 
 #: events/templates/events/edit_event.html:13
 #: events/templates/events/edit_event.html:141
 msgid "Create Event"
-msgstr "Termin erstellen"
+msgstr "Veranstaltung erstellen"
 
 #: events/templates/events/edit_event.html:134
 msgid "Limit access to"
@@ -113,11 +113,11 @@ msgstr "Ende muss in der Zukunft liegen"
 
 #: events/views.py:62
 msgid "Event created"
-msgstr "Termin erstellt"
+msgstr "Veranstaltung erstellt"
 
 #: events/views.py:83
 msgid "Event deleted"
-msgstr "Termin gelöscht"
+msgstr "Veranstaltung gelöscht"
 
 #: events/views.py:92 events/views.py:140
 msgid "You are not allowed to do this!"
@@ -125,15 +125,15 @@ msgstr "Du darfst das nicht machen..."
 
 #: events/views.py:99
 msgid "You are allready attending"
-msgstr "Du hast dich zum Termin bereits angemeldet"
+msgstr "Du hast dich zur Veranstaltung bereits angemeldet"
 
 #: events/views.py:105
 msgid "You have been marked as attending"
-msgstr "Du hast dich zum Termin angemeldet"
+msgstr "Du hast dich zur Veranstaltung angemeldet"
 
 #: events/views.py:112
 msgid "You have been marked as not attending"
-msgstr "Du wurdest vom Termin abgemeldet"
+msgstr "Du wurdest von der Veranstaltung abgemeldet"
 
 #: events/views.py:119
 msgid "You are not allowed to do this"
@@ -141,7 +141,7 @@ msgstr "Du darfst das nicht machen..."
 
 #: events/views.py:125
 msgid "Event edited"
-msgstr "Termin bearbeitet"
+msgstr "Veranstaltung bearbeitet"
 
 #: profiles/templates/profiles/change_email.html:7
 #: profiles/templates/profiles/change_email.html:27 templates/base.html:50
@@ -212,7 +212,7 @@ msgid ""
 "will be public (if you post an Event)!"
 msgstr ""
 "Dein Name und deine Email sind nur für Adminisitratoren sichtbar. Dein "
-"Benutzername ist öffentlich (Wenn du einen Termin einträgst)"
+"Benutzername ist öffentlich (Wenn du einen Veranstaltung einträgst)"
 
 #: profiles/templates/profiles/reset_password.html:37
 msgid "If the email is registered, a reset link will be sent to it."
@@ -297,7 +297,7 @@ msgstr "Kalender"
 
 #: templates/base.html:38
 msgid "New Event"
-msgstr "Termin erstellen"
+msgstr "Veranstaltung erstellen"
 
 #: templates/base.html:47
 msgid "Account"
@@ -317,7 +317,7 @@ msgstr ""
 
 #: templates/home.html:8
 msgid "Upcoming Events"
-msgstr "Bevorstehende Termine"
+msgstr "Bevorstehende Veranstaltungen"
 
 #: templates/home.html:19
 msgid "at"
