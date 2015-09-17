@@ -36,10 +36,19 @@ class Profile(models.Model):
     def send_verification_email(self, request):
         self.generate_activation_id()
         c = Context({'profile': self,
-                     'link': request.build_absolute_uri(reverse('profiles:activate',
-                                                                args=(self.activation_id,)))})
+                     'activation_link': request.build_absolute_uri(reverse('profiles:activate', args=(self.activation_id,))),
+                     'feed_link': request.build_absolute_uri(reverse('events:private_feed', args=(self.feed_id,)))})
         message = render_to_string('profiles/activation_email.txt', c)
-        send_mail('Verification Mail', message, 'donotreply@serve-me.info',
+        send_mail('Verification Mail', message, 'pycal@serve-me.info',
+                  [self.unverified_email])
+        return True
+
+    def send_welcome_email(self, request):
+        c = Context({'profile': self,
+                     'feed_link': request.build_absolute_uri(reverse('events:private_feed',
+                                                                args=(self.feed_id,)))})
+        message = render_to_string('profiles/welcome_email.txt', c)
+        send_mail('Verification Mail', message, 'pycal@serve-me.info',
                   [self.unverified_email])
         return True
 
@@ -48,17 +57,21 @@ def generate_random_id():
     return ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits)
                    for x in range(64))
 
-def activate(activation_id):
+def activate_token(activation_id):
     if Profile.objects.filter(activation_id=activation_id).exists():
-        p = Profile.objects.get(activation_id=activation_id)
-        p.user.email = p.unverified_email
-        p.unverified_email = ''
-        p.activation_id = ''
-        p.user.is_active = True
-        p.user.save()
-        p.save()
+        activate_profile(Profile.objects.get(activation_id=activation_id))
         return True
     return False
+
+def activate_profile(profile):
+    if profile:
+        profile.user.email = profile.unverified_email
+        profile.unverified_email = ''
+        profile.activation_id = ''
+        profile.user.is_active = True
+        profile.user.save()
+        profile.save()
+
 
 def create_profile(username, email, password, first_name, last_name):
     if User.objects.filter(username=username).exists() or email_is_used(email):

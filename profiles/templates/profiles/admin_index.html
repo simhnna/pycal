@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load common_tags %}
+{% block content %} 
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">{% trans 'Admin page' %}</h3>
+	</div>
+	<div class="panel-body">
+    <ul>
+      <li><a href="{% url 'admin:index' %}">Django admin interface</a></li>
+      <li><a href="{% url 'profiles:add_profile' %}">Add Profile</a></li>
+    </ul>
+	</div>
+	<div class="panel-footer">
+	</div>
+</div>
+{% endblock %}
