@@ -49,7 +49,7 @@ class Profile(models.Model):
                                                                 args=(self.feed_id,)))})
         message = render_to_string('profiles/welcome_email.txt', c)
         send_mail('Verification Mail', message, 'pycal@serve-me.info',
-                  [self.unverified_email])
+                  [self.user.email])
         return True
 
 
