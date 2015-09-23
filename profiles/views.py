@@ -1,60 +1,14 @@
 from django.shortcuts import render
-from django import forms
-from django.forms.formsets import formset_factory
 from django.http import HttpResponseRedirect
-from django.contrib import auth, messages
-from django.contrib.auth.models import User
+from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
-from profiles.models import Profile, create_profile, email_is_used, generate_random_id
-from profiles.models import activate_token, activate_profile
 from django.contrib.auth.decorators import user_passes_test
 
-import string
-import random
-
-class ProfileForm(forms.Form):
-    first_name = forms.CharField(label=_('First Name'), max_length=32)
-    last_name = forms.CharField(label=_('Last Name'), max_length=32)
-    username = forms.CharField(label=_('Username'), max_length=32)
-    email = forms.EmailField()
-
-    def clean_email(self):
-        if email_is_used(self.cleaned_data['email']):
-            raise forms.ValidationError(_('Email is in use'), 'invalid')
-        return self.cleaned_data['email']
-
-    def clean_username(self):
-        if User.objects.filter(username=self.cleaned_data['username']):
-            raise forms.ValidationError(_('Username is in use'), 'invalid')
-        return self.cleaned_data['username']
-
-class AccountForm(ProfileForm):
-    password = forms.CharField(label=_('Password'), min_length=8, widget=forms.PasswordInput())
-    repeat_password = forms.CharField(label=_('Repeat Password'), min_length=8, widget=forms.PasswordInput())
-
-    def clean(self):
-        cleaned_data = super(AccountForm, self).clean()
-        password = cleaned_data.get('password')
-        repeated_password = cleaned_data.get('repeat_password')
-        if password and repeated_password and password != repeated_password:
-            raise forms.ValidationError(_('Passwords did not match'), 'invalid')
-
-
-class UserAccountForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['email_notifications', ]
-
-
-class EmailChangeForm(forms.Form):
-    email = forms.EmailField()
-
-    def clean_email(self):
-        if email_is_used(self.cleaned_data['email']):
-            raise forms.ValidationError(_('Email is in use'), 'invalid')
-        return self.cleaned_data['email']
+from profiles.models import create_profile, generate_random_id
+from profiles.models import activate_token, activate_profile
+from profiles.forms import ProfileForm, RegistrationForm, UserAccountForm, EmailChangeForm, ProfileFormset
 
 
 def activate(request, activation_id):
@@ -67,7 +21,7 @@ def activate(request, activation_id):
 
 def register(request):
     if request.method == 'POST':
-        form = AccountForm(request.POST)
+        form = RegistrationForm(request.POST)
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
@@ -84,7 +38,7 @@ def register(request):
                       {'form': form,
                        })
     else:
-        form = AccountForm()
+        form = RegistrationForm()
         return render(request, 'profiles/register.html',
                       {'form': form,
                        })
@@ -92,8 +46,6 @@ def register(request):
 @user_passes_test(lambda u: u.is_superuser)
 def admin(request):
     return render(request, 'profiles/admin_index.html')
-
-ProfileFormset = formset_factory(ProfileForm)
 
 @user_passes_test(lambda u: u.is_superuser)
 def add_profile(request):
