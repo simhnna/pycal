@@ -63,4 +63,4 @@ def get_next_events(request, number_of_events):
                               | Q(group__isnull=True))
     else:
         events = events.exclude(group__isnull=False)
-    return events
+    return events[:number_of_events]
