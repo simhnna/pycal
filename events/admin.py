@@ -1,5 +1,5 @@
 from django.contrib import admin
-from events.models import Event
+from events.models import Event, Category
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
@@ -24,10 +24,11 @@ class DateListFilter(admin.SimpleListFilter):
         if self.value() == 'present':
             return queryset.filter(start_date__lte=now, end_date__gte=now)
 
+admin.site.register(Category)
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
   list_display = ('title', 'location', 'start_date')
   ordering = ('-start_date',)
-  list_filter = ('start_date', DateListFilter, 'group')
+  list_filter = ('start_date', DateListFilter, 'group', 'category')
 

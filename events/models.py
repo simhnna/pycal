@@ -10,6 +10,13 @@ from django.db.models import Q
 from profiles.models import Profile
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.name
+
+
 class Event(models.Model):
     title = models.CharField(max_length=50, verbose_name=_('Title'))
     location = models.CharField(max_length=100, verbose_name=_('Location'))
@@ -19,6 +26,7 @@ class Event(models.Model):
     all_day = models.BooleanField(default=False)
     details = models.TextField(verbose_name=_('Details'), null=True, blank=True)
     group = models.ForeignKey(Group, null=True, blank=True, verbose_name=_('Group'))
+    category = models.ForeignKey(Category, null=True, blank=True)
     created_by = models.ForeignKey(User)
 
     def __str__(self):
@@ -47,6 +55,7 @@ class Event(models.Model):
     def is_attending(self, user):
         if not user.is_anonymous():
             return Attendant.objects.filter(event=self, user=user).exists()
+
 
 class Attendant(models.Model):
     def __str__(self):
