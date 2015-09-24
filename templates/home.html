@@ -5,7 +5,7 @@
 
 <div class="panel panel-default">
 	<div class="panel-heading">
-		<strong>		{% trans 'Upcoming Events' %}</strong>
+		<strong>{% trans 'Upcoming Events' %}</strong>
 </div>
 <div class="panel-body">
 {% if events %}
@@ -18,7 +18,11 @@
   {{ event.location }}
   {% trans 'at' %} 
   {% localtime on %}
-  {{ event.start_date }}
+    {% if event.all_day %}
+      {{ event.start_date|date }}
+    {% else %}
+      {{ event.start_date }}
+    {% endif %}
   {% endlocaltime %}
 </a>
 {% endfor %}

@@ -15,7 +15,8 @@ class Event(models.Model):
     location = models.CharField(max_length=100, verbose_name=_('Location'))
     description = models.TextField(verbose_name=_('Description'))
     start_date = models.DateTimeField(verbose_name=_('Start'))
-    end_date = models.DateTimeField(verbose_name=_('End'))
+    end_date = models.DateTimeField(verbose_name=_('End'), blank=True, null=True)
+    all_day = models.BooleanField(default=False)
     details = models.TextField(verbose_name=_('Details'), null=True, blank=True)
     group = models.ForeignKey(Group, null=True, blank=True, verbose_name=_('Group'))
     created_by = models.ForeignKey(User)
@@ -57,7 +58,7 @@ class Attendant(models.Model):
 def get_next_events(request, number_of_events):
     events = Event.objects.filter(Q(start_date__gte=timezone.now())
                                  | Q(start_date__lte=timezone.now()),
-                                 Q(end_date__gte=timezone.now())).order_by('start_date')
+                                 Q(end_date__gte=timezone.now()) | Q(all_day=True)).order_by('start_date')
     if request.user.is_authenticated():
         events = events.filter(Q(group__id__in=request.user.groups.values_list('id', flat=True))
                               | Q(group__isnull=True))

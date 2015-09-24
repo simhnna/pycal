@@ -10,8 +10,8 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        fields = ['title', 'description', 'location', 'start_date', 'end_date', 'details',
-                  'group']
+        fields = ['title', 'description', 'location', 'start_date', 'end_date', 'all_day',
+                'details', 'group']
 
     def clean(self):
         cleaned_data = super(EventForm, self).clean()
@@ -26,17 +26,19 @@ class EventForm(forms.ModelForm):
         end = cleaned_data.get('end_date')
         if start and end and end <= start:
             raise forms.ValidationError(_('End date has to be after the start Date'), 'invalid')
+        if not cleaned_data.get('all_day') and not end:
+            raise forms.ValidationError(_('If the event is not an All Day Event, it has to have an end Date'), 'invalid')
         return cleaned_data
 
     def clean_start_date(self):
         start = self.cleaned_data['start_date']
-        if  start and start < timezone.now():
+        if start and start < timezone.now():
             raise forms.ValidationError(_('Start date has to be in the future'), 'invalid')
         return self.cleaned_data['start_date']
 
     def clean_end_date(self):
         end = self.cleaned_data['end_date']
-        if  end and end < timezone.now():
+        if end and end < timezone.now():
             raise forms.ValidationError(_('End date has to be in the future'), 'invalid')
         return self.cleaned_data['end_date']
 

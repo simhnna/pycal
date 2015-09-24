@@ -14,10 +14,14 @@
 		<li class="list-group-item">{{ event.details}}</li>
     {% endif %}
     <li class="list-group-item">{% trans 'Location' %}: {{ event.location }}</li>
-    {% localtime on %}
-    <li class="list-group-item">{% trans 'Start' %}: {{ event.start_date }} </li>
-    <li class="list-group-item">{% trans 'End' %}: {{ event.end_date }}</li>
-    {% endlocaltime %}
+    {% if event.all_day %}
+      <li class="list-group-item">{% trans 'All day Event' %} </li>
+    {% else %}
+      {% localtime on %}
+      <li class="list-group-item">{% trans 'Start' %}: {{ event.start_date }} </li>
+      <li class="list-group-item">{% trans 'End' %}: {{ event.end_date }}</li>
+      {% endlocaltime %}
+    {% endif %}
     <li class="list-group-item">{% trans 'Author' %}: {{ event.created_by.username }}</li>
     {% if event.group %}
     <li class="list-group-item">{% trans 'Group' %}: {{ event.group }}</li>

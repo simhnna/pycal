@@ -13,7 +13,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User)
     email_notifications = models.BooleanField(default=True)
     unverified_email = models.EmailField(blank=True, null=True)
-    activation_id = models.CharField(max_length=64, blank=True)
+    activation_id = models.CharField(max_length=64, blank=True, null=True)
     feed_id = models.CharField(max_length=64, unique=True)
 
     def __str__(self):
