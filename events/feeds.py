@@ -32,15 +32,11 @@ class EventFeed(ICalFeed):
         return item.description
 
     def item_start_datetime(self, item):
-        if item.all_day:
-            return item.start_date.replace(hour=0, minute=0, second=0)
-        else:
-            return item.start_date
+        return item.start_date
 
     def item_end_datetime(self, item):
         if item.all_day:
-            date = item.start_date + datetime.timedelta(days=1)
-            return date.replace(hour=0, minute=0, second=0)
+            return item.start_date + datetime.timedelta(days=1)
         else:
             return item.end_date
 
