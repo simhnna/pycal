@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-24 17:32+0200\n"
+"POT-Creation-Date: 2015-09-24 20:11+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -93,8 +93,8 @@ msgid "Delete Event"
 msgstr "Veranstaltung löschen"
 
 #: events/templates/events/detail.html:18
-msgid "All day Event"
-msgstr "Tages Veranstaltung"
+msgid "Date"
+msgstr "Datum"
 
 #: events/templates/events/detail.html:25
 msgid "Author"
@@ -399,3 +399,6 @@ msgstr "Zurück"
 #: templates/index.html:17
 msgid "Next"
 msgstr "Vor"
+
+#~ msgid "All day Event"
+#~ msgstr "Tages Veranstaltung"
