@@ -26,6 +26,9 @@
     {% if event.group %}
     <li class="list-group-item">{% trans 'Group' %}: {{ event.group }}</li>
     {% endif %}
+    {% if event.category %}
+    <li class="list-group-item">{% trans 'Category' %}: {{ event.category }}</li>
+    {% endif %}
     <li class="list-group-item">{% trans 'Attendants' %}: {{ attendants }}</li>
 	</ul>
 	</div>

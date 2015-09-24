@@ -13,6 +13,10 @@ from profiles.models import Profile
 class Category(models.Model):
     name = models.CharField(max_length=32)
 
+    class Meta:
+        verbose_name_plural = _('Categories')
+        verbose_name = _('Category')
+
     def __str__(self):
         return self.name
 
@@ -28,6 +32,10 @@ class Event(models.Model):
     group = models.ForeignKey(Group, null=True, blank=True, verbose_name=_('Group'))
     category = models.ForeignKey(Category, null=True, blank=True)
     created_by = models.ForeignKey(User)
+
+    class Meta:
+        verbose_name_plural = _('Events')
+        verbose_name = _('Event')
 
     def __str__(self):
         return self.title

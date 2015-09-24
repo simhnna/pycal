@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-24 20:11+0200\n"
+"POT-Creation-Date: 2015-09-24 20:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: events/admin.py:8
+#: events/admin.py:8 events/models.py:38
 msgid "Event"
 msgstr "Veranstaltung"
 
@@ -58,37 +58,49 @@ msgstr "Begin muss in der Zukunft liegen"
 msgid "End date has to be in the future"
 msgstr "Ende muss in der Zukunft liegen"
 
-#: events/models.py:14
+#: events/models.py:17
+msgid "Categories"
+msgstr "Kategorien"
+
+#: events/models.py:18 events/templates/events/detail.html:30
+msgid "Category"
+msgstr "Kategorie"
+
+#: events/models.py:25
 msgid "Title"
 msgstr "Titel"
 
-#: events/models.py:15 events/templates/events/detail.html:16
+#: events/models.py:26 events/templates/events/detail.html:16
 msgid "Location"
 msgstr "Ort"
 
-#: events/models.py:16
+#: events/models.py:27
 msgid "Description"
 msgstr "Beschreibung"
 
-#: events/models.py:17 events/templates/events/detail.html:21
+#: events/models.py:28 events/templates/events/detail.html:21
 msgid "Start"
 msgstr "Beginn"
 
-#: events/models.py:18 events/templates/events/detail.html:22
+#: events/models.py:29 events/templates/events/detail.html:22
 msgid "End"
 msgstr "Ende"
 
-#: events/models.py:20
+#: events/models.py:31
 msgid "Details"
 msgstr "Details"
 
-#: events/models.py:21 events/templates/events/detail.html:27
+#: events/models.py:32 events/templates/events/detail.html:27
 msgid "Group"
 msgstr "Gruppe"
 
+#: events/models.py:37
+msgid "Events"
+msgstr "Veranstaltungen"
+
 #: events/templates/events/delete_event.html:8
 #: events/templates/events/delete_event.html:24
-#: events/templates/events/detail.html:44
+#: events/templates/events/detail.html:47
 msgid "Delete Event"
 msgstr "Veranstaltung löschen"
 
@@ -100,19 +112,19 @@ msgstr "Datum"
 msgid "Author"
 msgstr "Author"
 
-#: events/templates/events/detail.html:29
+#: events/templates/events/detail.html:32
 msgid "Attendants"
 msgstr "Angemeldete"
 
-#: events/templates/events/detail.html:35
+#: events/templates/events/detail.html:38
 msgid "Unattend"
 msgstr "Von der Veranstaltung Abmelden"
 
-#: events/templates/events/detail.html:37
+#: events/templates/events/detail.html:40
 msgid "Attend"
 msgstr "Zur Veranstaltung Anmelden"
 
-#: events/templates/events/detail.html:41
+#: events/templates/events/detail.html:44
 #: events/templates/events/edit_event.html:13
 #: events/templates/events/edit_event.html:166
 msgid "Edit Event"
@@ -399,6 +411,3 @@ msgstr "Zurück"
 #: templates/index.html:17
 msgid "Next"
 msgstr "Vor"
-
-#~ msgid "All day Event"
-#~ msgstr "Tages Veranstaltung"
