@@ -15,7 +15,7 @@
     {% endif %}
     <li class="list-group-item">{% trans 'Location' %}: {{ event.location }}</li>
     {% if event.all_day %}
-      <li class="list-group-item">{% trans 'All day Event' %} </li>
+    <li class="list-group-item">{{ event.start_date|date }}</li>
     {% else %}
       {% localtime on %}
       <li class="list-group-item">{% trans 'Start' %}: {{ event.start_date }} </li>
