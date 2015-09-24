@@ -7,6 +7,8 @@ Um dies zu tun benutze bitte folgenden Link:
 {{ password_reset_link }}
 
 Danach kannst du dich unter https://pycal.serve-me.info anmelden und anfangen Veranstaltungen einzutragen.
+Dein Benutzername lautet: {{ profile.user.username }}
+Diesen benötigst du zur Anmeldung, wenn du willst kannst du ihn online unter 'Konto bearbeiten' ändern.
 Du kannst auch alle Veranstaltungen in deinen (digitalen) Kalender integrieren.
 Diese werden dann automatisch in deinen Kalender eingetragen.
 Dazu kannst du diesen persönlichen link benutzen:
