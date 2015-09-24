@@ -13,12 +13,12 @@ class ProfileForm(forms.Form):
     email = forms.EmailField()
 
     def clean_email(self):
-        if email_is_used(self.cleaned_data['email']):
+        if 'email' in self.changed_data and email_is_used(self.cleaned_data['email']):
             raise forms.ValidationError(_('Email is in use'), 'invalid')
         return self.cleaned_data['email']
 
     def clean_username(self):
-        if User.objects.filter(username=self.cleaned_data['username']):
+        if 'username' in self.changed_data and User.objects.filter(username=self.cleaned_data['username']):
             raise forms.ValidationError(_('Username is in use'), 'invalid')
         return self.cleaned_data['username']
 
@@ -34,18 +34,9 @@ class RegistrationForm(ProfileForm):
             raise forms.ValidationError(_('Passwords did not match'), 'invalid')
 
 
-class UserAccountForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = ['email_notifications', ]
+class UserAccountForm(ProfileForm):
+    email_notifications = forms.BooleanField(label=_('Subscribe to Email notifications'))
+    delete_unverified_email = forms.BooleanField(widget=forms.HiddenInput(), required=False)
 
-
-class EmailChangeForm(forms.Form):
-    email = forms.EmailField()
-
-    def clean_email(self):
-        if email_is_used(self.cleaned_data['email']):
-            raise forms.ValidationError(_('Email is in use'), 'invalid')
-        return self.cleaned_data['email']
 
 ProfileFormset = formset_factory(ProfileForm)

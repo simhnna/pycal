@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import user_passes_test
 
 from profiles.models import create_profile, generate_random_id
 from profiles.models import activate_token, activate_profile
-from profiles.forms import ProfileForm, RegistrationForm, UserAccountForm, EmailChangeForm, ProfileFormset
+from profiles.forms import ProfileForm, RegistrationForm, UserAccountForm, ProfileFormset
 
 
 def activate(request, activation_id):
@@ -44,10 +44,6 @@ def register(request):
                        })
 
 @user_passes_test(lambda u: u.is_superuser)
-def admin(request):
-    return render(request, 'profiles/admin_index.html')
-
-@user_passes_test(lambda u: u.is_superuser)
 def add_profile(request):
     if request.method == 'POST':
         profile_formset = ProfileFormset(request.POST)
@@ -75,41 +71,42 @@ def add_profile(request):
     return render(request, 'profiles/add_profile.html', {'profile_formset': profile_formset,})
 
 @login_required
-def change_email(request):
-    if request.method == 'POST':
-        form = EmailChangeForm(request.POST)
-        if form.is_valid():
-            account = request.user.profile
-            account.change_email(form.cleaned_data['email'])
-            account.send_verification_email(request)
-            messages.info(request, _('Email added. Please verify it, so it is used.'))
-            return HttpResponseRedirect(reverse('index'))
-    else:
-        form = EmailChangeForm()
-
-    return render(request, 'profiles/change_email.html',
-                  {'form': form,
-                   })
-
-
-@login_required
 def edit_account(request):
-    profile = request.user.profile
+    user = request.user
+    data = {
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'email_notifications': user.profile.email_notifications,
+            'email': user.email,
+            'username': user.username,
+            }
+    profile = user.profile
     if request.method == 'POST':
-        form = UserAccountForm(request.POST)
+        form = UserAccountForm(request.POST, initial=data)
         if form.is_valid():
             profile.email_notifications = form.cleaned_data['email_notifications']
+            user.first_name = form.cleaned_data['first_name']
+            user.last_name = form.cleaned_data['last_name']
+            user.username = form.cleaned_data['username']
+            if 'email' in form.changed_data:
+                profile.change_email(form.cleaned_data['email'])
+                profile.send_verification_email(request)
+                messages.info(request, _('Email added. Please verify it, so it is used.'))
+            if form.cleaned_data['delete_unverified_email'] == 1:
+                profile.unverified_email = ''
+                profile.activation_id = ''
             profile.save()
+            user.save()
             messages.success(request, _('Successfully edited account'))
             return HttpResponseRedirect(reverse('profiles:edit_account'))
         else:
             messages.warning(request, _('Oops, something went wrong'))
     else:
-        user = request.user
-        form = UserAccountForm(instance=profile,
-                               initial={'first_name': user.first_name, 'last_name': user.last_name})
+        form = UserAccountForm(initial=data)
 
     return render(request, 'profiles/edit_account.html',
                   {'form': form,
                    'feed': profile.feed_id,
+                   'unverified_email': profile.unverified_email,
+                   'edit_account': True,
                    })

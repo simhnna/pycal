@@ -32,3 +32,7 @@ def add_css(field):
 @register.filter(name='has_group')
 def has_group(user, group):
     return user.groups.filter(name=group).exists()
+
+@register.filter('fieldtype')
+def fieldtype(field):
+        return field.field.widget.__class__.__name__
