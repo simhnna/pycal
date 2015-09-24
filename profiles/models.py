@@ -14,7 +14,7 @@ class Profile(models.Model):
     email_notifications = models.BooleanField(default=True)
     unverified_email = models.EmailField(blank=True, null=True)
     activation_id = models.CharField(max_length=64, blank=True, null=True)
-    feed_id = models.CharField(max_length=64, unique=True)
+    feed_id = models.CharField(max_length=64, unique=True, null=True, blank=True)
 
     def __str__(self):
         return "{}'s profile".format(self.user)
