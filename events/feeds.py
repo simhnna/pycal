@@ -11,7 +11,7 @@ class EventFeed(ICalFeed):
     """
     product_id = '-//pycal.serve-me.info//Events//DE'
     timezone = 'UTC'
-    file_name = "events.ics"
+    file_name = "events.ical"
     private = False
 
     def get_object(self, request, feed_id=None):
