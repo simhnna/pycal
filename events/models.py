@@ -65,9 +65,8 @@ class Attendant(models.Model):
     event = models.ForeignKey(Event)
 
 def get_next_events(request, number_of_events):
-    events = Event.objects.filter(Q(start_date__gte=timezone.now())
-                                 | Q(start_date__lte=timezone.now()),
-                                 Q(end_date__gte=timezone.now()) | Q(all_day=True)).order_by('start_date')
+    now = timezone.now().replace(hour=0, minute=0, second=0)
+    events = Event.objects.filter(Q(start_date__gte=now) | Q(start_date__lte=timezone.now(), end_date__gte=timezone.now())).order_by('start_date')
     if request.user.is_authenticated():
         events = events.filter(Q(group__id__in=request.user.groups.values_list('id', flat=True))
                               | Q(group__isnull=True))
