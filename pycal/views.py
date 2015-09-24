@@ -75,7 +75,7 @@ def calendar_view(request, year, month):
     counter = first_week_day
     for i in range(1, last_day + 1):
         current_day= datetime.date(year, month, i)
-        e = all_events.filter(Q(start_date__day=i)|Q(start_date__lt=current_day, end_date__gte=current_day))
+        e = all_events.filter(Q(start_date__day=i)|Q(start_date__lt=current_day, end_date__gt=current_day))
         day = CalendarDay(i)
         if i == today and current_month == month and year == timezone.now().year:
             day.today = True
