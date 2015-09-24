@@ -3,8 +3,7 @@ Hallo {{ profile.user.first_name }}!
 
 Schön dass du dich dafür entschieden hast, dich zu registrieren.
 Bevor du dich anmelden kannst, musst du allerdings erst ein Passwort wählen.
-Um dies zu tun benutze bitte folgenden Link:
-{{ password_reset_link }}
+Dazu bekommst du eine zweite email mit einem Link zugeschickt.
 
 Danach kannst du dich unter https://pycal.serve-me.info anmelden und anfangen Veranstaltungen einzutragen.
 Dein Benutzername lautet: {{ profile.user.username }}
@@ -15,7 +14,3 @@ Dazu kannst du diesen persönlichen link benutzen:
 {{ feed_link }}
 
 Wenn du nicht weißt wie das geht, einfach den Namen deiner Kalendersoftware im Zusammenhand mit 'ical hinzufügen' googlen.
-
-----
-
-Bitte nicht auf diese Email antworten

@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
+from django.contrib.auth.forms import PasswordResetForm
 
 from profiles.models import create_profile, generate_random_id
 from profiles.models import activate_token, activate_profile
@@ -60,6 +61,13 @@ def add_profile(request):
                     activate_profile(new_user.profile)
                     new_user.profile.send_welcome_email(request)
                     user_added = True
+                    reset_form = PasswordResetForm({'email': email})
+                    assert reset_form.is_valid()
+                    reset_form.save(
+                            request=request,
+                            use_https=request.is_secure(),
+                            email_template_name='profiles/reset_password.txt',
+                            )
             if user_added:
                 messages.success(request, _('The profiles have been created'))
             profile_formset = ProfileFormset()
