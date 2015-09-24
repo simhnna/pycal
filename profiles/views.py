@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import user_passes_test
 from django.contrib.auth.forms import PasswordResetForm
@@ -43,6 +44,11 @@ def register(request):
         return render(request, 'profiles/register.html',
                       {'form': form,
                        })
+
+@user_passes_test(lambda u: u.is_superuser)
+def list_profiles(request):
+    users = User.objects.all()
+    return render(request, 'profiles/list_profiles.html', {'users': users,})
 
 @user_passes_test(lambda u: u.is_superuser)
 def add_profile(request):
