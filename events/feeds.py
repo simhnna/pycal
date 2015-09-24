@@ -3,6 +3,8 @@ from events.models import Event
 from profiles.models import Profile
 from django.db.models import Q
 
+import datetime
+
 class EventFeed(ICalFeed):
     """
     A simple event calender
@@ -30,10 +32,17 @@ class EventFeed(ICalFeed):
         return item.description
 
     def item_start_datetime(self, item):
-        return item.start_date
+        if item.all_day:
+            return item.start_date.replace(hour=0, minute=0, second=0)
+        else:
+            return item.start_date
 
     def item_end_datetime(self, item):
-        return item.end_date
+        if item.all_day:
+            date = item.start_date + datetime.timedelta(days=1)
+            return date.replace(hour=0, minute=0, second=0)
+        else:
+            return item.end_date
 
     def item_location(self, item):
         return item.location
