@@ -29,5 +29,5 @@ class DateListFilter(admin.SimpleListFilter):
 class EventAdmin(admin.ModelAdmin):
   list_display = ('title', 'location', 'start_date')
   ordering = ('-start_date',)
-  list_filter = ('start_date', DateListFilter,)
+  list_filter = ('start_date', DateListFilter, 'group')
 
