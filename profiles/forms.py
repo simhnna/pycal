@@ -27,7 +27,7 @@ class RegistrationForm(ProfileForm):
     repeat_password = forms.CharField(label=_('Repeat Password'), min_length=8, widget=forms.PasswordInput())
 
     def clean(self):
-        cleaned_data = super(AccountForm, self).clean()
+        cleaned_data = super(RegistrationForm, self).clean()
         password = cleaned_data.get('password')
         repeated_password = cleaned_data.get('repeat_password')
         if password and repeated_password and password != repeated_password:
