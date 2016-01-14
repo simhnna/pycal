@@ -18,6 +18,8 @@ class ProfileForm(forms.Form):
         return self.cleaned_data['email']
 
     def clean_username(self):
+        if len(self.cleaned_data['username'].split()) > 1:
+            raise forms.ValidationError(_('Username must not contain spaces'), 'invalid')
         if 'username' in self.changed_data and User.objects.filter(username=self.cleaned_data['username']):
             raise forms.ValidationError(_('Username is in use'), 'invalid')
         return self.cleaned_data['username']
