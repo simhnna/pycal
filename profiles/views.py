@@ -47,7 +47,7 @@ def register(request):
 
 @user_passes_test(lambda u: u.is_superuser)
 def list_profiles(request):
-    users = User.objects.all()
+    users = User.objects.all().order_by('last_name', 'first_name')
     return render(request, 'profiles/list_profiles.html', {'users': users,})
 
 @user_passes_test(lambda u: u.is_superuser)
