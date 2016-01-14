@@ -1,13 +1,16 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.models import User, Group
 
-from events.models import Event, Attendant
-from events.forms import EventForm, DeleteForm
+from tempfile import TemporaryFile
+
+from events.models import Event, Attendant, process_ical_events
+from events.forms import EventForm, DeleteForm, ICalUploadForm 
 
 
 @login_required
@@ -89,6 +92,24 @@ def edit_event(request, event_id):
                    'edit': True,
                    })
 
+@login_required
+@staff_member_required
+def upload_ical(request):
+    if request.method == 'POST':
+        form = ICalUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            with TemporaryFile() as ical_file:
+                for chunk in request.FILES['ical_file'].chunks():
+                    ical_file.write(chunk)
+                ical_file.seek(0)
+                data = ical_file.read()
+                created_count, updated_count = process_ical_events(data, request.user)
+            messages.success(request, 'Created {} events and updated {} events'.format(created_count, updated_count))
+
+    else:
+        form = ICalUploadForm()
+    return render(request, 'events/upload_ical.html',
+            {'form': form})
 
 def detail(request, event_id):
     event = get_object_or_404(Event, pk=event_id)

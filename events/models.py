@@ -7,6 +7,10 @@ from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 from django.db.models import Q
 
+from icalendar import Calendar
+import uuid
+import urllib.request
+
 from profiles.models import Profile
 
 
@@ -32,6 +36,9 @@ class Event(models.Model):
     group = models.ForeignKey(Group, null=True, blank=True, verbose_name=_('Group'))
     category = models.ForeignKey(Category, null=True, blank=True)
     created_by = models.ForeignKey(User)
+    created_at = models.DateTimeField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
+    uuid = models.UUIDField(default=uuid.uuid4, db_index=True, editable=False)
 
     class Meta:
         verbose_name_plural = _('Events')
@@ -67,7 +74,7 @@ class Event(models.Model):
 
 class Attendant(models.Model):
     def __str__(self):
-        return '{} is attending {}'.format(user, event)
+        return '{} is attending {}'.format(self.user, self.event)
 
     user = models.ForeignKey(User)
     event = models.ForeignKey(Event)
@@ -81,3 +88,53 @@ def get_next_events(request, number_of_events):
     else:
         events = events.exclude(group__isnull=False)
     return events[:number_of_events]
+
+
+class UUIDMapping(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    mapped_string = models.CharField(max_length=120, unique=True, db_index=True)
+
+
+class RemoteCalendar(models.Model):
+    title = models.CharField(max_length=60)
+    url = models.URLField()
+    user = models.ForeignKey(User)
+    category = models.ForeignKey(Category)
+
+
+    def __str__(self):
+        return self.title 
+
+    def poll_calendar(self):
+        with urllib.request.urlopen(self.url) as response:
+            data = response.read()
+        return process_ical_events(data, self.user, self.category)
+
+
+def process_ical_events(data, user, category=None, group=None):
+    cal = Calendar.from_ical(data)
+    created_count = 0
+    updated_count = 0
+    for event in cal.walk('vevent'):
+        event_data = {'created_by': user,
+                      'title': event.get('summary'),
+                      'start_date': event.get('dtstart').dt,
+                      'end_date': event.get('dtend').dt,
+                      }
+        if group:
+            event_data['group'] = group
+        if category:
+            event_data['category'] = category
+        event_uuid = str(event.get('uid'))
+        try:
+            uuid.UUID(event_uuid)
+        except ValueError:
+            event_uuid, c = UUIDMapping.objects.get_or_create(mapped_string=event_uuid)
+            event_uuid = event_uuid.uuid
+
+        e, created = Event.objects.update_or_create(uuid=event_uuid, defaults=event_data)
+        if created:
+            created_count += 1
+        else:
+            updated_count += 1
+    return created_count, updated_count

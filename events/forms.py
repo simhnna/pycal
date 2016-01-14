@@ -42,6 +42,8 @@ class EventForm(forms.ModelForm):
             raise forms.ValidationError(_('End date has to be in the future'), 'invalid')
         return self.cleaned_data['end_date']
 
+class ICalUploadForm(forms.Form):
+    ical_file = forms.FileField(label=_('Select ICal file to import'))
 
 class DeleteForm(forms.ModelForm):
     class Meta:

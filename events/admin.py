@@ -1,7 +1,10 @@
 from django.contrib import admin
-from events.models import Event, Category
+from events.models import Event, Category, RemoteCalendar
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+
+
+admin.site.register(Category)
 
 
 class DateListFilter(admin.SimpleListFilter):
@@ -24,11 +27,26 @@ class DateListFilter(admin.SimpleListFilter):
         if self.value() == 'present':
             return queryset.filter(start_date__lte=now, end_date__gte=now)
 
-admin.site.register(Category)
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
   list_display = ('title', 'location', 'start_date')
   ordering = ('-start_date',)
   list_filter = ('start_date', DateListFilter, 'group', 'category')
+
+
+@admin.register(RemoteCalendar)
+class RemoteCalendarAdmin(admin.ModelAdmin):
+    actions = ['poll_remote_calendars']
+
+    def poll_remote_calendars(self, request, queryset):
+        updated_count = 0
+        created_count = 0
+        for cal in queryset:
+            created, updated = cal.poll_calendar()
+            created_count += created
+            updated_count += updated
+        self.message_user(request, 'Created {} events and updated {} events'.format(created_count, updated_count))
+
+    poll_remote_calendars.short_description = 'Poll the selected Remote Calendars'
 
