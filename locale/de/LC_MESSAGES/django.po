@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-24 20:55+0200\n"
+"POT-Creation-Date: 2016-01-14 14:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: events/admin.py:8 events/models.py:38
+#: events/admin.py:11 events/models.py:45
 msgid "Event"
 msgstr "Veranstaltung"
 
-#: events/admin.py:13
+#: events/admin.py:16
 msgid "in the past"
 msgstr "in der Vergangenheit"
 
-#: events/admin.py:14
+#: events/admin.py:17
 msgid "ongoing"
 msgstr "aktuell"
 
-#: events/admin.py:15
+#: events/admin.py:18
 msgid "in the future"
 msgstr "in der Zukunft"
 
@@ -58,43 +58,47 @@ msgstr "Begin muss in der Zukunft liegen"
 msgid "End date has to be in the future"
 msgstr "Ende muss in der Zukunft liegen"
 
-#: events/models.py:17
+#: events/forms.py:46
+msgid "Select ICal file to import"
+msgstr "Wählen sie eine ical Datei aus"
+
+#: events/models.py:21
 msgid "Categories"
 msgstr "Kategorien"
 
-#: events/models.py:18 events/templates/events/detail.html:30
+#: events/models.py:22 events/templates/events/detail.html.py:30
 msgid "Category"
 msgstr "Kategorie"
 
-#: events/models.py:25
+#: events/models.py:29
 msgid "Title"
 msgstr "Titel"
 
-#: events/models.py:26 events/templates/events/detail.html:16
+#: events/models.py:30 events/templates/events/detail.html.py:16
 msgid "Location"
 msgstr "Ort"
 
-#: events/models.py:27
+#: events/models.py:31
 msgid "Description"
 msgstr "Beschreibung"
 
-#: events/models.py:28 events/templates/events/detail.html:21
+#: events/models.py:32 events/templates/events/detail.html.py:21
 msgid "Start"
 msgstr "Beginn"
 
-#: events/models.py:29 events/templates/events/detail.html:22
+#: events/models.py:33 events/templates/events/detail.html.py:22
 msgid "End"
 msgstr "Ende"
 
-#: events/models.py:31
+#: events/models.py:35
 msgid "Details"
 msgstr "Details"
 
-#: events/models.py:32 events/templates/events/detail.html:27
+#: events/models.py:36 events/templates/events/detail.html.py:27
 msgid "Group"
 msgstr "Gruppe"
 
-#: events/models.py:37
+#: events/models.py:44
 msgid "Events"
 msgstr "Veranstaltungen"
 
@@ -125,21 +129,21 @@ msgid "Attend"
 msgstr "Zur Veranstaltung Anmelden"
 
 #: events/templates/events/detail.html:44
-#: events/templates/events/edit_event.html:13
-#: events/templates/events/edit_event.html:166
+#: events/templates/events/edit_event.html:12
+#: events/templates/events/edit_event.html:165
 msgid "Edit Event"
 msgstr "Veranstaltung bearbeiten"
 
-#: events/templates/events/edit_event.html:13
-#: events/templates/events/edit_event.html:166
+#: events/templates/events/edit_event.html:12
+#: events/templates/events/edit_event.html:165
 msgid "Create Event"
 msgstr "Veranstaltung erstellen"
 
-#: events/templates/events/edit_event.html:159
+#: events/templates/events/edit_event.html:158
 msgid "Limit access to"
 msgstr "Beschränke Zugang auf"
 
-#: events/templates/events/edit_event.html:172
+#: events/templates/events/edit_event.html:171
 msgid ""
 "Details are only visible to users that are logged in. You can further limit "
 "visibility to a specific group."
@@ -147,47 +151,55 @@ msgstr ""
 "Details sind nur für angemeldete Benutzer sichtbar. Die sichtbarkeit kann "
 "zusätzlich durch die Angabe einer Gruppe eingeschränkt werden"
 
-#: events/views.py:19
+#: events/templates/events/upload_ical.html:9
+msgid "Upload ICal File"
+msgstr "ICal Datei hochladen"
+
+#: events/templates/events/upload_ical.html:42
+msgid "Upload ICal"
+msgstr "ICal Hochladen"
+
+#: events/views.py:22
 msgid "Event created"
 msgstr "Veranstaltung erstellt"
 
-#: events/views.py:39
+#: events/views.py:42
 msgid "Event deleted"
 msgstr "Veranstaltung gelöscht"
 
-#: events/views.py:48 events/views.py:96
+#: events/views.py:51 events/views.py:117
 msgid "You are not allowed to do this!"
 msgstr "Du darfst das nicht machen..."
 
-#: events/views.py:55
+#: events/views.py:58
 msgid "You are allready attending"
 msgstr "Du hast dich zur Veranstaltung bereits angemeldet"
 
-#: events/views.py:61
+#: events/views.py:64
 msgid "You have been marked as attending"
 msgstr "Du hast dich zur Veranstaltung angemeldet"
 
-#: events/views.py:68
+#: events/views.py:71
 msgid "You have been marked as not attending"
 msgstr "Du wurdest von der Veranstaltung abgemeldet"
 
-#: events/views.py:75
+#: events/views.py:78
 msgid "You are not allowed to do this"
 msgstr "Du darfst das nicht machen..."
 
-#: events/views.py:81
+#: events/views.py:84
 msgid "Event edited"
 msgstr "Veranstaltung bearbeitet"
 
-#: profiles/forms.py:10 profiles/templates/profiles/list_profiles.html:13
+#: profiles/forms.py:10 profiles/templates/profiles/list_profiles.html.py:13
 msgid "First Name"
 msgstr "Vorname"
 
-#: profiles/forms.py:11 profiles/templates/profiles/list_profiles.html:12
+#: profiles/forms.py:11 profiles/templates/profiles/list_profiles.html.py:12
 msgid "Last Name"
 msgstr "Nachname"
 
-#: profiles/forms.py:12 profiles/templates/profiles/list_profiles.html:14
+#: profiles/forms.py:12 profiles/templates/profiles/list_profiles.html.py:14
 msgid "Username"
 msgstr "Benutzername"
 
@@ -196,26 +208,30 @@ msgid "Email is in use"
 msgstr "Email wird schon benutzt"
 
 #: profiles/forms.py:22
+msgid "Username must not contain spaces"
+msgstr "Benutzername darf keine Leerzeichen enthalten"
+
+#: profiles/forms.py:24
 msgid "Username is in use"
 msgstr "Benutzername wird schon benutzt"
 
-#: profiles/forms.py:26
+#: profiles/forms.py:28
 msgid "Password"
 msgstr "Passwort"
 
-#: profiles/forms.py:27
+#: profiles/forms.py:29
 msgid "Repeat Password"
 msgstr "Passwort wiederholen"
 
-#: profiles/forms.py:34
+#: profiles/forms.py:36
 msgid "Passwords did not match"
 msgstr "Passwörter stimmen nicht überein"
 
-#: profiles/forms.py:38
+#: profiles/forms.py:40
 msgid "Subscribe to Email notifications"
 msgstr "Emailbenachrichtigungen abonieren"
 
-#: profiles/templates/profiles/add_profile.html:7 templates/base.html:42
+#: profiles/templates/profiles/add_profile.html:7 templates/base.html.py:42
 msgid "Add Profiles"
 msgstr "Profile hinzufügen"
 
@@ -246,7 +262,7 @@ msgstr ""
 msgid "Change Password"
 msgstr "Passwort ändern"
 
-#: profiles/templates/profiles/edit_account.html:7 templates/base.html:51
+#: profiles/templates/profiles/edit_account.html:7 templates/base.html.py:51
 msgid "Edit Account"
 msgstr "Konto bearbeiten"
 
@@ -287,7 +303,7 @@ msgid "Sorry, the link is not valid"
 msgstr "Der Link ist nicht gültig"
 
 #: profiles/templates/profiles/register.html:7
-#: profiles/templates/profiles/register.html:29 templates/base.html:54
+#: profiles/templates/profiles/register.html:29 templates/base.html.py:54
 msgid "Register"
 msgstr "Registrieren"
 
