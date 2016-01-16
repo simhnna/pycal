@@ -57,7 +57,6 @@ class VEvent():
             rule.exrule(dateutil.rrule.rrulestr(event.exrule, dtstart=event.dtstart))
         if source.get('exdate'):
             for e in source.get('exdate').dts:
-                print('except: {}'.format(e.dt))
                 rule.exdate(e.dt)
                 event.exdate.append(e.dt)
         event.last_modified = source.get('last-modified').dt
