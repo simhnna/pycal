@@ -13,41 +13,60 @@
     {% if user.is_authenticated and event.details %}
 		<li class="list-group-item">{{ event.details}}</li>
     {% endif %}
-    <li class="list-group-item">{% trans 'Location' %}: {{ event.location }}</li>
-    {% if event.all_day %}
-    <li class="list-group-item">{% trans 'Date' %}: {{ event.start_date|date }}</li>
+    {% if event.location %}
+      <li class="list-group-item">{% trans 'Location' %}: {{ event.location }}</li>
+    {% endif %}
+    {% if is_event %}
+      {% if event.all_day %}
+      <li class="list-group-item">{% trans 'Date' %}: {{ event.start_date|date }}</li>
+      {% else %}
+        {% localtime on %}
+        <li class="list-group-item">{% trans 'Start' %}: {{ event.start_date }} </li>
+        {% if event.end_date %}
+          <li class="list-group-item">{% trans 'End' %}: {{ event.end_date }}</li>
+        {% endif %}
+        {% endlocaltime %}
+      {% endif %}
     {% else %}
       {% localtime on %}
-      <li class="list-group-item">{% trans 'Start' %}: {{ event.start_date }} </li>
-      <li class="list-group-item">{% trans 'End' %}: {{ event.end_date }}</li>
+      <li class="list-group-item">{% trans 'Start' %}: {{ recurrence.dtstart }} </li>
+      {% if recurrence.end_date %}
+        <li class="list-group-item">{% trans 'End' %}: {{ recurrence.dtend }}</li>
+      {% endif %}
       {% endlocaltime %}
     {% endif %}
-    <li class="list-group-item">{% trans 'Author' %}: {{ event.created_by.username }}</li>
+    {% if is_event %}
+      <li class="list-group-item">{% trans 'Author' %}: {{ event.created_by.username }}</li>
+    {% endif %}
     {% if event.group %}
     <li class="list-group-item">{% trans 'Group' %}: {{ event.group }}</li>
     {% endif %}
     {% if event.category %}
     <li class="list-group-item">{% trans 'Category' %}: {{ event.category }}</li>
     {% endif %}
-    <li class="list-group-item">{% trans 'Attendants' %}: {{ attendants }}</li>
+    {% if is_event %}
+      <li class="list-group-item">{% trans 'Attendants' %}: {{ attendants }}</li>
+    {% endif %}
 	</ul>
 	</div>
-	<div class="panel-footer">
-    {% if user.is_authenticated %}
-    {% if is_attending %}
-       <a href="{% url 'events:unattend' event.id %}">{% trans 'Unattend' %}</a>
-    {% else %}
-       <a href="{% url 'events:attend' event.id %}">{% trans 'Attend' %}</a>
-    {% endif %}
-		{% if event.created_by_id == user.id or perms.events.change_Event %}
-      &bull;
-		<a href="{% url 'events:edit_event' event.id %}">{% trans 'Edit Event' %}</a>
-      {% if perms.events.delete_Event %}
-        &bull;	
-        <a href="{% url 'events:delete_event' event.id %}">{% trans 'Delete Event' %}</a>
+  {% if is_event %}
+    <div class="panel-footer">
+      {% if user.is_authenticated %}
+      {% if is_attending %}
+         <a href="{% url 'events:unattend' event.id %}">{% trans 'Unattend' %}</a>
+      {% else %}
+         <a href="{% url 'events:attend' event.id %}">{% trans 'Attend' %}</a>
       {% endif %}
-		{% endif %}
-    {% endif %}
-	</div>
+      {% if event.created_by_id == user.id or perms.events.change_Event %}
+        &bull;
+      <a href="{% url 'events:edit_event' event.id %}">{% trans 'Edit Event' %}</a>
+        {% if perms.events.delete_Event %}
+          &bull;
+          <a href="{% url 'events:delete_event' event.id %}">{% trans 'Delete Event' %}</a>
+        {% endif %}
+      {% endif %}
+      {% endif %}
+    </div>
+  {% endif %}
 </div>
 {% endblock %}

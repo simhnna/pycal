@@ -9,7 +9,7 @@ from django.contrib.auth.models import User, Group
 
 from tempfile import TemporaryFile
 
-from events.models import Event, Attendant, process_ical_events
+from events.models import Event, Attendant, process_ical_events, Recurrence
 from events.forms import EventForm, DeleteForm, ICalUploadForm 
 
 
@@ -111,6 +111,18 @@ def upload_ical(request):
     return render(request, 'events/upload_ical.html',
             {'form': form})
 
+def recurrence_detail(request, recurrence_id):
+    recurrence = get_object_or_404(Recurrence, pk=recurrence_id)
+    event = recurrence.event
+    if event.group and not request.user.groups.filter(name=event.group).exists():
+        messages.warning(request, _('You are not allowed to do this!'))
+        return HttpResponseRedirect(reverse('index'))
+    return render(request, 'events/detail.html',
+                  {'event': event,
+                   'recurrence': recurrence,
+                   'is_event': False,
+                   })
+
 def detail(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     if event.group and not request.user.groups.filter(name=event.group).exists():
@@ -119,5 +131,6 @@ def detail(request, event_id):
     return render(request, 'events/detail.html',
                   {'event': event,
                    'is_attending': event.is_attending(request.user),
-                   'attendants': event.attendants()
+                   'attendants': event.attendants(),
+                   'is_event': True,
                    })

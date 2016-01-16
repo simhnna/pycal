@@ -37,6 +37,10 @@
             <br>
             <a href="{% url 'events:detail' event.id %}">{{ event.title|truncatechars:20 }}</a>
             {% endfor %}
+            {% for recurrence in day.recurrences %}
+            <br>
+            <a href="{% url 'events:recurrence_detail' recurrence.id %}">{{ recurrence.event.title|truncatechars:20 }} - {{ recurrence.id }}</a>
+            {% endfor %}
           </td>
           {% if day.sunday %}
         </tr>

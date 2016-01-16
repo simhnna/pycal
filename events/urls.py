@@ -8,6 +8,7 @@ urlpatterns = [
    url(r'^(?P<event_id>\d+)/edit$', views.edit_event, name='edit_event'),
    url(r'^(?P<event_id>\d+)/delete$', views.delete_event, name='delete_event'),
    url(r'^(?P<event_id>\d+)$', views.detail, name='detail'),
+   url(r'^recurrence/(?P<recurrence_id>\d+)$', views.recurrence_detail, name='recurrence_detail'),
    url(r'^public_feed/feed.ics$', EventFeed()),
    url(r'^private_feed/(?P<feed_id>[a-zA-Z0-9]+)/feed.ics$', EventFeed()),
    url(r'^public_feed/feed.ical$', EventFeed(), name='public_feed'),

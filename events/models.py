@@ -12,6 +12,7 @@ import uuid
 import urllib.request
 
 from profiles.models import Profile
+from events.funcs import parse_ical
 
 
 class Category(models.Model):
@@ -27,7 +28,7 @@ class Category(models.Model):
 
 class Event(models.Model):
     title = models.CharField(max_length=50, verbose_name=_('Title'))
-    location = models.CharField(max_length=100, verbose_name=_('Location'))
+    location = models.CharField(max_length=100, verbose_name=_('Location'), null=True, blank=True)
     description = models.TextField(verbose_name=_('Description'))
     start_date = models.DateTimeField(verbose_name=_('Start'))
     end_date = models.DateTimeField(verbose_name=_('End'), blank=True, null=True)
@@ -39,6 +40,7 @@ class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     uuid = models.UUIDField(default=uuid.uuid4, db_index=True, editable=False)
+    recurrence_id = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         verbose_name_plural = _('Events')
@@ -46,6 +48,13 @@ class Event(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def duration(self):
+        if self.end_date:
+            return self.end_date - self.start_date
+        else:
+            return None
 
     def send_email_notifications(self, link):
         users = Profile.objects.filter(email_notifications=True)
@@ -78,6 +87,12 @@ class Attendant(models.Model):
 
     user = models.ForeignKey(User)
     event = models.ForeignKey(Event)
+
+
+class Recurrence(models.Model):
+    event = models.ForeignKey(Event)
+    dtstart = models.DateTimeField(verbose_name=_('Start'))
+    dtend = models.DateTimeField(verbose_name=_('End'), blank=True, null=True)
 
 def get_next_events(request, number_of_events):
     now = timezone.now().replace(hour=0, minute=0, second=0)
@@ -112,29 +127,45 @@ class RemoteCalendar(models.Model):
 
 
 def process_ical_events(data, user, category=None, group=None):
-    cal = Calendar.from_ical(data)
     created_count = 0
     updated_count = 0
-    for event in cal.walk('vevent'):
+    events = parse_ical(data)
+    for event in events:
         event_data = {'created_by': user,
-                      'title': event.get('summary'),
-                      'start_date': event.get('dtstart').dt,
-                      'end_date': event.get('dtend').dt,
+                      'title': event.summary,
+                      'start_date': event.dtstart,
+                      'end_date': event.dtend,
+                      'location': event.location,
+                      'description': event.description,
                       }
         if group:
             event_data['group'] = group
         if category:
             event_data['category'] = category
-        event_uuid = str(event.get('uid'))
+        if not event.description:
+            event_data['description'] = event.summary
+        event_uuid = event.uid
         try:
             uuid.UUID(event_uuid)
         except ValueError:
             event_uuid, c = UUIDMapping.objects.get_or_create(mapped_string=event_uuid)
             event_uuid = event_uuid.uuid
 
-        e, created = Event.objects.update_or_create(uuid=event_uuid, defaults=event_data)
+        e, created = Event.objects.update_or_create(uuid=event_uuid,
+                                                    recurrence_id=event.recurrence_id,
+                                                    defaults=event_data)
         if created:
             created_count += 1
         else:
             updated_count += 1
+        if event.recurrences:
+            for recurrence in Recurrence.objects.filter(event=e):
+                if recurrence.dtstart in event.recurrences:
+                    event.recurrences.remove(recurrence.dtstart)
+                else:
+                    recurrence.delete()
+            for begining in event.recurrences:
+                Recurrence.objects.create(event=e, dtstart=begining, dtend=begining+event.duration)
+
+
     return created_count, updated_count
