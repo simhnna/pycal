@@ -94,6 +94,10 @@ class Recurrence(models.Model):
     dtstart = models.DateTimeField(verbose_name=_('Start'))
     dtend = models.DateTimeField(verbose_name=_('End'), blank=True, null=True)
 
+    def get_absolute_url(self):
+        return reverse('events:recurrence_detail', args=(self.id,))
+
+
 def get_next_events(request, number_of_events):
     now = timezone.now().replace(hour=0, minute=0, second=0)
     events = Event.objects.filter(Q(start_date__gte=now) | Q(start_date__lte=timezone.now(), end_date__gte=timezone.now())).order_by('start_date')
