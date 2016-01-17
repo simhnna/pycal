@@ -11,7 +11,7 @@
 {% if events %}
 <div class="list-group">
 {% for event in events %}
-<a class="list-group-item" href="{% url 'events:detail' event.id %}">
+<a class="list-group-item" href="{{ event.get_absolute_url }}">
   <p>
   <strong>{{ event.title }}</strong>
   </p>
@@ -19,9 +19,9 @@
   {% trans 'at' %} 
   {% localtime on %}
     {% if event.all_day %}
-      {{ event.start_date|date }}
+      {{ event.dtstart|date }}
     {% else %}
-      {{ event.start_date }}
+      {{ event.dtstart}}
     {% endif %}
   {% endlocaltime %}
 </a>

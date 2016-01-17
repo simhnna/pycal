@@ -22,18 +22,18 @@ class DateListFilter(admin.SimpleListFilter):
     def queryset(self, request, queryset):
         now = timezone.now()
         if self.value() == 'past':
-            return queryset.filter(end_date__lte=now)
+            return queryset.filter(dtend__lte=now)
         if self.value() == 'future':
-            return queryset.filter(start_date__gte=now)
+            return queryset.filter(dtstart__gte=now)
         if self.value() == 'present':
-            return queryset.filter(start_date__lte=now, end_date__gte=now)
+            return queryset.filter(dtstart__lte=now, dtend__gte=now)
 
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-  list_display = ('title', 'location', 'start_date')
-  ordering = ('-start_date',)
-  list_filter = ('start_date', DateListFilter, 'group', 'category')
+  list_display = ('title', 'location', 'dtstart')
+  ordering = ('-dtstart',)
+  list_filter = ('dtstart', DateListFilter, 'group', 'category')
 
 
 @admin.register(RemoteCalendar)

@@ -30,8 +30,8 @@ class Event(models.Model):
     title = models.CharField(max_length=50, verbose_name=_('Title'))
     location = models.CharField(max_length=100, verbose_name=_('Location'), null=True, blank=True)
     description = models.TextField(verbose_name=_('Description'))
-    start_date = models.DateTimeField(verbose_name=_('Start'))
-    end_date = models.DateTimeField(verbose_name=_('End'), blank=True, null=True)
+    dtstart = models.DateTimeField(verbose_name=_('Start'))
+    dtend = models.DateTimeField(verbose_name=_('End'), blank=True, null=True)
     all_day = models.BooleanField(default=False)
     details = models.TextField(verbose_name=_('Details'), null=True, blank=True)
     group = models.ForeignKey(Group, null=True, blank=True, verbose_name=_('Group'))
@@ -51,8 +51,8 @@ class Event(models.Model):
 
     @property
     def duration(self):
-        if self.end_date:
-            return self.end_date - self.start_date
+        if self.dtend:
+            return self.dtend - self.dtstart
         else:
             return None
 
@@ -97,10 +97,42 @@ class Recurrence(models.Model):
     def get_absolute_url(self):
         return reverse('events:recurrence_detail', args=(self.id,))
 
+    @property
+    def title(self):
+        return self.event.title
+
+    @property
+    def location(self):
+        return self.event.location
+
+    @property
+    def description(self):
+        return self.event.description
+
+    @property
+    def all_day(self):
+        return self.event.all_day
+
+    @property
+    def category(self):
+        return self.event.category
+
+    @property
+    def group(self):
+        return self.event.group
+
+    @property
+    def created_by(self):
+        return self.event.created_by
+
+    @property
+    def details(self):
+        return self.event.details
+
 
 def get_next_events(request, number_of_events):
     now = timezone.now().replace(hour=0, minute=0, second=0)
-    events = Event.objects.filter(Q(start_date__gte=now) | Q(start_date__lte=timezone.now(), end_date__gte=timezone.now())).order_by('start_date')
+    events = Event.objects.filter(Q(dtstart__gte=now) | Q(dtstart__lte=timezone.now(), dtend__gte=timezone.now())).order_by('dtend')
     if request.user.is_authenticated():
         events = events.filter(Q(group__id__in=request.user.groups.values_list('id', flat=True))
                               | Q(group__isnull=True))
@@ -137,8 +169,8 @@ def process_ical_events(data, user, category=None, group=None):
     for event in events:
         event_data = {'created_by': user,
                       'title': event.summary,
-                      'start_date': event.dtstart,
-                      'end_date': event.dtend,
+                      'dtstart': event.dtstart,
+                      'dtend': event.dtend,
                       'location': event.location,
                       'description': event.description,
                       }

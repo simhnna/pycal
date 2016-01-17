@@ -19,9 +19,9 @@ class EventFeed(ICalFeed):
         if feed_id:
             user = Profile.objects.get(feed_id=feed_id).user
             to_return += list(Event.objects.filter(Q(group__isnull=True)|Q(group__id__in=user.groups.values_list('id',
-                flat=True))).order_by('-start_date'))
+                flat=True))).order_by('-dtstart'))
         else:
-            to_return += list(Event.objects.filter(group__isnull=True).order_by('-start_date'))
+            to_return += list(Event.objects.filter(group__isnull=True).order_by('-dtstart'))
 
         to_return += list(Recurrence.objects.all())
         return to_return
@@ -46,18 +46,18 @@ class EventFeed(ICalFeed):
             return item.dtstart
         else:
             if item.all_day:
-                return item.start_date.date() + datetime.timedelta(days=1)
+                return item.dtstart.date() + datetime.timedelta(days=1)
             else:
-                return item.start_date
+                return item.dtstart
 
     def item_end_datetime(self, item):
         if hasattr(item, 'event'):
             return item.dtend
         else:
             if item.all_day:
-                return item.start_date.date() + datetime.timedelta(days=2)
+                return item.dtstart.date() + datetime.timedelta(days=2)
             else:
-                return item.end_date
+                return item.dtend
 
     def item_location(self, item):
         if hasattr(item, 'event'):
