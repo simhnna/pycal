@@ -15,7 +15,9 @@
   <p>
   <strong>{{ event.title }}</strong>
   </p>
-  {{ event.location }}
+  {% if event.location %}
+    {{ event.location }}
+  {% endif %}
   {% trans 'at' %} 
   {% localtime on %}
     {% if event.all_day %}

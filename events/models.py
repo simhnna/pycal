@@ -32,7 +32,7 @@ class Event(models.Model):
     description = models.TextField(verbose_name=_('Description'))
     dtstart = models.DateTimeField(verbose_name=_('Start'))
     dtend = models.DateTimeField(verbose_name=_('End'), blank=True, null=True)
-    all_day = models.BooleanField(default=False)
+    all_day = models.BooleanField(verbose_name=_('All day'), default=False)
     details = models.TextField(verbose_name=_('Details'), null=True, blank=True)
     group = models.ForeignKey(Group, null=True, blank=True, verbose_name=_('Group'))
     category = models.ForeignKey(Category, null=True, blank=True)
