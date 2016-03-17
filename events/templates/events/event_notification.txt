@@ -7,7 +7,8 @@ Hier sind die Infos:
 {{ event.title }}
 
 {{ event.description }}
-@ {{ event.location }} von {{ event.start_date|localize }} bis {{ event.end_date|localize }}
-
-Wenn du weißt, dass du kommen kannst, kannst du dich über diesen Link anmelden:
-{{ link }}
+@ {{ event.location }} von {{ event.dt_start|localize }}
+{% if event.dt_end %}
+ bis {{ event.dt_end|localize }}
+{% endif %}
+.
