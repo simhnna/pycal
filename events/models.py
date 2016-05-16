@@ -40,7 +40,6 @@ class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     uuid = models.UUIDField(default=uuid.uuid4, db_index=True, editable=False)
-    recurrence_id = models.DateTimeField(null=True, blank=True)
 
     class Meta:
         verbose_name_plural = _('Events')
@@ -188,7 +187,6 @@ def process_ical_events(data, user, category=None, group=None):
             event_uuid = event_uuid.uuid
 
         e, created = Event.objects.update_or_create(uuid=event_uuid,
-                                                    recurrence_id=event.recurrence_id,
                                                     defaults=event_data)
         if created:
             created_count += 1
@@ -202,6 +200,4 @@ def process_ical_events(data, user, category=None, group=None):
                     recurrence.delete()
             for begining in event.recurrences:
                 Recurrence.objects.create(event=e, dtstart=begining, dtend=begining+event.duration)
-
-
     return created_count, updated_count

@@ -15,7 +15,6 @@ class VEvent():
     dtstart = '' #datetime
     location = ''
     description = ''
-    recurrence_id = None
     recurrences =  []
 
 
@@ -38,9 +37,7 @@ class VEvent():
         event.description = source.get('description')
         event.location = source.get('location')
         if source.get('recurrence-id'):
-            event.recurrence_id = source.get('recurrence-id').dt
-            event.dtend = event.recurrence_id + event.duration
-            event.dtstart = event.recurrence_id
+            event.dtstart = source.get('recurrence-id').dt
         if source.get('duration'):
             event.dtend = event.dtstart + source.get('duration').td
 
