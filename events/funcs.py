@@ -11,10 +11,6 @@ class VEvent():
     summary = '' #string
     sequence = 0 #int
     dtend = '' #datetime
-    rrule = '' # string
-    rdate = []
-    exrule = '' # string 
-    exdate = []  # set of dates
     last_modified = '' #datetime
     dtstart = '' #datetime
     location = ''
@@ -41,38 +37,36 @@ class VEvent():
         event.dtend = source.get('dtend').dt
         event.description = source.get('description')
         event.location = source.get('location')
+        if source.get('recurrence-id'):
+            event.recurrence_id = source.get('recurrence-id').dt
+            event.dtend = event.recurrence_id + event.duration
+            event.dtstart = event.recurrence_id
         if source.get('duration'):
             event.dtend = event.dtstart + source.get('duration').td
 
         rule = dateutil.rrule.rruleset()
         if source.get('rrule'):
-            event.rrule = source.get('rrule').to_ical().decode('utf-8')
-            rule.rrule(dateutil.rrule.rrulestr(event.rrule, dtstart=event.dtstart))
+            rrule = source.get('rrule').to_ical().decode('utf-8')
+            rule.rrule(dateutil.rrule.rrulestr(rrule, dtstart=event.dtstart))
         if source.get('rdate'):
             for date in source.get('rdate').dts:
-                rule.rdate(date.dt)
-                event.rdate.append(date.dt)
+                dt = date.dt
+                if hasattr(dt, 'time'):
+                    dt = dt.replace(tzinfo=event.dtstart.tzinfo)
+                rule.rdate(dt)
         if source.get('exrule'):
-            event.exrule = source.get('exrule').to_ical().decode('utf-8')
-            rule.exrule(dateutil.rrule.rrulestr(event.exrule, dtstart=event.dtstart))
+            exrule = source.get('exrule').to_ical().decode('utf-8')
+            rule.exrule(dateutil.rrule.rrulestr(exrule, dtstart=event.dtstart))
         if source.get('exdate'):
-            for e in source.get('exdate').dts:
-                rule.exdate(e.dt)
-                event.exdate.append(e.dt)
+            for date in source.get('exdate').dts:
+                dt = date.dt
+                if hasattr(dt, 'time'):
+                    dt = dt.replace(tzinfo=event.dtstart.tzinfo)
+                rule.exdate(dt)
         event.last_modified = source.get('last-modified').dt
-        if source.get('recurrence-id'):
-            event.recurrence_id = source.get('recurrence-id').dt
-            event.dtend = event.recurrence_id + event.duration
-            event.dtstart = event.recurrence_id
 
         event.recurrences = set(list(rule))
         event.recurrences.discard(event.dtstart)
-        exdates = [e.date() for e in event.exdate]
-        to_remove = []
-        for rec in event.recurrences:
-            if rec.date() in exdates:
-                to_remove.append(rec)
-        event.recurrences.difference_update(to_remove)
         return event
 
 
