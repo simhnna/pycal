@@ -2,16 +2,12 @@
 {% load i18n %}
 {% load tz %}
 {% block content %}
-
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<strong>{% trans 'Upcoming Events' %}</strong>
-</div>
-<div class="panel-body">
+<div class="section">
+<h3>{% trans 'Upcoming Events' %}</h3>
 {% if events %}
-<div class="list-group">
+<div class="collection">
 {% for event in events %}
-<a class="list-group-item" href="{{ event.get_absolute_url }}">
+<a class="collection-item" href="{{ event.get_absolute_url }}">
   <p>
   <strong>{{ event.title }}</strong>
   </p>
@@ -32,6 +28,5 @@
 {% else %}
 <p><strong>Momentan steht noch nichts an, trag doch was ein :-)</strong></p>
 {% endif %}
-</div>
 </div>
 {% endblock %}

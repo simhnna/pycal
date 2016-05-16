@@ -3,59 +3,60 @@
 {% load tz %}
 {% load common_tags %}
 {% block content %}
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">{{ event.title }}</h3>
+<div class="card">
+  <div class="card-content">
+    <span class="card-title">{{ event.title }}</span>
+		<p>{{ event.description|linebreaks }}</p>
+	  {% if user.is_authenticated and event.details %}
+		<p>{{ event.details}}</p>
+	  {% endif %}
+	  {% if event.location %}
+	    <p>{% trans 'Location' %}: {{ event.location }}</p>
+	  {% endif %}
+	  {% if event.all_day %}
+	  <p{% trans 'Date' %}: {{ event.dtstart|date }}</p>
+	  {% else %}
+	    {% localtime on %}
+	    <p>{% trans 'Start' %}: {{ event.dtstart }} </p>
+	    {% if event.dtend %}
+	      <p>{% trans 'End' %}: {{ event.dtend }}</p>
+	    {% endif %}
+	    {% endlocaltime %}
+	  {% endif %}
+	  <p>{% trans 'Author' %}: {{ event.created_by.username }}</p>
+	  {% if event.group %}
+	  <p>{% trans 'Group' %}: {{ event.group }}</p>
+	  {% endif %}
+	  {% if event.category %}
+	  <p>{% trans 'Category' %}: {{ event.category }}</p>
+	  {% endif %}
+	  {% if is_event %}
+	    <p>{% trans 'Attendants' %}: {{ attendants }}</p>
+	  {% endif %}
 	</div>
-	<div class="panel-body">
-		<ul class="list-group">
-		<li class="list-group-item">{{ event.description|linebreaks }}</li>
-    {% if user.is_authenticated and event.details %}
-		<li class="list-group-item">{{ event.details}}</li>
-    {% endif %}
-    {% if event.location %}
-      <li class="list-group-item">{% trans 'Location' %}: {{ event.location }}</li>
-    {% endif %}
-    {% if event.all_day %}
-    <li class="list-group-item">{% trans 'Date' %}: {{ event.dtstart|date }}</li>
-    {% else %}
-      {% localtime on %}
-      <li class="list-group-item">{% trans 'Start' %}: {{ event.dtstart }} </li>
-      {% if event.dtend %}
-        <li class="list-group-item">{% trans 'End' %}: {{ event.dtend }}</li>
-      {% endif %}
-      {% endlocaltime %}
-    {% endif %}
-    <li class="list-group-item">{% trans 'Author' %}: {{ event.created_by.username }}</li>
-    {% if event.group %}
-    <li class="list-group-item">{% trans 'Group' %}: {{ event.group }}</li>
-    {% endif %}
-    {% if event.category %}
-    <li class="list-group-item">{% trans 'Category' %}: {{ event.category }}</li>
-    {% endif %}
-    {% if is_event %}
-      <li class="list-group-item">{% trans 'Attendants' %}: {{ attendants }}</li>
-    {% endif %}
-	</ul>
-	</div>
-  {% if is_event %}
-    <div class="panel-footer">
-      {% if user.is_authenticated %}
-      {% if is_attending %}
-         <a href="{% url 'events:unattend' event.id %}">{% trans 'Unattend' %}</a>
-      {% else %}
-         <a href="{% url 'events:attend' event.id %}">{% trans 'Attend' %}</a>
-      {% endif %}
-      {% if event.created_by_id == user.id or perms.events.change_Event %}
-        &bull;
-      <a href="{% url 'events:edit_event' event.id %}">{% trans 'Edit Event' %}</a>
-        {% if perms.events.delete_Event %}
-          &bull;
-          <a href="{% url 'events:delete_event' event.id %}">{% trans 'Delete Event' %}</a>
-        {% endif %}
-      {% endif %}
-      {% endif %}
-    </div>
-  {% endif %}
+	{% if not event.remote_calendar %}
+	  <div class="card-action">
+	    {% if user.is_authenticated %}
+				{% if delete_event and  perms.events.delete_Event %}
+				<form action="" method='post'>
+					{% csrf_token %}
+					<input type='submit' class="btn btn-default btn-block" value="{% trans 'Delete Event' %}">
+				</form>
+				{% else %}
+			    {% if is_attending %}
+			       <a href="{% url 'events:unattend' event.id %}">{% trans 'Unattend' %}</a>
+			    {% else %}
+		       <a href="{% url 'events:attend' event.id %}">{% trans 'Attend' %}</a>
+		    {% endif %}
+		    {% if event.created_by_id == user.id or perms.events.change_Event %}
+			    <a href="{% url 'events:edit_event' event.id %}">{% trans 'Edit Event' %}</a>
+			      {% if perms.events.delete_Event %}
+			        <a href="{% url 'events:delete_event' event.id %}">{% trans 'Delete Event' %}</a>
+			      {% endif %}
+			    {% endif %}
+				{% endif %}
+	    {% endif %}
+	  </div>
+	{% endif %}
 </div>
 {% endblock %}

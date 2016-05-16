@@ -8,46 +8,58 @@
 <html lang="{{ request.LANGUAGE_CODE }}">
   <head>
     <title>Calendar</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/own.css' %}">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     {% block css %}{% endblock %}
     <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
 
-  <body>
-    <div class="wrapper">
-      <div class="navbar navbar-default" role="navigation">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-              <span class="sr-only">Toggle navigation</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{% url 'index' %}">pyCal</a>
-          </div> <!-- navbar-header -->
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
+  <body style="background: #F7F2CB;">
+    <header>
+      <nav class="red darken-2">
+        <div class="nav-wrapper">
+          <div class="container">
+            <a class="brand-logo" href="{% url 'index' %}">pyCal</a>
+            <a href="#" data-activates="menu-sidenav" class="button-collapse"><i class="material-icons">menu</i></a>
+            <ul class="right hide-on-med-and-down">
               <li {% if home %}class="active"{% endif %}><a href="{% url 'index' %}">Home</a></li>
               <li {% if calendar %}class="active"{% endif %}><a href="{% url 'calendar' %}">{% trans 'Calendar' %}</a></li>
               {% if user.is_authenticated %}
               <li {% if create_event %}class="active"{% endif %}><a href="{% url 'events:create_event' %}">{% trans 'New Event' %}</a></li>
               {% if user.is_staff %}
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">{% trans 'Administration' %}<b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="{% url 'admin:index' %}">{% trans 'Django admin'%} </a></li>
-                  <li><a href="{% url 'profiles:add_profile' %}">{% trans 'Add Profiles' %}</a></li>
-                  <li><a href="{% url 'events:upload_ical' %}">{% trans 'Upload ICal' %}</a></li>
-                  <li><a href="{% url 'profiles:list_profiles' %}">{% trans 'List Profiles' %}</a></li>
-                </ul>
-              </li>
+              <ul id="menu-dropdown" class="dropdown-content">
+                <li><a href="{% url 'admin:index' %}">{% trans 'Django admin'%} </a></li>
+                <li><a href="{% url 'profiles:add_profile' %}">{% trans 'Add Profiles' %}</a></li>
+                <li><a href="{% url 'events:upload_ical' %}">{% trans 'Upload ICal' %}</a></li>
+                <li><a href="{% url 'profiles:list_profiles' %}">{% trans 'List Profiles' %}</a></li>
+              </ul>
+              <li><a class="dropdown-button" href="#!"
+                  data-activates="menu-dropdown">Administration<i class="material-icons right">arrow_drop_down</i></a></li>
               {% endif %}
+              {% endif %}
+              {% if user.is_authenticated %}
+              <li {% if edit_account %}class="active"{% endif %}><a href="{% url 'profiles:edit_account' %}">{% trans 'Edit Account' %}</a></li>
+              <li><a href="{% url 'profiles:logout' %}">{% trans 'Log out' %}</a></li>
+              {% else %}
+              <li><a href="{% url 'profiles:register' %}">{% trans 'Register' %}</a></li>
+              <li><a href="{% url 'profiles:login' %}">{% trans 'Login' %}</a></li>
               {% endif %}
             </ul>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="side-nav" id="menu-sidenav">
+              <li {% if home %}class="active"{% endif %}><a href="{% url 'index' %}">Home</a></li>
+              <li {% if calendar %}class="active"{% endif %}><a href="{% url 'calendar' %}">{% trans 'Calendar' %}</a></li>
+              {% if user.is_authenticated %}
+              <li {% if create_event %}class="active"{% endif %}><a href="{% url 'events:create_event' %}">{% trans 'New Event' %}</a></li>
+              {% if user.is_staff %}
+              <ul>
+                <li><a href="{% url 'admin:index' %}">{% trans 'Django admin'%} </a></li>
+                <li><a href="{% url 'profiles:add_profile' %}">{% trans 'Add Profiles' %}</a></li>
+                <li><a href="{% url 'events:upload_ical' %}">{% trans 'Upload ICal' %}</a></li>
+                <li><a href="{% url 'profiles:list_profiles' %}">{% trans 'List Profiles' %}</a></li>
+              </ul>
+              {% endif %}
+              {% endif %}
               {% if user.is_authenticated %}
               <li {% if edit_account %}class="active"{% endif %}><a href="{% url 'profiles:edit_account' %}">{% trans 'Edit Account' %}</a></li>
               <li><a href="{% url 'profiles:logout' %}">{% trans 'Log out' %}</a></li>
@@ -58,7 +70,9 @@
             </ul>
           </div>
         </div>
-      </div>
+      </nav>
+    </header>
+    <main>
       <div class="container">
         {% if messages %}
         {% for message in messages %}
@@ -71,19 +85,21 @@
 
         {% block content %}{% endblock %}
       </div>
-    </div>
-    <div class="footer">
-      <p class="muted">
-      &copy; {% now "Y" %} Simon Hanna 
-      &bull; 
-      <a href="{% url 'feedinfo' %}">ical</a>
-      </p>
-    </div>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    </main>
+    <footer class="page-footer">
+      <div class="footer-copyright">
+        <div class="container">
+        &copy; {% now "Y" %} Simon Hanna
+        <a class="grey-text text-lighten-3 right" href="{% url 'feedinfo' %}">ical</a>
+        </div>
+      </div>
+    </footer>
+    <!--script
+      src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script-->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/materialize.min.js' %}"></script>
     <script>
-      setTimeout(function(){$('.message').addClass("in")}, 500);
-      setTimeout(function(){$(".message").alert('close')}, 3000);
+      $(".button-collapse").sideNav();
     </script>
     {% block javascript %} {% endblock %}
   </body>

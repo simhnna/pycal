@@ -10,7 +10,7 @@ from django.contrib.auth.models import User, Group
 from tempfile import TemporaryFile
 
 from events.models import Event, Attendant, process_ical_events
-from events.forms import EventForm, DeleteForm, ICalUploadForm 
+from events.forms import EventForm, DeleteForm, ICalUploadForm
 
 
 @login_required
@@ -44,9 +44,10 @@ def delete_event(request, event_id):
         else:
             form = DeleteForm()
 
-        return render(request, 'events/delete_event.html',
+        return render(request, 'events/detail.html',
                       {'form': form,
                        'event': event,
+                       'delete_event': True
                        })
     messages.warning(request, _('You are not allowed to do this!'))
     return HttpResponseRedirect(reverse('events:detail', args=(event.id,)))

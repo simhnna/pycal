@@ -1,8 +1,8 @@
 from django.test import TestCase, Client
-from profiles.views import AccountForm
+from profiles.forms import RegistrationForm 
 from profiles.models import create_profile
 
-class TestAccountForm(TestCase):
+class TestRegistrationForm(TestCase):
 
     def setUp(self):
         create_profile('user1', 'email1@email.email', 'password', 'first', 'last')
@@ -19,7 +19,7 @@ class TestAccountForm(TestCase):
                 'password': 'password',
                 'repeat_password': 'password'
                 }
-        form = AccountForm(data=data)
+        form = RegistrationForm(data=data)
         self.assertTrue(form.is_valid())
 
     def test_used_email(self):
@@ -31,10 +31,10 @@ class TestAccountForm(TestCase):
                 'password': 'password',
                 'repeat_password': 'password'
                 }
-        form = AccountForm(data=data)
+        form = RegistrationForm(data=data)
         self.assertFalse(form.is_valid())
         data['email'] = 'email2@email.email'
-        form = AccountForm(data=data)
+        form = RegistrationForm(data=data)
         self.assertFalse(form.is_valid())
 
     def test_used_user(self):
@@ -46,7 +46,7 @@ class TestAccountForm(TestCase):
                 'password': 'password',
                 'repeat_password': 'password'
                 }
-        form = AccountForm(data=data)
+        form = RegistrationForm(data=data)
         self.assertFalse(form.is_valid())
 
     def test_invalid_email(self):
@@ -58,7 +58,7 @@ class TestAccountForm(TestCase):
                 'password': 'password',
                 'repeat_password': 'password'
                 }
-        form = AccountForm(data=data)
+        form = RegistrationForm(data=data)
         self.assertFalse(form.is_valid())
 
     def test_password_mismatch(self):
@@ -70,7 +70,7 @@ class TestAccountForm(TestCase):
                 'password': 'password',
                 'repeat_password': 'password1'
                 }
-        form = AccountForm(data=data)
+        form = RegistrationForm(data=data)
         self.assertFalse(form.is_valid())
 
     def test_too_short_passwords(self):
@@ -82,6 +82,6 @@ class TestAccountForm(TestCase):
                 'password': 'pass',
                 'repeat_password': 'pass'
                 }
-        form = AccountForm(data=data)
+        form = RegistrationForm(data=data)
         self.assertFalse(form.is_valid())
 
