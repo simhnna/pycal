@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.db.models import Q
 import pytz
 
-from events.models import Event, Recurrence, get_next_events
+from events.models import Event, get_next_events
 
 def home(request):
     events = get_next_events(request, 10)
@@ -58,7 +58,6 @@ def calendar_view(request, year, month):
         datetime.datetime(year, month, 1, 0, 0, 0))
 
     all_events = Event.objects.filter(Q(dtstart__gte=date_start), Q(dtstart__lt=date_end))
-    recurrences = Recurrence.objects.filter(Q(dtstart__gte=date_start), Q(dtstart__lt=date_end))
     if request.user.is_authenticated():
         all_events = all_events.filter(
                 Q(group__id__in=request.user.groups.values_list('id', flat=True))
@@ -77,12 +76,10 @@ def calendar_view(request, year, month):
     for i in range(1, last_day + 1):
         current_day= datetime.date(year, month, i)
         e = all_events.filter(Q(dtstart__day=i)|Q(dtstart__lt=current_day, dtend__gt=current_day))
-        re = recurrences.filter(Q(dtstart__day=i)|Q(dtstart__lt=current_day, dtend__gt=current_day))
         day = CalendarDay(i)
         if i == today and current_month == month and year == timezone.now().year:
             day.today = True
         day.events = e
-        day.recurrences = re
         if counter == 6:
             counter = -1
             day.sunday = True

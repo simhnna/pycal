@@ -1,5 +1,5 @@
 from django_ical.views import ICalFeed
-from events.models import Event, Recurrence
+from events.models import Event
 from profiles.models import Profile
 from django.db.models import Q
 
@@ -22,8 +22,6 @@ class EventFeed(ICalFeed):
                 flat=True))).order_by('-dtstart'))
         else:
             to_return += list(Event.objects.filter(group__isnull=True).order_by('-dtstart'))
-
-        to_return += list(Recurrence.objects.all())
         return to_return
 
     def items(self, obj):

@@ -1,11 +1,10 @@
 from django.contrib import admin
-from events.models import Event, Category, RemoteCalendar, Recurrence
+from events.models import Event, Category, RemoteCalendar
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
 
 
 admin.site.register(Category)
-admin.site.register(Recurrence)
 
 
 class DateListFilter(admin.SimpleListFilter):
