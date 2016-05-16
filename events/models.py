@@ -26,6 +26,22 @@ class Category(models.Model):
         return self.name
 
 
+class RemoteCalendar(models.Model):
+    title = models.CharField(max_length=60)
+    url = models.URLField()
+    user = models.ForeignKey(User)
+    category = models.ForeignKey(Category)
+
+
+    def __str__(self):
+        return self.title
+
+    def poll_calendar(self):
+        with urllib.request.urlopen(self.url) as response:
+            data = response.read()
+        return process_ical_events(data, self)
+
+
 class Event(models.Model):
     title = models.CharField(max_length=50, verbose_name=_('Title'))
     location = models.CharField(max_length=100, verbose_name=_('Location'), null=True, blank=True)
@@ -40,6 +56,7 @@ class Event(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     uuid = models.UUIDField(default=uuid.uuid4, db_index=True, editable=False)
+    remote_calendar = models.ForeignKey(RemoteCalendar, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = _('Events')
@@ -145,26 +162,14 @@ class UUIDMapping(models.Model):
     mapped_string = models.CharField(max_length=120, unique=True, db_index=True)
 
 
-class RemoteCalendar(models.Model):
-    title = models.CharField(max_length=60)
-    url = models.URLField()
-    user = models.ForeignKey(User)
-    category = models.ForeignKey(Category)
-
-
-    def __str__(self):
-        return self.title 
-
-    def poll_calendar(self):
-        with urllib.request.urlopen(self.url) as response:
-            data = response.read()
-        return process_ical_events(data, self.user, self.category)
-
-
-def process_ical_events(data, user, category=None, group=None):
+def process_ical_events(data, remote_calendar):
+    category = remote_calendar.category
+    user = remote_calendar.user
+    group = None
     created_count = 0
     updated_count = 0
     events = parse_ical(data)
+    Event.objects.filter(remote_calendar=remote_calendar).delete()
     for event in events:
         event_data = {'created_by': user,
                       'title': event.summary,
@@ -179,6 +184,7 @@ def process_ical_events(data, user, category=None, group=None):
             event_data['category'] = category
         if not event.description:
             event_data['description'] = event.summary
+            event.description = event.summary
         event_uuid = event.uid
         try:
             uuid.UUID(event_uuid)
@@ -187,17 +193,15 @@ def process_ical_events(data, user, category=None, group=None):
             event_uuid = event_uuid.uuid
 
         e, created = Event.objects.update_or_create(uuid=event_uuid,
-                                                    defaults=event_data)
+                remote_calendar=remote_calendar, defaults=event_data)
         if created:
             created_count += 1
         else:
             updated_count += 1
-        if event.recurrences:
-            for recurrence in Recurrence.objects.filter(event=e):
-                if recurrence.dtstart in event.recurrences:
-                    event.recurrences.remove(recurrence.dtstart)
-                else:
-                    recurrence.delete()
-            for begining in event.recurrences:
-                Recurrence.objects.create(event=e, dtstart=begining, dtend=begining+event.duration)
+        for begining in event.recurrences:
+            Event.objects.create(created_by=user, title=event.summary,
+                    dtstart=begining, dtend=begining+event.duration,
+                    location=event.location, description=event.description,
+                    group=group, category=category,
+                    remote_calendar=remote_calendar)
     return created_count, updated_count
