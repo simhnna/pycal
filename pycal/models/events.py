@@ -136,6 +136,7 @@ def process_ical_events(data, remote_calendar):
                       'dtend': event.dtend,
                       'location': event.location,
                       'description': event.description,
+                      'all_day': event.all_day
                       }
         if group:
             event_data['group'] = group
@@ -161,6 +162,6 @@ def process_ical_events(data, remote_calendar):
             Event.objects.create(created_by=user, title=event.summary,
                     dtstart=begining, dtend=begining+event.duration,
                     location=event.location, description=event.description,
-                    group=group, category=category,
+                    group=group, category=category, all_day=event.all_day,
                     remote_calendar=remote_calendar)
     return created_count, updated_count

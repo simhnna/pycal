@@ -16,6 +16,7 @@ class VEvent():
     location = ''
     description = ''
     recurrences =  []
+    all_day = True
 
 
     @property
@@ -44,6 +45,8 @@ class VEvent():
         if hasattr(event.dtstart, 'tzinfo'):
             tz = event.dtstart.tzinfo
             event.dtstart = event.dtstart.replace(tzinfo=None)
+            event.all_day = False
+
         rule = dateutil.rrule.rruleset()
         if source.get('rrule'):
             rrule = source.get('rrule').to_ical().decode('utf-8')
