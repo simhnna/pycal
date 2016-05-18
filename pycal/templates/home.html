@@ -5,28 +5,48 @@
 <div class="section">
 <h3>{% trans 'Upcoming Events' %}</h3>
 {% if events %}
-<div class="collection">
+<ul class="collapsible popout" data-collapsible="accordion">
 {% for event in events %}
-<a class="collection-item" href="{{ event.get_absolute_url }}">
-  <p>
-  <strong>{{ event.title }}</strong>
-  </p>
-  {% if event.location %}
-    {{ event.location }}
-  {% endif %}
-  {% trans 'at' %} 
-  {% localtime on %}
-    {% if event.all_day %}
-      {{ event.dtstart|date }}
-    {% else %}
-      {{ event.dtstart}}
+<li>
+  <div class="collapsible-header">
+    <strong>{{ event.title }}</strong>
+    {% if event.location %}
+      &bull;
+      {{ event.location }}
     {% endif %}
-  {% endlocaltime %}
-</a>
+    {% localtime on %}
+      {% if event.all_day %}
+        {% trans 'on' %}
+        {{ event.dtstart|date }}
+      {% else %}
+        {% trans 'at' %}
+        {{ event.dtstart}}
+      {% endif %}
+    {% endlocaltime %}
+  </div>
+  <div class="collapsible-body">
+    <p>
+    {{ event.description }}
+    </p>
+    <p>
+    <a href="{{ event.get_absolute_url }}">{% trans 'Details' %}</a>
+    </p>
+  </div>
+</li>
 {% endfor %}
-</div>
+</ul>
 {% else %}
 <p><strong>Momentan steht noch nichts an, trag doch was ein :-)</strong></p>
 {% endif %}
 </div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+    $(document).ready(function(){
+    $('.collapsible').collapsible({
+      accordion : false
+    });
+  });
+</script>
 {% endblock %}
