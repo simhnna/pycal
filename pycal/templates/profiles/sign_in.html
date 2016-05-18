@@ -5,7 +5,7 @@
 <div class="row">
   <div class="col s12 m6">
     <div class="card z-depth-5">
-      <form class="form-horizontal" action="" method='post' role="form">
+      <form action="" method='post'>
         <div class="card-content">
           <span class="card-title">{% trans 'Sign in' %}</span>
           {% csrf_token %}
@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="card-action">
-          <input type='submit' class="col-md-offset-2 btn btn-success" value='{% trans 'Sign in' %}'/>
+          <input type='submit' class="btn" value='{% trans 'Sign in' %}'/>
           <a href="{% url 'profiles:reset_password' %}">{% trans 'Reset Password' %}</a>	
         </div>
       </form>

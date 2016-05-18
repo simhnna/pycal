@@ -40,7 +40,7 @@
 				{% if delete_event and  perms.events.delete_Event %}
 				<form action="" method='post'>
 					{% csrf_token %}
-					<input type='submit' class="btn btn-default btn-block" value="{% trans 'Delete Event' %}">
+					<input type='submit' class="btn" value="{% trans 'Delete Event' %}">
 				</form>
 				{% else %}
 			    {% if is_attending %}
