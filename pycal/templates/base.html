@@ -74,15 +74,6 @@
     </header>
     <main>
       <div class="container">
-        {% if messages %}
-        {% for message in messages %}
-        <div class="fade message alert alert-{% if message.tags %}{{ message.tags }}{% else %}info{% endif %} alert-dismissable">
-          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-          {{ message }}
-        </div>
-        {% endfor %}
-        {% endif %}
-
         {% block content %}{% endblock %}
       </div>
     </main>
@@ -100,6 +91,9 @@
     <script src="{% static 'js/materialize.min.js' %}"></script>
     <script>
       $(".button-collapse").sideNav();
+      {% for message in messages %}
+        Materialize.toast("{{ message }}", 5000);
+      {% endfor %}
     </script>
     {% block javascript %} {% endblock %}
   </body>
