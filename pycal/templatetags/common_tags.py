@@ -9,9 +9,9 @@ def get_timezone():
     return pytz.common_timezones
 
 
-@register.filter(name='add_css')
-def add_css(field):
-    attrs = {'class': 'form-control'}
+@register.filter(name='add_css_class')
+def add_css_class(field, css_class):
+    attrs = {'class': css_class}
     return field.as_widget(attrs=attrs)
 
 

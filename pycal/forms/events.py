@@ -10,7 +10,8 @@ class EventForm(forms.ModelForm):
 
     class Meta:
         model = Event
-        fields = ['title', 'description', 'location', 'dtstart', 'dtend', 'all_day',
+        fields = ['title', 'description', 'location', 'dstart', 'tstart',
+                'dend', 'tend', 'all_day',
                 'details', 'group']
 
     def clean(self):

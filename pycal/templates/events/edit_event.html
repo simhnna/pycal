@@ -4,171 +4,58 @@
 {% load common_tags %}
 
 {% block content %}
-<div class="card">
-  <form action="" method='post'>
-    <div class="card-content">
-      <span class="card-title">{% if edit %}{% trans 'Edit Event' %}{% else %}{% trans 'Create Event' %}{% endif %}</span>
-      {% if form.non_field_errors %}
-      <div class="alert alert-danger">
-        <ul>
-          {% for error in form.non_field_errors %}
-          <li>
-            {{ error }}
-          </li>
+<div class="row">
+  <div class="col s12 l8 offset-l2">
+    <div class="card">
+      <form action="" method='post'>
+        {% csrf_token %}
+        <div class="card-content">
+          <span class="card-title">
+            {% if edit %}
+              {% trans 'Edit Event' %}
+            {% else %}
+              {% trans 'Create Event' %}
+            {% endif %}
+          </span>
+          {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+              <ul>
+                {% for error in form.non_field_errors %}
+                <li>
+                  {{ error }}
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+          {% for field in form %}
+          <div class="input-field">
+            {% if field|fieldtype == 'Textarea' %}
+              {{ field|add_css_class:'materialize-textarea' }} 
+            {% elif field|fieldtype == 'DateInput' %}
+              {{ field|add_css_class:'datepicker' }}
+            {% else %}
+              {{ field }}
+            {% endif %}
+            {{ field.label_tag }}
+          </div>
           {% endfor %}
-        </ul>
-      </div>
-      {% endif %}
-      {% csrf_token %}
-      <div class="input-field">
-        {{ form.title }}
-        <label for="{{ form.title.id_for_label }}">
-          {{ form.title.label }}
-        </label>
-        {% for error in form.title.errors %}
-        <p>{{ error }}</p>
-        {% endfor %}
-      </div>
-
-      <div class="input-field">
-        {% for error in form.location.errors %}
-        <div class="row">
-          <div class="col-md-offset-2 col-md-8 alert alert-danger">
-            {{ error }}
-          </div>
+        <div class="card-action">
+          <input type='submit' class="btn" value="{% if edit %}{% trans 'Edit Event' %}{% else %}{% trans 'Create Event' %}{% endif %}">
         </div>
-        {% endfor %}
-        {{ form.location }}
-        <label for="{{ form.location.id_for_label }}">
-          {{ form.location.label }}
-        </label>
-      </div>
-
-      <div class="input-field">
-        {% for error in form.description.errors %}
-        <div class="row">
-          <div class="col-md-offset-2 col-md-8 alert alert-danger">
-            {{ error }}
-          </div>
-        </div>
-        {% endfor %}
-        <textarea id="{{ form.description.id_for_label }}" class="materialize-textarea" name="description"></textarea>
-        <label for="{{ form.description.id_for_label }}">
-          {{ form.description.label }}
-        </label>
-      </div>
-
-      <div class="input-field">
-        {% for error in form.dtstart.errors %}
-        <div class="row">
-          <div class="col-md-offset-2 col-md-8 alert alert-danger">
-            {{ error }}
-          </div>
-        </div>
-        {% endfor %}
-        {{ form.dtstart }}
-        <label for="{{ form.dtstart.id_for_label }}">
-          {{ form.dtstart.label }}
-        </label>
-      </div>
-
-      <div class="input-field">
-        {% for error in form.dtend.errors %}
-        <div class="row">
-          <div class="col-md-offset-2 col-md-8 alert alert-danger">
-            {{ error }}
-          </div>
-        </div>
-        {% endfor %}
-        {{ form.dtend }}
-        <label for="{{ form.dtend.id_for_label }}">
-          {{ form.dtend.label }}
-        </label>
-      </div>
-
-      <div class="input-field">
-        <input type="checkbox" name="{{ form.all_day.name }}" id="{{ form.all_day.id_for_label }}" />
-        {{ form.all_day.label_tag }}
-      </div>
-
-      <div class="input-field">
-        <input type="checkbox" name="{{ form.private.name }}" id="{{ form.private.id_for_label }}" />
-        {{ form.private.label_tag }}
-      </div>
-
-      <div id="details-div" class="input-field">
-        {% for error in form.details.errors %}
-        <div class="row">
-          <div class="col-md-offset-2 col-md-8 alert alert-danger">
-            {{ error }}
-          </div>
-        </div>
-        {% endfor %}
-        <textarea id="{{ form.details.id_for_label }}" name="details"
-                                                       class="materialize-textarea"></textarea>
-        <label for="{{ form.details.id_for_label }}">
-          {{ form.details.label }}
-        </label>
-      </div>
-
-      <div id="group-div" class="input-field col s12">
-        {{ form.group }}
-        <label>
-          {% trans 'Limit access to' %}:
-        </label>
-      </div>
-      <p>
-      {% trans 'Details are only visible to users that are logged in. You can further limit visibility to a specific group.' %}
-      </p>
+      </form>
     </div>
-    <div class="card-action">
-      <input type='submit' class="btn" value="{% if edit %}{% trans 'Edit Event' %}{% else %}{% trans 'Create Event' %}{% endif %}">
-    </div>
-  </form>
+  </div>
 </div>
 {% endblock %}
 
 {% block javascript %}
 <script type="text/javascript">
 $('select').material_select();
-$(function() {
-  $('#id_private').change(function() {
-    change_private_view()
-  });
-  $('#id_all_day').change(function() {
-    change_all_day_view()
-  });
+$('.datepicker').pickadate({
+  selectMonths: true, // Creates a dropdown to control month
+  selectYears: 15 // Creates a dropdown of 15 years to control year
 });
-{% if form.private.value %}
-$('#id_private').prop('checked', true);
-{% else %}
-$('#id_private').prop('checked', false);
-{% endif %}
-{% if form.all_day.value %}
-$('#id_all_day').prop('checked', true);
-{% else %}
-$('#id_all_day').prop('checked', false);
-{% endif %}
 
-change_private_view();
-change_all_day_view();
-function change_all_day_view() {
-  if ($('#id_all_day').prop('checked')) {
-    $('#end-date-div').addClass('hidden');
-  } else {
-    $('#end-date-div').removeClass('hidden');
-  }
-}
-function change_private_view() {
-  if ($('#id_private').prop('checked')) {
-    $("#details-div").addClass("hidden");
-    $("#group-div").removeClass("hidden");
-    $("#id_group").prop('required', true);
-  } else {
-    $("#details-div").removeClass("hidden");
-    $("#group-div").addClass("hidden");
-    $("#id_group").prop('required', false);
-  }
-}
 </script>
 {% endblock %}
