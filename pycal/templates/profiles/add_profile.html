@@ -2,51 +2,48 @@
 {% load i18n %}
 {% load common_tags %}
 {% block content %} 
-<div class="panel panel-default">
-	<div class="panel-heading">
-		<h3 class="panel-title">{% trans 'Add Profiles' %}</h3>
-	</div>
-	<div class="panel-body">
-		<form class="form form-inline" action="" method='post' role="form">
-			{% csrf_token %}
+<div class="card">
+  <form action="" method='post'>
+    {% csrf_token %}
+    <div class="card-content">
+      <span class="card-title">{% trans 'Add Profiles' %}</span>
       {{ profile_formset.management_form }}
-      <ul class="list-group">
       {% for form in profile_formset.forms %}
-        <li class="list-group-item profile striped">
-          {% if form.errors %}
-            <div class="alert alert-danger">
-            {{ form.errors }}
-            </div>
-          {% endif %}
-          <div class="form-group col-md-offset-1">
-            <label class="control-label" for="{{ form.first_name.id_for_label }}">{{form.first_name.label }}:</label>
-            {{ form.first_name|add_css }}
+      <div class="section profile">
+        {% if form.errors %}
+        <div class="alert alert-danger">
+          {{ form.errors }}
+        </div>
+        {% endif %}
+        <div class="row">
+          <div class="input-field col l5 s12">
+            {{ form.first_name }}
+            {{ form.first_name.label_tag }}
           </div>
-          <div class="form-group col-md-offset-2">
-            <label class="control-label" for="{{ form.last_name.id_for_label }}">{{form.last_name.label }}:</label>
-            {{ form.last_name|add_css }}
+          <div class="input-field col l5 s12 offset-l1">
+            {{ form.last_name }}
+            {{ form.last_name.label_tag }}
           </div>
-          <br>
-          <br>
-          <div class="form-group col-md-offset-1">
-            <label class="control-label" for="{{ form.username.id_for_label }}">{{form.username.label }}:</label>
-            {{ form.username|add_css }}
+        </div>
+        <div class="row">
+          <div class="input-field col l5 s12">
+            {{ form.username }}
+            {{ form.username.label_tag }}
           </div>
-          <div class="form-group col-md-offset-2">
-            <label class="control-label" for="{{ form.email.id_for_label }}">{{form.email.label }}:</label>
-            {{ form.email|add_css }}
+          <div class="input-field col l5 s12 offset-l1">
+            {{ form.email }}
+            {{ form.email.label_tag }}
           </div>
-        </li>
-      {% endfor %}
-      </ul>
-      <div class="text-right">
-        <input type="button" id="add-profile" class="btn btn-primary" value="{% trans 'Add Profile' %}">
-      <input type='submit' class="btn btn-success" value="{% trans 'Submit profiles' %}">
+        </div>
+        <div class="divider"></div>
       </div>
-		</form>
-	</div>
-	<div class="panel-footer">
-	</div>
+      {% endfor %}
+    </div>
+    <div class="card-action">
+      <input type='submit' class="btn" value="{% trans 'Submit profiles' %}">
+      <input type="button" id="add-profile" class="btn btn-flat" value="{% trans 'Add Profile' %}">
+    </div>
+  </form>
 </div>
 {% endblock %}
 
@@ -73,7 +70,7 @@ function cloneMore(selector, type) {
   $(selector).after(newElement);
 }
 $('#add-profile').click(function() {
-  cloneMore('li.list-group-item:last', 'form');
+  cloneMore('.section:last', 'form');
 });
 </script>
 {% endblock %}

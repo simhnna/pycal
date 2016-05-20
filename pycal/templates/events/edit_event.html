@@ -2,6 +2,9 @@
 {% load i18n %}
 {% load staticfiles %}
 {% load common_tags %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/materialize.clockpicker.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="row">
@@ -34,6 +37,8 @@
               {{ field|add_css_class:'materialize-textarea' }} 
             {% elif field|fieldtype == 'DateInput' %}
               {{ field|add_css_class:'datepicker' }}
+            {% elif field|fieldtype == 'TimeInput' %}
+              {{ field|add_css_class:'timepicker' }}
             {% else %}
               {{ field }}
             {% endif %}
@@ -50,12 +55,18 @@
 {% endblock %}
 
 {% block javascript %}
+<script src="{% static 'js/materialize.clockpicker.js' %}"></script>
 <script type="text/javascript">
 $('select').material_select();
 $('.datepicker').pickadate({
   selectMonths: true, // Creates a dropdown to control month
   selectYears: 15 // Creates a dropdown of 15 years to control year
 });
-
+$('.timepicker').pickatime({
+  placement: 'bottom',
+  align: 'left',
+  twelvehour: false,
+  autoclose: true,
+});
 </script>
 {% endblock %}
