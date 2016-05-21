@@ -28,23 +28,25 @@
         </div>
       {% endif %}
       {% for field in form.visible_fields %}
-      <div class="input-field">
-        {% if field.errors %}
-        <div class="alert alert-danger col-md-offset-1 col-md-10">{{ field.errors }}</div>
-        {% endif %}
-        {% if field|fieldtype == 'CheckboxInput' %}
-	        <div class="switch">
-            <label for={{ field.id_for_label }}>
-              {{ field }}
-							<span class="lever"></span>
-              {{ field.label }}
-            </label>
-	        </div>
-        {% else %}
-					{{ field }}
-	        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-        {% endif %}
-      </div>
+        <div class="row">
+          <div class="input-field col s12">
+            {% if field.errors %}
+            <div class="alert alert-danger col-md-offset-1 col-md-10">{{ field.errors }}</div>
+            {% endif %}
+            {% if field|fieldtype == 'CheckboxInput' %}
+            <div class="switch">
+              <label for={{ field.id_for_label }}>
+                {{ field }}
+                <span class="lever"></span>
+                {{ field.label }}
+              </label>
+            </div>
+            {% else %}
+            {{ field }}
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {% endif %}
+          </div>
+        </div>
       {% endfor %}
 	  </div>
 		<div class="card-action">

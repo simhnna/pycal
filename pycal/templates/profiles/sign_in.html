@@ -18,16 +18,18 @@
           {% endif %}
           <p>
             {% for field in form %}
-              {% if field.errors %}
-                <div class="row">
-                  <div class="col-md-offset-2 col-md-5 alert alert-danger">
-                    {{ field.errors }}
+              <div class="row">
+                {% if field.errors %}
+                  <div class="row">
+                    <div class="col-md-offset-2 col-md-5 alert alert-danger">
+                      {{ field.errors }}
+                    </div>
                   </div>
+                {% endif %}
+                <div class="input-field col s12">
+                  {{ field }}
+                  <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                 </div>
-              {% endif %}
-              <div class="input-field">
-                {{ field }}
-                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
               </div>
             {% endfor %}
           </p>

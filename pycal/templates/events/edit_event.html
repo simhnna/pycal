@@ -32,17 +32,19 @@
             </div>
           {% endif %}
           {% for field in form %}
-          <div class="input-field">
-            {% if field|fieldtype == 'Textarea' %}
-              {{ field|add_css_class:'materialize-textarea' }} 
-            {% elif field|fieldtype == 'DateInput' %}
-              {{ field|add_css_class:'datepicker' }}
-            {% elif field|fieldtype == 'TimeInput' %}
-              {{ field|add_css_class:'timepicker' }}
-            {% else %}
-              {{ field }}
-            {% endif %}
-            {{ field.label_tag }}
+          <div class="row">
+            <div class="input-field col s12">
+              {% if field|fieldtype == 'Textarea' %}
+                {{ field|add_css_class:'materialize-textarea' }} 
+              {% elif field|fieldtype == 'DateInput' %}
+                {{ field|add_css_class:'datepicker' }}
+              {% elif field|fieldtype == 'TimeInput' %}
+                {{ field|add_css_class:'timepicker' }}
+              {% else %}
+                {{ field }}
+              {% endif %}
+              {{ field.label_tag }}
+            </div>
           </div>
           {% endfor %}
         <div class="card-action">

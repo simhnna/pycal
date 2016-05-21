@@ -15,17 +15,19 @@
           <span class="card-title">{% trans 'Register' %}</span>
           {% csrf_token %}
           {% for field in form %}
-          <div class="input-field">
-            {% for error in field.errors %}
-              <div class="row">
-                <div class="col-md-offset-2 col-md-5 alert alert-danger">
-                  {{ error }}
+            <div class="row">
+              <div class="input-field col s12">
+                {% for error in field.errors %}
+                <div class="row">
+                  <div class="col-md-offset-2 col-md-5 alert alert-danger">
+                    {{ error }}
+                  </div>
                 </div>
+                {% endfor %}
+                {{ field }}
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
               </div>
-            {% endfor %}
-            {{ field }}
-            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-          </div>
+            </div>
           {% endfor %}
           {% trans 'Password and Usernames are case-sensitive. The use of lowercase usernames is advised.' %}
           <br>
