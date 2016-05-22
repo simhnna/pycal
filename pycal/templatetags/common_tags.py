@@ -22,4 +22,8 @@ def has_group(user, group):
 
 @register.filter('fieldtype')
 def fieldtype(field):
-        return field.field.widget.__class__.__name__
+    return field.field.widget.__class__.__name__
+
+@register.filter('trunc')
+def trunc(element, count):
+    return element[:count]

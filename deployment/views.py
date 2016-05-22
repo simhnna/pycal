@@ -50,7 +50,7 @@ def calendar_view(request, year, month):
     next_link = reverse('calendar_specific', args=(next_year, next_month))
     prev_link = reverse('calendar_specific', args=(prev_year, prev_month))
 
-    if year > 2050 or year < 2000 or month < 1 or month > 12:
+    if month < 1 or month > 12:
         raise Http404(_("Invalid Date"))
     date_end = pytz.timezone('utc').localize(
         datetime.datetime(next_year, next_month, 1, 0, 0, 0))

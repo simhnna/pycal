@@ -21,32 +21,97 @@
             {% endif %}
           </span>
           {% if form.non_field_errors %}
-            <div class="alert alert-danger">
-              <ul>
-                {% for error in form.non_field_errors %}
-                <li>
-                  {{ error }}
-                </li>
-                {% endfor %}
-              </ul>
-            </div>
+            {% for error in form.non_field_errors %}
+              <p class="red-text">{{ error }}</p>
+            {% endfor %}
           {% endif %}
-          {% for field in form %}
           <div class="row">
             <div class="input-field col s12">
-              {% if field|fieldtype == 'Textarea' %}
-                {{ field|add_css_class:'materialize-textarea' }} 
-              {% elif field|fieldtype == 'DateInput' %}
-                {{ field|add_css_class:'datepicker' }}
-              {% elif field|fieldtype == 'TimeInput' %}
-                {{ field|add_css_class:'timepicker' }}
-              {% else %}
-                {{ field }}
-              {% endif %}
-              {{ field.label_tag }}
+              {{ form.title }}
+              {{ form.title.label_tag }}
+              {% for e in form.title.errors %}
+                <p class="red-text">{{ e }}</p>
+              {% endfor %}
             </div>
           </div>
-          {% endfor %}
+          <div class="row">
+            <div class="input-field col s12">
+              {{ form.description|add_css_class:'materialize-textarea' }}
+              {{ form.description.label_tag }}
+              {% for e in form.description.errors %}
+                <p class="red-text">{{ e }}</p>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              {{ form.location }}
+              {{ form.location.label_tag }}
+              {% for e in form.location.errors %}
+                <p class="red-text">{{ e }}</p>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              {{ form.all_day }}
+              {{ form.all_day.label_tag }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6 date-input">
+              {{ form.dstart }}
+              {{ form.dstart.label_tag }}
+              {% for e in form.dstart.errors %}
+                <p class="red-text">{{ e }}</p>
+              {% endfor %}
+            </div>
+            <div class="input-field col s6 time-input">
+              {{ form.tstart }}
+              {{ form.tstart.label_tag }}
+              {% for e in form.tstart.errors %}
+                <p class="red-text">{{ e }}</p>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6 date-input">
+              {{ form.dend }}
+              {{ form.dend.label_tag }}
+              {% for e in form.dend.errors %}
+                <p class="red-text">{{ e }}</p>
+              {% endfor %}
+            </div>
+            <div class="input-field col s6 time-input">
+              {{ form.tend }}
+              {{ form.tend.label_tag }}
+              {% for e in form.tend.errors %}
+                <p class="red-text">{{ e }}</p>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              {{ form.details|add_css_class:'materialize-textarea' }}
+              {{ form.details.label_tag }}
+              {% for e in form.details.errors %}
+                <p class="red-text">{{ e }}</p>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              {{ form.group }}
+              {{ form.group.label_tag }}
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              {{ form.private }}
+              {{ form.private.label_tag }}
+            </div>
+          </div>
+        </div>
         <div class="card-action">
           <input type='submit' class="btn" value="{% if edit %}{% trans 'Edit Event' %}{% else %}{% trans 'Create Event' %}{% endif %}">
         </div>
@@ -70,5 +135,18 @@ $('.timepicker').pickatime({
   twelvehour: false,
   autoclose: true,
 });
+allDayEvent = function(checked) {
+  if (checked) {
+    $('.time-input').addClass('hide');
+    $('.date-input').removeClass('s6').addClass('s12');
+  } else {
+    $('.time-input').removeClass('hide');
+    $('.date-input').removeClass('s12').addClass('s6');
+  }
+}
+$('#{{ form.all_day.id_for_label }}').change(function() {
+  allDayEvent(this.checked);
+});
+
 </script>
 {% endblock %}

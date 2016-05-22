@@ -7,13 +7,21 @@ body {
 main {
   flex: 1 0 auto;
 }
-.message {
-  position:absolute;
-  z-index:10;
-  top:10px;
-  left:20%;
-  width:60%
+
+.badge {
+  min-width: 3rem;
+  padding: 0 6px;
+  line-height: inherit;
+  box-sizing: border-box;
+  margin-top: 1px;
+
+  font-weight: 300;
+  font-size: 0.8rem;
+  color: #fff;
+  background-color: $badge-bg-color;
+  border-radius: 2px;
 }
+
 #eventCalendarTable {
   table-layout: fixed;
 }
