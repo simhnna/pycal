@@ -223,13 +223,17 @@ $(function () {
     language: '{{ LANGUAGE_CODE }}',
     autoclose: true,
     format: 'yyyy-mm-dd hh:ii',
-    startDate: '{% now "Y-m-d" %}'
+    startDate: '{% now "Y-m-d" %}',
+    pickerPosition: "bottom-left"
+
   });
   $('#datetimepicker1').datetimepicker({
     language: '{{ LANGUAGE_CODE }}',
     autoclose: true,
     startDate: '{% now "Y-m-d" %}',
-    format: 'yyyy-mm-dd hh:ii'
+    format: 'yyyy-mm-dd hh:ii',
+    pickerPosition: "bottom-left"
+
   });
 });
 </script>
