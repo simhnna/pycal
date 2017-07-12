@@ -7,6 +7,7 @@ matrix:
   include:
     - env: TOX_ENV=django_111
     - env: TOX_ENV=django_110
+    - env: TOX_ENV=coverage
     - env: TOX_ENV=djangolatest
     - env: TOX_ENV=flake
   allow_failures:
