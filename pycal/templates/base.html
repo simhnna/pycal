@@ -47,10 +47,10 @@
             <ul class="nav navbar-nav navbar-right">
               {% if user.is_authenticated %}
               <li {% if edit_account %}class="active"{% endif %}><a href="{% url 'profiles:edit_account' %}">{% trans 'Edit Account' %}</a></li>
-              <li><a href="{% url 'profiles:logout' %}">{% trans 'Log out' %}</a></li>
+              <li><a href="{% url 'account_logout' %}">{% trans 'Log out' %}</a></li>
               {% else %}
-              <li><a href="{% url 'profiles:register' %}">{% trans 'Register' %}</a></li>
-              <li><a href="{% url 'profiles:login' %}">{% trans 'Login' %}</a></li>
+              <li><a href="{% url 'account_signup' %}">{% trans 'Register' %}</a></li>
+              <li><a href="{% url 'account_login' %}">{% trans 'Login' %}</a></li>
               {% endif %}
             </ul>
           </div>

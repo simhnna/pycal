@@ -29,6 +29,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+SITE_ID = 1
 
 # Application definition
 
@@ -39,9 +40,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'pycal',
     'django_ical',
     'widget_tweaks',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -127,3 +133,8 @@ DATETIME_INPUT_FORMATS = ('%d.%m.%Y', '%d.%m.%Y, %H:%M', '%d.%m.%Y %H:%M')
 LOGIN_URL = 'profiles:login'
 LOGOUT_URL = 'profiles:logout'
 ADMINS = (('Simon', 'simon.h4nn4@gmail.com'),)
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)

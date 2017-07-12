@@ -3,19 +3,13 @@ from django.forms.formsets import formset_factory
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-from pycal.models.profiles import Profile, email_is_used 
+from pycal.models.profiles import Profile 
 
 
 class ProfileForm(forms.Form):
     first_name = forms.CharField(label=_('First Name'), max_length=32)
     last_name = forms.CharField(label=_('Last Name'), max_length=32)
     username = forms.CharField(label=_('Username'), max_length=32)
-    email = forms.EmailField()
-
-    def clean_email(self):
-        if 'email' in self.changed_data and email_is_used(self.cleaned_data['email']):
-            raise forms.ValidationError(_('Email is in use'), 'invalid')
-        return self.cleaned_data['email']
 
     def clean_username(self):
         if len(self.cleaned_data['username'].split()) > 1:
@@ -38,7 +32,6 @@ class RegistrationForm(ProfileForm):
 
 class UserAccountForm(ProfileForm):
     email_notifications = forms.BooleanField(label=_('Subscribe to Email notifications'))
-    delete_unverified_email = forms.BooleanField(widget=forms.HiddenInput(), required=False)
 
 
 ProfileFormset = formset_factory(ProfileForm)

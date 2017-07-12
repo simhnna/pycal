@@ -1,0 +1,49 @@
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% if form.non_field_errors %}
+    <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+{% endif %}
+
+{% csrf_token %}
+{% for hidden in form.hidden_fields %}
+    {{ hidden }}
+{% endfor %}
+
+{% for field in form.visible_fields %}
+    <div class="form-group {% if field.errors %}has-errors{% endif %}">
+        <label class="control-label col-{{ fold_class }}-{{ size_left }}"
+               for="{{ field.id_for_label }}">
+            {% if not field|widget_type == 'checkboxinput' %}
+                {{ field.label }}
+            {% endif %}
+        </label>
+        <div class="col-{{ fold_class }}-{{ size_right }}">
+            {% if field|widget_type == 'checkboxinput' %}
+                <div class="checkbox">
+                    <label class="control-label">
+                    {{ field }} {{ field.label }}
+                    </label>
+                </div>
+            {% else %}
+                {{ field|add_class:'form-control' }}
+            {% endif %}
+            {% for error in field.errors %}
+                <div class="text-danger">{{ error }}</div>
+            {% endfor %}
+        </div>
+        {% if field.help_text %}
+        <p id="help-{{ field.id_for_label }}"
+           class="col-{{ fold_class }}-offset-{{ size_left }} col-{{ fold_class }}-{{ size_right }} help-block">
+            {{ field.help_text|safe|linebreaksbr }}
+        </p>
+        {% endif %}
+    </div>
+{% endfor %}
+{% if button %}
+    <div class="form-group">
+        <div class="col-{{ fold_class }}-offset-{{ size_left }} col-{{ fold_class }}-{{ size_right }}">
+            <button class="btn btn-primary" type="submit">{% trans button %}</button>
+        </div>
+    </div>
+{% endif %}

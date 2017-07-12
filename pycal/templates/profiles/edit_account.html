@@ -19,17 +19,6 @@
           </a>
         </div>
       </div>
-      {% if unverified_email %}
-        <div class="form-group">
-          <label class="col-md-2 control-label" for="unverified_email">
-            {% trans 'Unverified Email' %}:
-          </label>
-          <div class="col-md-10">
-            <input class="form-control" type="text" placeholder="{{ unverified_email }}" readonly>
-          </div>
-        </div>
-        {{ form.delete_unverified_email }}
-      {% endif %}
       {% for field in form.visible_fields %}
       <div class="form-group{% if field.errors %} active{% endif %}">
         {% if field.errors %}
@@ -60,7 +49,8 @@
       <br />
       <div class="col-md-offset-2">
         <input type='submit' class="btn btn-primary" value='{% trans 'Save' %}'>
-        <a class="btn btn-warning" href="{% url 'profiles:change_password' %}">{% trans 'Change Password' %}</a>
+        <a class="btn btn-warning" href="{% url 'account_change_password' %}">{% trans 'Change Password' %}</a>
+        <a class="btn btn-info" href="{% url 'account_email' %}">{% trans 'Edit Emails' %}</a>
       </div>
     </form>
   </div>
