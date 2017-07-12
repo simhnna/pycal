@@ -1,0 +1,7 @@
+[run]
+source = pycal
+omit =
+  pycal/tests/*
+  pycal/migrations/*
+[html]
+directory = coverage

@@ -5,3 +5,6 @@ db.sqlite3
 *.swp
 .idea/
 env
+.tox
+.coverage
+coverage
