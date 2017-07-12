@@ -1,17 +1,16 @@
 language: python
-
-install:
-  - pip install tox
+sudo: false
+python: 3.6
+before_script: pip install tox
 
 matrix:
   include:
-    - python: "3.5"
-      env: TOX_ENV=django19
+    - env: TOX_ENV=django_111
+    - env: TOX_ENV=django_110
+    - env: TOX_ENV=djangolatest
+    - env: TOX_ENV=flake
   allow_failures:
-    - python: "3.5"
-      env: TOX_ENV=djangolatest
-    - python: "3.5"
-      env: TOX_ENV=flake
+    - env: TOX_ENV=djangolatest
+    - env: TOX_ENV=flake
 
 script: tox -e $TOX_ENV
-
