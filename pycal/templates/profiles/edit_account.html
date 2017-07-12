@@ -14,8 +14,8 @@
           {% trans 'Private ical feed' %}:
         </label>
         <div class="col-md-10">
-          <a id="private-feed" href="{% url 'events:private_feed' feed %}">
-            <p class="form-control-static">{{ request.get_host }}{% url 'events:private_feed' feed %}</p>
+          <a id="private-feed" href="{% url 'private_feed' feed %}">
+            <p class="form-control-static">{{ request.get_host }}{% url 'private_feed' feed %}</p>
           </a>
         </div>
       </div>

@@ -20,8 +20,8 @@ def create_event(request):
         if form.is_valid():
             e = form.save()
             messages.success(request, _('Event created'))
-            e.send_email_notifications(request.build_absolute_uri(reverse('events:attend',args=(e.id,))))
-            return HttpResponseRedirect(reverse('events:detail', args=(e.id,)))
+            e.send_email_notifications(request.build_absolute_uri(reverse('attend',args=(e.id,))))
+            return HttpResponseRedirect(reverse('detail', args=(e.id,)))
     else:
         form = EventForm()
 
@@ -50,7 +50,7 @@ def delete_event(request, event_id):
                        'delete_event': True
                        })
     messages.warning(request, _('You are not allowed to do this!'))
-    return HttpResponseRedirect(reverse('events:detail', args=(event.id,)))
+    return HttpResponseRedirect(reverse('detail', args=(event.id,)))
 
 @login_required
 def attend(request, event_id):
@@ -63,27 +63,27 @@ def attend(request, event_id):
         a.event = event
         a.save()
         messages.success(request, _('You have been marked as attending'))
-    return HttpResponseRedirect(reverse('events:detail', args=(event_id,)))
+    return HttpResponseRedirect(reverse('detail', args=(event_id,)))
 
 @login_required
 def unattend(request, event_id):
     attendant = get_object_or_404(Attendant, user=request.user, event__id=event_id)
     attendant.delete()
     messages.success(request, _('You have been marked as not attending'))
-    return HttpResponseRedirect(reverse('events:detail', args=(event_id,)))
+    return HttpResponseRedirect(reverse('detail', args=(event_id,)))
 
 @login_required
 def edit_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
     if request.user.id != event.created_by_id and not request.user.is_superuser:
         messages.warning(request, _('You are not allowed to do this'))
-        return HttpResponseRedirect(reverse('events:detail', args=(event.id,)))
+        return HttpResponseRedirect(reverse('detail', args=(event.id,)))
     if request.method == 'POST':
         form = EventForm(request.POST, instance=event)
         if form.is_valid():
             form.save()
             messages.success(request, _('Event edited'))
-            return HttpResponseRedirect(reverse('events:detail', args=(event.id,)))
+            return HttpResponseRedirect(reverse('detail', args=(event.id,)))
 
     else:
         form = EventForm(instance=event)

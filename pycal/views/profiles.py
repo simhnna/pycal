@@ -72,7 +72,7 @@ def edit_account(request):
             profile.save()
             user.save()
             messages.success(request, _('Successfully edited account'))
-            return HttpResponseRedirect(reverse('profiles:edit_account'))
+            return HttpResponseRedirect(reverse('edit_account'))
         else:
             messages.warning(request, _('Oops, something went wrong'))
     else:

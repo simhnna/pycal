@@ -87,7 +87,7 @@ class Event(models.Model):
         send_mass_mail(messages)
 
     def get_absolute_url(self):
-        return reverse('events:detail', args=(self.id,))
+        return reverse('detail', args=(self.id,))
 
     def attendants(self):
         return Attendant.objects.filter(event=self).count()

@@ -12,17 +12,17 @@
   <br>
   <br>
   <blockquote>
-    {{ request.get_host }}{% url 'events:public_feed' %}
+    {{ request.get_host }}{% url 'public_feed' %}
   </blockquote>
   {% if request.user.is_authenticated %}
   <p>
-  A private link can be found in your <a href="{% url 'profiles:edit_account' %}">account</a>
+  A private link can be found in your <a href="{% url 'edit_account' %}">account</a>
   </p>
   {% endif %}
   You have to enable ssl. No username/password is needed.
   <br>
   You can also download the .ics file directly from 
-  <a href="{% url 'events:public_feed' %}">here</a>
+  <a href="{% url 'public_feed' %}">here</a>
 </div>
 </div>
 {% endblock %}

@@ -130,8 +130,8 @@ EMAIL_PORT = 1025
 LOCALE_PATHS = (BASE_DIR + '/locale',)
 DATETIME_FORMAT = 'd. F Y, H:i'
 DATETIME_INPUT_FORMATS = ('%d.%m.%Y', '%d.%m.%Y, %H:%M', '%d.%m.%Y %H:%M')
-LOGIN_URL = 'profiles:login'
-LOGOUT_URL = 'profiles:logout'
+LOGIN_URL = 'account_login'
+LOGOUT_URL = 'account_logout'
 ADMINS = (('Simon', 'simon.h4nn4@gmail.com'),)
 
 AUTHENTICATION_BACKENDS = (
